@@ -1,0 +1,27 @@
+{
+  "name": "eveseat/api",
+  "description": "SeAT API Interface",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Leon Jacobs",
+      "email": "leonja511@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Seat\\Api\\": "src/"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.5.9",
+    "laravel/framework": "5.1.*",
+    "eveseat/eveapi": "1.*",
+    "eveseat/services": "1.*",
+    "eveseat/web": "1.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  }
+}
