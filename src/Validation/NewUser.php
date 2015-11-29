@@ -19,22 +19,25 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-Route::group([
-    'namespace' => 'Seat\Api\Http\Controllers',
-    'prefix'    => 'api'
-], function () {
+namespace Seat\Api\Validation;
 
-    Route::group([
-        'namespace'  => 'Api',
-        'middleware' => 'api.auth'
-    ], function () {
+use App\Http\Requests\Request;
 
-        // The version 1 API! :D
-        Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
+class NewUser extends Request
+{
 
-            Route::resource('key', 'ApiKeyController');
-            Route::resource('user', 'UserController');
-        });
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
 
-    });
-});
+        return [
+            'username' => 'required|max:255|unique:users,name',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6'
+        ];
+    }
+}
