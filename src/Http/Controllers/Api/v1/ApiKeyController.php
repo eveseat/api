@@ -27,6 +27,10 @@ use Seat\Api\Validation\ApiKeyUpdate;
 use Seat\Eveapi\Models\Eve\ApiKey;
 use Seat\Web\Validation\ApiKey as ApiKeyValidator;
 
+/**
+ * Class ApiKeyController
+ * @package Seat\Api\Http\Controllers\Api\v1
+ */
 class ApiKeyController extends Controller
 {
 
