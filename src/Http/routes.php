@@ -37,6 +37,8 @@ Route::group([
             Route::controller('user/auth', 'AuthenticationController');
             Route::resource('role', 'RoleController');
             Route::controller('role/query', 'RoleLookupController');
+
+            Route::controller('character', 'CharacterController');
         });
 
     });
