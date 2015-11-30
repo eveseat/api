@@ -25,6 +25,10 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Seat\Api\Http\Middleware\ApiToken;
 
+/**
+ * Class ApiServiceProvider
+ * @package Seat\Api
+ */
 class ApiServiceProvider extends ServiceProvider
 {
 
@@ -39,6 +43,10 @@ class ApiServiceProvider extends ServiceProvider
         $this->add_routes();
 
         $this->add_middleware($router);
+
+        $this->add_views();
+
+        $this->add_publications();
     }
 
     /**
@@ -48,7 +56,14 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
+        // Merge the config with anything in the main app
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/api.config.php', 'api.config');
+
+        // Include this packages menu items
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
     }
 
     /**
@@ -74,5 +89,26 @@ class ApiServiceProvider extends ServiceProvider
         // from an allowed IP address
         $router->middleware('api.auth', ApiToken::class);
 
+    }
+
+    /**
+     * Set the path and namespace for the views
+     */
+    public function add_views()
+    {
+
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'api');
+    }
+
+    /**
+     * Set the paths for migrations and assets that
+     * should be published to the main application
+     */
+    public function add_publications()
+    {
+
+        $this->publishes([
+            __DIR__ . '/database/migrations/' => database_path('migrations'),
+        ]);
     }
 }

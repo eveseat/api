@@ -21,12 +21,33 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 Route::group([
     'namespace' => 'Seat\Api\Http\Controllers',
-    'prefix'    => 'api'
 ], function () {
 
     Route::group([
+        'namespace'  => 'Admin',
+        'middleware' => 'bouncer:superuser',
+        'prefix'     => 'api-admin'
+    ], function () {
+
+        Route::get('/', [
+            'as'   => 'api-admin.list',
+            'uses' => 'ApiAdminController@listTokens']);
+        Route::post('/', [
+            'as'   => 'api-admin.token.create',
+            'uses' => 'ApiAdminController@generateToken']);
+        Route::get('/logs/{token_id}', [
+            'as'   => 'api-admin.token.logs',
+            'uses' => 'ApiAdminController@showLogs']);
+        Route::get('/delete/{token_id}', [
+            'as'   => 'api-admin.token.delete',
+            'uses' => 'ApiAdminController@deleteToken']);
+
+    });
+
+    Route::group([
         'namespace'  => 'Api',
-        'middleware' => 'api.auth'
+        'middleware' => 'api.auth',
+        'prefix'     => 'api'
     ], function () {
 
         // The version 1 API! :D
