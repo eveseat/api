@@ -39,6 +39,7 @@ Route::group([
             Route::controller('role/query', 'RoleLookupController');
 
             Route::controller('character', 'CharacterController');
+            Route::controller('corporation', 'CorporationController');
         });
 
     });
