@@ -19,25 +19,34 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-Route::group([
-    'namespace' => 'Seat\Api\Http\Controllers',
-    'prefix'    => 'api'
-], function () {
+namespace Seat\Api\Http\Controllers\Api\v1;
 
-    Route::group([
-        'namespace'  => 'Api',
-        'middleware' => 'api.auth'
-    ], function () {
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use Auth;
+use Illuminate\Http\Request;
 
-        // The version 1 API! :D
-        Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
+/**
+ * Class AuthenticationController
+ * @package Seat\Api\Http\Controllers\Api\v1
+ */
+class AuthenticationController extends Controller
+{
 
-            Route::resource('key', 'ApiKeyController');
-            Route::resource('user', 'UserController');
-            Route::controller('user/auth', 'AuthenticationController');
-            Route::resource('role', 'RoleController');
-            Route::controller('role/query', 'RoleLookupController');
-        });
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postLogin(Request $request)
+    {
 
-    });
-});
+        $resp = Auth::validate([
+            'name'     => $request->username,
+            'password' => $request->password
+        ]);
+
+        return response()->json($resp);
+
+    }
+}
