@@ -23,7 +23,6 @@ namespace Seat\Api\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Seat\Web\Models\Acl\Role;
 
 class RoleController extends Controller
@@ -40,18 +39,6 @@ class RoleController extends Controller
         $roles = Role::all();
 
         return response()->json($roles);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
     }
 
     /**

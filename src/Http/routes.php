@@ -35,6 +35,7 @@ Route::group([
             Route::resource('key', 'ApiKeyController');
             Route::resource('user', 'UserController');
             Route::resource('role', 'RoleController');
+            Route::controller('role/query', 'RoleLookupController');
         });
 
     });
