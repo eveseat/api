@@ -23,16 +23,9 @@ return [
 
     'api' => [
         'permission'    => 'Superuser',
-        'name'          => 'Api Tokens',
+        'name'          => 'SeAT API',
         'icon'          => 'fa-exchange',
         'route_segment' => 'api-admin',
-        'entries'       => [
-
-            [   // Manage API Tokens
-                'name'  => 'Manage',
-                'icon'  => 'fa-key',
-                'route' => 'api-admin.list'
-            ]
-        ]
+        'route'         => 'api-admin.list'
     ]
 ];
