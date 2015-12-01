@@ -83,8 +83,10 @@ class ApiAdminController extends Controller
     public function showLogs($token_id)
     {
 
-        $token = ApiToken::with('logs')
-            ->findOrFail($token_id);
+        $token = ApiToken::with(['logs' => function ($query) {
+
+            $query->orderBy('created_at', 'desc');
+        }])->findOrFail($token_id);
 
         return view('api::logs', compact('token'));
     }

@@ -19,6 +19,7 @@ class CreateApiTokenLogsTable extends Migration
             $table->increments('id');
             $table->integer('api_token_id')->nullable();
             $table->enum('action', ['allow', 'deny']);
+            $table->string('request_path');
             $table->string('src_ip');
 
             // Indexes

@@ -1,8 +1,26 @@
 <?php
+/*
+This file is part of SeAT
+
+Copyright (C) 2015  Leon Jacobs
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 namespace Seat\Api\Http\Middleware;
 
-//use App\Http\Requests\Request;
 use Closure;
 use Illuminate\Http\Request;
 use Seat\Api\Models\ApiToken as ApiTokenModel;
@@ -26,9 +44,7 @@ class ApiToken
     public function handle($request, Closure $next)
     {
 
-        if (!$this->valid_token_ip($request->header('X-Token'),
-            $request->getClientIp())
-        ) {
+        if (!$this->valid_token_ip($request)) {
 
             $this->log_activity($request, 'deny');
 
@@ -41,18 +57,17 @@ class ApiToken
     }
 
     /**
-     * Validate a token / ip pair
+     * Validate a token / ip pair from a Request
      *
-     * @param $token
-     * @param $ip
+     * @param \Illuminate\Http\Request $request
      *
      * @return mixed
      */
-    public function valid_token_ip($token, $ip)
+    public function valid_token_ip(Request $request)
     {
 
-        return ApiTokenModel::where('token', $token)
-            ->where('allowed_src', $ip)
+        return ApiTokenModel::where('token', $request->header('X-Token'))
+            ->where('allowed_src', $request->getClientIp())
             ->first();
     }
 
@@ -74,6 +89,7 @@ class ApiToken
             ApiTokenLog::create([
                 'api_token_id' => $token_id,
                 'action'       => $action,
+                'request_path' => $request->path(),
                 'src_ip'       => $request->getClientIp()
             ]);
         }

@@ -33,7 +33,8 @@ class ApiTokenLog extends Model
     /**
      * @var array
      */
-    protected $fillable = ['api_token_id', 'action', 'src_ip'];
+    protected $fillable = [
+        'api_token_id', 'action', 'request_path', 'src_ip'];
 
     /**
      * Return the token the log entry belongs to

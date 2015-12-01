@@ -16,6 +16,7 @@
         <tr>
           <th>Date</th>
           <th>Action</th>
+          <th>Request Path</th>
           <th>Source IP</th>
         </tr>
 
@@ -29,6 +30,7 @@
               </span>
             </td>
             <td>{{ ucfirst($log->action) }}</td>
+            <td>{{ $log->request_path }}</td>
             <td>{{ $log->src_ip }}</td>
           </tr>
 
