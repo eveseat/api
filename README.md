@@ -1,3 +1,4 @@
+![SeAT](http://i.imgur.com/aPPOxSK.png)
 # api
 
 [![Code Climate](https://codeclimate.com/github/eveseat/api/badges/gpa.svg)](https://codeclimate.com/github/eveseat/api)
