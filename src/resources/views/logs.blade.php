@@ -1,23 +1,23 @@
 @extends('web::layouts.grids.12')
 
-@section('title', 'Api Token Access Logs')
-@section('page_header', 'Api Token Access Logs')
+@section('title', trans('api::seat.api_token_logs'))
+@section('page_header', trans('api::seat.api_token_logs'))
 
 @section('full')
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Access Logs</h3>
+      <h3 class="panel-title">{{ trans('api::seat.access_logs') }}</h3>
     </div>
     <div class="panel-body">
 
       <table class="table table-condensed table-hover table-responsive">
         <tbody>
         <tr>
-          <th>Date</th>
-          <th>Action</th>
-          <th>Request Path</th>
-          <th>Source IP</th>
+          <th>{{ trans('api::seat.date') }}</th>
+          <th>{{ trans('api::seat.action') }}</th>
+          <th>{{ trans('api::seat.request_path') }}</th>
+          <th>{{ trans('api::seat.source_ip') }}</th>
         </tr>
 
         @foreach($token->logs as $log)
@@ -40,7 +40,6 @@
       </table>
 
     </div>
-    <div class="panel-footer">Footer</div>
   </div>
 
 @stop

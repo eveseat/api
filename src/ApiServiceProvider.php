@@ -47,6 +47,8 @@ class ApiServiceProvider extends ServiceProvider
         $this->add_views();
 
         $this->add_publications();
+
+        $this->add_translations();
     }
 
     /**
@@ -110,5 +112,14 @@ class ApiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/database/migrations/' => database_path('migrations'),
         ]);
+    }
+
+    /**
+     * Add the packages translation files
+     */
+    public function add_translations()
+    {
+
+        $this->loadTranslationsFrom(__DIR__ . '/lang', 'api');
     }
 }

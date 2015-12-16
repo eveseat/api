@@ -1,13 +1,13 @@
 @extends('web::layouts.grids.3-9')
 
-@section('title', 'Api Token Admin')
-@section('page_header', 'Api Token Admin')
+@section('title', trans('api::seat.api_token_admin'))
+@section('page_header', trans('api::seat.api_token_admin'))
 
 @section('left')
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">New Token</h3>
+      <h3 class="panel-title">{{ trans('api::seat.new_token') }}</h3>
     </div>
     <div class="panel-body">
 
@@ -17,17 +17,17 @@
         <div class="box-body">
 
           <div class="form-group">
-            <label for="comment">Key Comment</label>
+            <label for="comment">{{ trans('api::seat.key_comment') }}</label>
             <input type="text" name="comment" class="form-control" id="comment" value="{{ old('comment') }}"
                    placeholder="Comment">
           </div>
 
           <div class="form-group">
-            <label for="text">Allowed IP Address</label>
+            <label for="text">{{ trans('api::seat.allowed_ip_address') }}</label>
             <input type="text" name="allowed_src" class="form-control" id="allowed_src" value="{{ old('allowed_src') }}"
                    placeholder="IP Address">
             <span class="help-block">
-              This is the source IP address the will be allowed to use the generated token.
+              {{ trans('api::seat.ip_help') }}
             </span>
           </div>
 
@@ -36,7 +36,7 @@
 
         <div class="box-footer">
           <button type="submit" class="btn btn-primary pull-right">
-            Generate
+            {{ trans('api::seat.generate') }}
           </button>
         </div>
       </form>
@@ -50,17 +50,17 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Current API Token</h3>
+      <h3 class="panel-title">{{ trans('api::seat.current_tokens') }}</h3>
     </div>
     <div class="panel-body">
 
       <table class="table table-condensed table-hover table-responsive">
         <tbody>
         <tr>
-          <th>Created</th>
-          <th>Comment</th>
-          <th>Token</th>
-          <th>Allowed From</th>
+          <th>{{ trans('api::seat.date') }}</th>
+          <th>{{ trans('api::seat.comment') }}</th>
+          <th>{{ trans_choice('api::seat.token', 1) }}</th>
+          <th>{{ trans('api::seat.allowed_from') }}</th>
         </tr>
 
         @foreach($tokens as $token)
@@ -79,11 +79,11 @@
               <div class="btn-group">
                 <a href="{{ route('api-admin.token.delete', [$token->id]) }}" type="button"
                    class="btn btn-danger btn-xs confirmlink col-xs-6">
-                  Delete
+                  {{ trans('api::seat.delete') }}
                 </a>
                 <a href="{{ route('api-admin.token.logs', [$token->id]) }}" type="button"
                    class="btn btn-primary btn-xs col-xs-6">
-                  Logs
+                  {{ trans('api::seat.logs') }}
                 </a>
               </div>
             </td>
@@ -96,7 +96,7 @@
 
     </div>
     <div class="panel-footer">
-      {{ count($tokens) }} tokens
+      {{ count($tokens) }} {{ trans_choice('api::seat.token', count($tokens)) }}
     </div>
   </div>
 
