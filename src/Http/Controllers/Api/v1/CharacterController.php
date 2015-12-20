@@ -54,6 +54,18 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getBookmarks($character_id)
+    {
+
+        return response()->json(
+            $this->getCharacterBookmarks($character_id));
+    }
+
+    /**
+     * @param $character_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getChannels($character_id)
     {
 

@@ -51,6 +51,18 @@ class CorporationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getBookmarks($corporation_id)
+    {
+
+        return response()->json(
+            $this->getCorporationBookmarks($corporation_id));
+    }
+
+    /**
+     * @param $corporation_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getContacts($corporation_id)
     {
 
