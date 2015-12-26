@@ -25,6 +25,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Seat\Api\Validation\ApiKeyUpdate;
 use Seat\Eveapi\Models\Eve\ApiKey;
+use Seat\Web\Models\User;
 use Seat\Web\Validation\ApiKey as ApiKeyValidator;
 
 /**
@@ -106,5 +107,26 @@ class ApiKeyController extends Controller
         ApiKey::findOrFail($id)->delete();
 
         return response()->json(['ok']);
+    }
+
+    /**
+     * Transfer an EVE API Key to a User
+     *
+     * @param $key_id
+     * @param $user_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function transfer($key_id, $user_id)
+    {
+
+        $key = ApiKey::findOrFail($key_id);
+        User::findOrFail($user_id);
+
+        $key->user_id = $user_id;
+        $key->save();
+
+        return response()->json(['ok']);
+
     }
 }

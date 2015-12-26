@@ -23,6 +23,7 @@ Route::group([
     'namespace' => 'Seat\Api\Http\Controllers',
 ], function () {
 
+    // Http Routes to the API Key Administration Section
     Route::group([
         'namespace'  => 'Admin',
         'middleware' => 'bouncer:superuser',
@@ -44,6 +45,7 @@ Route::group([
 
     });
 
+    // Http Routes to the SeAT API itself
     Route::group([
         'namespace'  => 'Api',
         'middleware' => 'api.auth',
@@ -53,7 +55,10 @@ Route::group([
         // The version 1 API! :D
         Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
 
+            // Define the transfer method before the resource controller
+            Route::get('key/transfer/{key_id}/{user_id}', 'ApiKeyController@transfer');
             Route::resource('key', 'ApiKeyController');
+
             Route::resource('user', 'UserController');
             Route::controller('user/auth', 'AuthenticationController');
             Route::resource('role', 'RoleController');
