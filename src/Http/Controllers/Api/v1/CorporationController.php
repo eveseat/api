@@ -51,6 +51,18 @@ class CorporationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getAssetsByLocation($corporation_id)
+    {
+
+        return response()->json(
+            $this->getCorporationAssetByLocation($corporation_id));
+    }
+
+    /**
+     * @param $corporation_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getBookmarks($corporation_id)
     {
 
@@ -200,6 +212,18 @@ class CorporationController extends Controller
 
         return response()->json(
             $this->getCorporationStandings($corporation_id));
+    }
+
+    /**
+     * @param $corporation_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getStarbases($corporation_id)
+    {
+
+        return response()->json(
+            $this->getCorporationStarbases($corporation_id));
     }
 
     /**
