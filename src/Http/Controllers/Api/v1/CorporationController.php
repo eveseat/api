@@ -219,11 +219,11 @@ class CorporationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getStarbases($corporation_id)
+    public function getStarbases($corporation_id, $starbase_id = null)
     {
 
         return response()->json(
-            $this->getCorporationStarbases($corporation_id));
+            $this->getCorporationStarbases($corporation_id, $starbase_id));
     }
 
     /**
