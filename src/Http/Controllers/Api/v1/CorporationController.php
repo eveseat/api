@@ -191,6 +191,18 @@ class CorporationController extends Controller
     }
 
     /**
+     * @param $coporation_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPocos($coporation_id)
+    {
+
+        return response()->json(
+            $this->getCorporationCustomsOffices($coporation_id));
+    }
+
+    /**
      * @param $corporation_id
      *
      * @return \Illuminate\Http\JsonResponse
