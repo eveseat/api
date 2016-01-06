@@ -33,8 +33,9 @@ class NewToken extends Request
      */
     public function rules()
     {
+
         return [
-            'comment' => 'max:255',
+            'comment'     => 'max:255',
             'allowed_src' => 'required|ip'
         ];
     }
