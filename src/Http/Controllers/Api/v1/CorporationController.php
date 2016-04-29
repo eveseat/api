@@ -41,7 +41,7 @@ class CorporationController extends Controller
     {
 
         return response()->json(
-            $this->getAllCorporationSheets());
+            $this->getAllCorporations());
     }
 
     /**
