@@ -35,6 +35,16 @@ class CorporationController extends Controller
     use CorporationRepository;
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAll()
+    {
+
+        return response()->json(
+            $this->getAllCorporationSheets());
+    }
+
+    /**
      * @param $corporation_id
      *
      * @return \Illuminate\Http\JsonResponse
