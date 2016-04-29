@@ -74,7 +74,7 @@ class ApiKeyController extends Controller
     public function show($id)
     {
 
-        return ApiKey::findOrFail($id);
+        return ApiKey::with('info', 'characters')->findOrFail($id);
     }
 
     /**
