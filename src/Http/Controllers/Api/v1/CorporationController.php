@@ -69,6 +69,23 @@ class CorporationController extends Controller
     }
 
     /**
+     * @param      $corporation_id
+     * @param null $parent_asset_id
+     * @param null $parent_item_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAssetsContents($corporation_id,
+                                      $parent_asset_id = null,
+                                      $parent_item_id = null)
+    {
+
+        return response()->json(
+            $this->getCorporationAssetContents(
+                $corporation_id, $parent_asset_id, $parent_item_id));
+    }
+
+    /**
      * @param $corporation_id
      *
      * @return \Illuminate\Http\JsonResponse
