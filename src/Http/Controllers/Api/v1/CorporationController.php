@@ -237,7 +237,8 @@ class CorporationController extends Controller
     }
 
     /**
-     * @param $corporation_id
+     * @param      $corporation_id
+     * @param null $starbase_id
      *
      * @return \Illuminate\Http\JsonResponse
      */
