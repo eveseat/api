@@ -25,7 +25,7 @@ return [
     'new_token'          => 'New Token',
     'key_comment'        => 'Key Comment',
     'allowed_ip_address' => 'Allowed IP Address',
-    'ip_help'            => 'This is the source IP address the will be allowed to use the generated token.',
+    'ip_help'            => 'This is the source IP address that will be allowed to use the generated token.',
     'generate'           => 'Generate',
     'token'              => 'Token|Tokens',
     'current_tokens'     => 'Current Tokens',
