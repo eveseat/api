@@ -33,7 +33,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getIndex()
     {
 
         $roles = Role::all();
@@ -48,7 +48,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getDetail($id)
     {
 
         $role = Role::with('users', 'permissions', 'affiliations')

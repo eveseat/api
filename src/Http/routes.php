@@ -61,7 +61,7 @@ Route::group([
 
             Route::resource('user', 'UserController');
             Route::controller('user/auth', 'AuthenticationController');
-            Route::resource('role', 'RoleController');
+            Route::controller('role', 'RoleController');
             Route::controller('role/query', 'RoleLookupController');
 
             Route::controller('character', 'CharacterController');
