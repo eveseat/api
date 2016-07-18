@@ -22,8 +22,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 namespace Seat\Api\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use Seat\Api\Models\ApiToken;
+use Seat\Api\Models\ApiTokenLog;
 use Seat\Api\Validation\NewToken;
 
 /**
@@ -83,11 +83,13 @@ class ApiAdminController extends Controller
     public function showLogs($token_id)
     {
 
-        $token = ApiToken::with(['logs' => function ($query) {
+        $logs = ApiTokenLog::with(['token' => function ($query) use ($token_id) {
 
-            $query->orderBy('created_at', 'desc');
-        }])->findOrFail($token_id);
+            $query->where('id', $token_id);
 
-        return view('api::logs', compact('token'));
+        }])->orderBy('created_at', 'desc')
+            ->paginate(50);
+
+        return view('api::logs', compact('logs'));
     }
 }

@@ -20,7 +20,7 @@
           <th>{{ trans('api::seat.source_ip') }}</th>
         </tr>
 
-        @foreach($token->logs as $log)
+        @foreach($logs as $log)
 
           <tr>
             <td>
@@ -40,6 +40,12 @@
       </table>
 
     </div>
+
+    @if($logs->render())
+      <div class="panel-footer">
+        {!! $logs->render() !!}
+      </div>
+    @endif
   </div>
 
 @stop
