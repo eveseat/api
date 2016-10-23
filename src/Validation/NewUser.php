@@ -21,10 +21,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Validation;
 
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
-class NewUser extends Request
+class NewUser extends FormRequest
 {
+
+    /**
+     * Authorize the request by default.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.
