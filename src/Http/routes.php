@@ -23,26 +23,29 @@ Route::group([
     'namespace' => 'Seat\Api\Http\Controllers',
 ], function () {
 
-    // Http Routes to the API Key Administration Section
-    Route::group([
-        'namespace'  => 'Admin',
-        'middleware' => 'bouncer:superuser',
-        'prefix'     => 'api-admin'
-    ], function () {
+    Route::group(['middleware' => 'web'], function () {
 
-        Route::get('/', [
-            'as'   => 'api-admin.list',
-            'uses' => 'ApiAdminController@listTokens']);
-        Route::post('/', [
-            'as'   => 'api-admin.token.create',
-            'uses' => 'ApiAdminController@generateToken']);
-        Route::get('/logs/{token_id}', [
-            'as'   => 'api-admin.token.logs',
-            'uses' => 'ApiAdminController@showLogs']);
-        Route::get('/delete/{token_id}', [
-            'as'   => 'api-admin.token.delete',
-            'uses' => 'ApiAdminController@deleteToken']);
+        // Http Routes to the API Key Administration Section
+        Route::group([
+            'namespace'  => 'Admin',
+            'middleware' => 'bouncer:superuser',
+            'prefix'     => 'api-admin'
+        ], function () {
 
+            Route::get('/', [
+                'as'   => 'api-admin.list',
+                'uses' => 'ApiAdminController@listTokens']);
+            Route::post('/', [
+                'as'   => 'api-admin.token.create',
+                'uses' => 'ApiAdminController@generateToken']);
+            Route::get('/logs/{token_id}', [
+                'as'   => 'api-admin.token.logs',
+                'uses' => 'ApiAdminController@showLogs']);
+            Route::get('/delete/{token_id}', [
+                'as'   => 'api-admin.token.delete',
+                'uses' => 'ApiAdminController@deleteToken']);
+
+        });
     });
 
     // Http Routes to the SeAT API itself

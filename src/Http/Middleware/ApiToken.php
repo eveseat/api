@@ -84,7 +84,7 @@ class ApiToken
 
             $token_id = ApiTokenModel::where('token',
                 $request->header('X-Token'))
-                ->pluck('id');
+                ->value('id');
 
             ApiTokenLog::create([
                 'api_token_id' => $token_id,
