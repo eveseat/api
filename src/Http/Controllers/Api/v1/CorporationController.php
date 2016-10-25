@@ -23,7 +23,20 @@ namespace Seat\Api\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use Seat\Services\Repositories\Corporation\CorporationRepository;
+use Seat\Services\Repositories\Corporation\Assets;
+use Seat\Services\Repositories\Corporation\Bookmarks;
+use Seat\Services\Repositories\Corporation\Contacts;
+use Seat\Services\Repositories\Corporation\Contracts;
+use Seat\Services\Repositories\Corporation\Corporation;
+use Seat\Services\Repositories\Corporation\Divisions;
+use Seat\Services\Repositories\Corporation\Industry;
+use Seat\Services\Repositories\Corporation\Killmails;
+use Seat\Services\Repositories\Corporation\Market;
+use Seat\Services\Repositories\Corporation\Members;
+use Seat\Services\Repositories\Corporation\Security;
+use Seat\Services\Repositories\Corporation\Standings;
+use Seat\Services\Repositories\Corporation\Starbases;
+use Seat\Services\Repositories\Corporation\Wallet;
 
 /**
  * Class CorporationController
@@ -32,7 +45,21 @@ use Seat\Services\Repositories\Corporation\CorporationRepository;
 class CorporationController extends Controller
 {
 
-    use CorporationRepository;
+    use Corporation;
+
+    use Assets;
+    use Bookmarks;
+    use Contacts;
+    use Contracts;
+    use Divisions;
+    use Industry;
+    use Killmails;
+    use Market;
+    use Security;
+    use Members;
+    use Standings;
+    use Starbases;
+    use Wallet;
 
     /**
      * @return \Illuminate\Http\JsonResponse
