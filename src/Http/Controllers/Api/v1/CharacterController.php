@@ -23,7 +23,26 @@ namespace Seat\Api\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use Seat\Services\Repositories\Character\CharacterRepository;
+use Seat\Services\Repositories\Character\Assets;
+use Seat\Services\Repositories\Character\Bookmarks;
+use Seat\Services\Repositories\Character\Calendar;
+use Seat\Services\Repositories\Character\Character;
+use Seat\Services\Repositories\Character\ChatChannels;
+use Seat\Services\Repositories\Character\Contacts;
+use Seat\Services\Repositories\Character\Contracts;
+use Seat\Services\Repositories\Character\Implants;
+use Seat\Services\Repositories\Character\Industry;
+use Seat\Services\Repositories\Character\Info;
+use Seat\Services\Repositories\Character\JumpClone;
+use Seat\Services\Repositories\Character\Killmails;
+use Seat\Services\Repositories\Character\Mail;
+use Seat\Services\Repositories\Character\Market;
+use Seat\Services\Repositories\Character\Notifications;
+use Seat\Services\Repositories\Character\Pi;
+use Seat\Services\Repositories\Character\Research;
+use Seat\Services\Repositories\Character\Skills;
+use Seat\Services\Repositories\Character\Standings;
+use Seat\Services\Repositories\Character\Wallet;
 
 /**
  * Class CharacterController
@@ -35,7 +54,29 @@ class CharacterController extends Controller
     // There is an unintended sideeffect of this trait
     // actually introducing more API methods due to
     // the naming scheme of the methods.
-    use CharacterRepository;
+    use Assets;
+    use Bookmarks;
+    use Calendar;
+    use Character;
+    use ChatChannels;
+    use Contacts;
+    use Contracts;
+    use Industry;
+    use Info;
+    use Implants;
+    use JumpClone;
+    use Killmails;
+    use Mail;
+    use Market;
+    use Notifications;
+    use Pi;
+    use Research;
+    use Skills;
+    use Standings;
+    use Wallet {
+
+        Wallet::where_filter insteadof Character;
+    }
 
     /**
      * @param $character_id
@@ -83,18 +124,6 @@ class CharacterController extends Controller
 
         return response()->json(
             $this->getCharacterContacts($character_id));
-    }
-
-    /**
-     * @param $character_id
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getInfo($character_id)
-    {
-
-        return response()->json(
-            $this->getCharacterInformation($character_id));
     }
 
     /**
