@@ -21,10 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Seat\Api\Models\ApiToken;
 use Seat\Api\Models\ApiTokenLog;
 use Seat\Api\Validation\NewToken;
+use Seat\Web\Http\Controllers\Controller;
 
 /**
  * Class ApiAdminController

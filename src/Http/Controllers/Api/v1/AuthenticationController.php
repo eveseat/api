@@ -21,10 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 /**
  * Class AuthenticationController

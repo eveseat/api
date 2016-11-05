@@ -21,10 +21,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use Seat\Web\Acl\Pillow;
+use Illuminate\Routing\Controller;
+use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 
 /**
@@ -34,7 +34,7 @@ use Seat\Web\Models\Acl\Role;
 class RoleController extends Controller
 {
 
-    use Pillow;
+    use AccessManager;
 
     /**
      * Display a listing of the resource.

@@ -21,8 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use Illuminate\Routing\Controller;
 use Seat\Services\Repositories\Character\Assets;
 use Seat\Services\Repositories\Character\Bookmarks;
 use Seat\Services\Repositories\Character\Calendar;

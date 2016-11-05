@@ -21,8 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use Illuminate\Routing\Controller;
 use Seat\Api\Validation\NewUser;
 use Seat\Api\Validation\UpdateUser;
 use Seat\Web\Models\User;
