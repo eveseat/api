@@ -52,23 +52,6 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-
-        // Merge the config with anything in the main app
-        $this->mergeConfigFrom(
-            __DIR__ . '/Config/api.config.php', 'api.config');
-
-        // Include this packages menu items
-        $this->mergeConfigFrom(
-            __DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
-    }
-
-    /**
      * Include the routes
      */
     public function add_routes()
@@ -121,5 +104,22 @@ class ApiServiceProvider extends ServiceProvider
     {
 
         $this->loadTranslationsFrom(__DIR__ . '/lang', 'api');
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+
+        // Merge the config with anything in the main app
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/api.config.php', 'api.config');
+
+        // Include this packages menu items
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
     }
 }
