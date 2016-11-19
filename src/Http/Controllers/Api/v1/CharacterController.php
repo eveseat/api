@@ -73,10 +73,7 @@ class CharacterController extends Controller
     use Research;
     use Skills;
     use Standings;
-    use Wallet {
-
-        Wallet::where_filter insteadof Character;
-    }
+    use Wallet;
 
     /**
      * @param $character_id
