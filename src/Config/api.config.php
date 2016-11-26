@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 return [
 
-    'version'      => '2.0.0-dev',
+    'version'      => '2.0.0-alpha1',
     'log_requests' => true
 
 ];
