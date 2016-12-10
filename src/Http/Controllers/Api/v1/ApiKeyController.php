@@ -26,7 +26,7 @@ use Illuminate\Routing\Controller;
 use Seat\Api\Validation\ApiKeyUpdate;
 use Seat\Eveapi\Models\Eve\ApiKey;
 use Seat\Web\Models\User;
-use Seat\Web\Validation\ApiKey as ApiKeyValidator;
+use Seat\Web\Http\Validation\ApiKey as ApiKeyValidator;
 
 /**
  * Class ApiKeyController
@@ -52,7 +52,7 @@ class ApiKeyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Seat\Web\Validation\ApiKey $request
+     * @param \Seat\Web\Http\Validation\ApiKey $request
      *
      * @return \Illuminate\Http\Response
      */
