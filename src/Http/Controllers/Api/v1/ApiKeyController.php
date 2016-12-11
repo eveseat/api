@@ -25,8 +25,8 @@ use App\Http\Requests;
 use Illuminate\Routing\Controller;
 use Seat\Api\Validation\ApiKeyUpdate;
 use Seat\Eveapi\Models\Eve\ApiKey;
-use Seat\Web\Models\User;
 use Seat\Web\Http\Validation\ApiKey as ApiKeyValidator;
+use Seat\Web\Models\User;
 
 /**
  * Class ApiKeyController
@@ -58,6 +58,11 @@ class ApiKeyController extends Controller
      */
     public function store(ApiKeyValidator $request)
     {
+
+        // If we dont have a user_id, set it to 1
+        // which is the admin user.
+        if (!$request->has('user_id'))
+            $request['user_id'] = 1;
 
         ApiKey::create($request->all());
 
