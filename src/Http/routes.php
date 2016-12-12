@@ -135,7 +135,7 @@ Route::group([
                 Route::get('/pocos/{corporation_id}', 'CorporationController@getPocos');
                 Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');
                 Route::get('/standings/{corporation_id}', 'CorporationController@getStandings');
-                Route::get('/starbases/{corporation_id}', 'CorporationController@getStarbases');
+                Route::get('/starbases/{corporation_id}/{starbase_id?}', 'CorporationController@getStarbases');
                 Route::get('/wallet-divisions/{corporation_id}', 'CorporationController@getWalletDivisions');
                 Route::get('/wallet-journal/{corporation_id}', 'CorporationController@getWalletJournal');
                 Route::get('/wallet-transactions/{corporation_id}', 'CorporationController@getWalletTransactions');
