@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 return [
 
-    'api' => [
+    'seatapi' => [
         'permission'    => 'Superuser',
         'name'          => 'SeAT API',
         'icon'          => 'fa-exchange',
