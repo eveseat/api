@@ -1,23 +1,24 @@
 <?php
+
 /*
-This file is part of SeAT
-
-Copyright (C) 2015, 2016  Leon Jacobs
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+ * This file is part of SeAT
+ *
+ * Copyright (C) 2015, 2016, 2017  Leon Jacobs
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 namespace Seat\Api;
 
@@ -26,12 +27,11 @@ use Illuminate\Support\ServiceProvider;
 use Seat\Api\Http\Middleware\ApiToken;
 
 /**
- * Class ApiServiceProvider
+ * Class ApiServiceProvider.
  * @package Seat\Api
  */
 class ApiServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -52,18 +52,18 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Include the routes
+     * Include the routes.
      */
     public function add_routes()
     {
 
-        if (!$this->app->routesAreCached()) {
+        if (! $this->app->routesAreCached()) {
             include __DIR__ . '/Http/routes.php';
         }
     }
 
     /**
-     * Include the middleware needed
+     * Include the middleware needed.
      *
      * @param $router
      */
@@ -77,7 +77,7 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set the path and namespace for the views
+     * Set the path and namespace for the views.
      */
     public function add_views()
     {
@@ -87,7 +87,7 @@ class ApiServiceProvider extends ServiceProvider
 
     /**
      * Set the paths for migrations and assets that
-     * should be published to the main application
+     * should be published to the main application.
      */
     public function add_publications()
     {
@@ -98,7 +98,7 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add the packages translation files
+     * Add the packages translation files.
      */
     public function add_translations()
     {

@@ -1,27 +1,27 @@
 <?php
+
 /*
-This file is part of SeAT
-
-Copyright (C) 2015, 2016  Leon Jacobs
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+ * This file is part of SeAT
+ *
+ * Copyright (C) 2015, 2016, 2017  Leon Jacobs
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-use App\Http\Requests;
 use Illuminate\Routing\Controller;
 use Seat\Api\Validation\ApiKeyUpdate;
 use Seat\Eveapi\Models\Eve\ApiKey;
@@ -29,12 +29,11 @@ use Seat\Web\Http\Validation\ApiKey as ApiKeyValidator;
 use Seat\Web\Models\User;
 
 /**
- * Class ApiKeyController
+ * Class ApiKeyController.
  * @package Seat\Api\Http\Controllers\Api\v1
  */
 class ApiKeyController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -61,7 +60,7 @@ class ApiKeyController extends Controller
 
         // If we dont have a user_id, set it to 1
         // which is the admin user.
-        if (!$request->has('user_id'))
+        if (! $request->has('user_id'))
             $request['user_id'] = 1;
 
         ApiKey::create($request->all());
@@ -115,7 +114,7 @@ class ApiKeyController extends Controller
     }
 
     /**
-     * Transfer an EVE API Key to a User
+     * Transfer an EVE API Key to a User.
      *
      * @param $key_id
      * @param $user_id
