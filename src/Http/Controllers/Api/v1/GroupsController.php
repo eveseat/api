@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of SeAT
  *
@@ -21,7 +22,6 @@
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
-
 use Illuminate\Routing\Controller;
 use Seat\Web\Models\Person;
 
@@ -31,7 +31,6 @@ use Seat\Web\Models\Person;
  */
 class GroupsController extends Controller
 {
-
     /**
      * @return \Illuminate\Http\JsonResponse
      */
@@ -56,5 +55,4 @@ class GroupsController extends Controller
 
         return response()->json($detail);
     }
-
 }
