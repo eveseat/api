@@ -87,6 +87,12 @@ Route::group([
                 Route::get('/permission-check/{user_identifier}/{role_identifier}', 'RoleLookupController@getPermissionCheck');
             });
 
+            Route::group(['prefix' => 'groups'], function() {
+
+                Route::get('/', 'GroupsController@getGroups');
+                Route::get('/{id}', 'GroupsController@getGroupDetail');
+            });
+
             Route::group(['prefix' => 'character'], function () {
 
                 Route::get('/assets/{character_id}', 'CharacterController@getAssets');
