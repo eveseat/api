@@ -29,7 +29,7 @@ Route::group([
         // Http Routes to the API Key Administration Section
         Route::group([
             'namespace'  => 'Admin',
-            'middleware' => 'bouncer:superuser',
+            'middleware' => ['auth', 'bouncer:superuser'],
             'prefix'     => 'api-admin',
         ], function () {
 
