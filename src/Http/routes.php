@@ -139,6 +139,7 @@ Route::group([
                 Route::get('/member-security/{corporation_id}', 'CorporationController@getMemberSecurity');
                 Route::get('/member-security-logs/{corporation_id}', 'CorporationController@getMemberSecurityLogs');
                 Route::get('/member-security-titles/{corporation_id}', 'CorporationController@getMemberSecurityTitles');
+                Route::get('/member-tracking/{corporation_id}', 'CorporationController@getMemberTracking');
                 Route::get('/pocos/{corporation_id}', 'CorporationController@getPocos');
                 Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');
                 Route::get('/standings/{corporation_id}', 'CorporationController@getStandings');
