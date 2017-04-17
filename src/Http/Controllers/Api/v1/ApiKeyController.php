@@ -34,6 +34,7 @@ use Seat\Web\Models\User;
  */
 class ApiKeyController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -63,11 +64,10 @@ class ApiKeyController extends Controller
         if (! $request->has('user_id'))
             $request['user_id'] = 1;
 
-        if (($apiKey = ApiKey::find($request->input('key_id'))) != null) {
+        if (ApiKey::find($request->input('key_id')))
             return response()->json([
                 'msg' => 'This key already exists',
             ], 400);
-        }
 
         ApiKey::create($request->all());
 
