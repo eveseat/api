@@ -34,7 +34,6 @@ use Seat\Web\Models\User;
  */
 class ApiKeyController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
