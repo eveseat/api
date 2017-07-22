@@ -63,6 +63,11 @@ class ApiKeyController extends Controller
         if (! $request->has('user_id'))
             $request['user_id'] = 1;
 
+        if (ApiKey::find($request->input('key_id')))
+            return response()->json([
+                'msg' => 'This key already exists',
+            ], 400);
+
         ApiKey::create($request->all());
 
         return response()->json(['ok']);
