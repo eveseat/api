@@ -47,7 +47,7 @@ class NewToken extends FormRequest
 
         return [
             'comment'     => 'max:255',
-            'allowed_src' => 'required|ip',
+            'allowed_src' => 'required',
         ];
     }
 }
