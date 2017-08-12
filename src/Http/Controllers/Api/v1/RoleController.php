@@ -91,15 +91,17 @@ class RoleController extends Controller
      * Append a character affiliation to an existing role.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function postAddCharacterAffiliation(Request $request)
     {
+
         // role_id and character_id are required, but disallow superuser role edition
         $this->validate($request, [
-            'role_id' => 'required|numeric|min:2',
+            'role_id'      => 'required|numeric|min:2',
             'character_id' => 'required|numeric',
-            'inverse' => 'sometimes|required|boolean',
+            'inverse'      => 'sometimes|required|boolean',
         ]);
 
         $role_id = $request->input('role_id');
@@ -109,9 +111,12 @@ class RoleController extends Controller
         $inverse = $request->has('inverse') ? $request->input('inverse') : false;
 
         try {
+
             Role::findOrFail($role_id);
             CharacterSheet::findOrFail($character_id);
+
         } catch (ModelNotFoundException $e) {
+
             return response()->json(['msg' => $e->getMessage()], 404);
         }
 
@@ -124,15 +129,17 @@ class RoleController extends Controller
      * Append a corporation affiliation to an existing role.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function postAddCorporationAffiliation(Request $request)
     {
+
         // role_id and character_id are required, but disallow superuser role edition
         $this->validate($request, [
-            'role_id' => 'required|numeric|min:2',
+            'role_id'        => 'required|numeric|min:2',
             'corporation_id' => 'required|numeric',
-            'inverse' => 'sometimes|required|boolean',
+            'inverse'        => 'sometimes|required|boolean',
         ]);
 
         $role_id = $request->input('role_id');
