@@ -106,9 +106,7 @@ class RoleController extends Controller
         $character_id = $request->input('character_id');
 
         // make inverse optional and set false as default value
-        $inverse = false;
-        if ($request->has('inverse'))
-            $inverse = $request->input('inverse');
+        $inverse = $request->has('inverse') ? $request->input('inverse') : false;
 
         try {
             Role::findOrFail($role_id);
@@ -141,9 +139,7 @@ class RoleController extends Controller
         $corporation_id = $request->input('corporation_id');
 
         // make inverse optional and set false as default value
-        $inverse = false;
-        if ($request->has('inverse'))
-            $inverse = $request->input('inverse');
+        $inverse = $request->has('inverse') ? $request->input('inverse') : false;
 
         Role::findOrFail($role_id);
         CorporationSheet::findOrFail($corporation_id);
