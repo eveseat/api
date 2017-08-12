@@ -78,6 +78,8 @@ Route::group([
                 Route::delete('/remove/{role_id}', 'RoleController@deleteRemove');
                 Route::get('/grant-user-role/{user_id}/{role_id}', 'RoleController@getGrantUserRole');
                 Route::get('/revoke-user-role/{user_id}/{role_id}', 'RoleController@getRevokeUserRole');
+                Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
+                Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
             });
 
             Route::group(['prefix' => 'role/query'], function () {

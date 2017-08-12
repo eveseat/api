@@ -22,8 +22,12 @@
 
 namespace Seat\Api\Http\Controllers\Api\v1;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Seat\Eveapi\Models\Character\CharacterSheet;
+use Seat\Eveapi\Models\Corporation\CorporationSheet;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 
@@ -34,6 +38,7 @@ use Seat\Web\Models\Acl\Role;
 class RoleController extends Controller
 {
     use AccessManager;
+    use ValidatesRequests;
 
     /**
      * Display a listing of the resource.
@@ -78,6 +83,68 @@ class RoleController extends Controller
         $name = $request->input('name');
 
         $this->addRole($name);
+
+        return response()->json(true);
+    }
+
+    /**
+     * Append a character affiliation to an existing role.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postAddCharacterAffiliation(Request $request)
+    {
+        // role_id and character_id are required, but disallow superuser role edition
+        $this->validate($request, [
+            'role_id' => 'required|numeric|min:2',
+            'character_id' => 'required|numeric',
+            'inverse' => 'sometimes|required|boolean',
+        ]);
+
+        $role_id = $request->input('role_id');
+        $character_id = $request->input('character_id');
+
+        // make inverse optional and set false as default value
+        $inverse = $request->has('inverse') ? $request->input('inverse') : false;
+
+        try {
+            Role::findOrFail($role_id);
+            CharacterSheet::findOrFail($character_id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['msg' => $e->getMessage()], 404);
+        }
+
+        $this->giveRoleCharacterAffiliation($role_id, $character_id, $inverse);
+
+        return response()->json(true);
+    }
+
+    /**
+     * Append a corporation affiliation to an existing role.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function postAddCorporationAffiliation(Request $request)
+    {
+        // role_id and character_id are required, but disallow superuser role edition
+        $this->validate($request, [
+            'role_id' => 'required|numeric|min:2',
+            'corporation_id' => 'required|numeric',
+            'inverse' => 'sometimes|required|boolean',
+        ]);
+
+        $role_id = $request->input('role_id');
+        $corporation_id = $request->input('corporation_id');
+
+        // make inverse optional and set false as default value
+        $inverse = $request->has('inverse') ? $request->input('inverse') : false;
+
+        Role::findOrFail($role_id);
+        CorporationSheet::findOrFail($corporation_id);
+
+        $this->giveRoleCorporationAffiliation($role_id, $corporation_id, $inverse);
 
         return response()->json(true);
     }
