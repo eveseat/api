@@ -78,6 +78,12 @@ class UserController extends Controller
             ->where(is_numeric($id) ? 'id' : 'name', $id)
             ->first();
 
+        // ensure we've been able to retrieve the user or return 404
+        if (! $user)
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the user with either id or name "%s"', $id),
+            ], 404);
+
         return response()->json($user);
     }
 
@@ -100,8 +106,15 @@ class UserController extends Controller
             $update_data['password'] = bcrypt($request->password);
 
         // Allow for both an id, or a name as an identifier
-        User::where(is_numeric($id) ? 'id' : 'name', $id)
-            ->update($update_data);
+        $user = User::where(is_numeric($id) ? 'id' : 'name', $id)->first();
+
+        // ensure we're able to retrieve the user
+        if (! $user)
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the user with either id or name "%s"', $id),
+            ], 404);
+
+        $user->update($update_data);
 
         return response()->json(['ok']);
     }
@@ -117,8 +130,14 @@ class UserController extends Controller
     {
 
         // Allow for both an id, or a name as an identifier
-        User::where(is_numeric($id) ? 'id' : 'name', $id)
-            ->delete();
+        $user = User::where(is_numeric($id) ? 'id' : 'name', $id);
+
+        if (! $user)
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the user with either id or name "%s"', $id),
+            ], 404);
+
+        $user->delete();
 
         return response()->json(['ok']);
     }

@@ -72,6 +72,9 @@ Route::group([
 
             Route::group(['prefix' => 'role'], function () {
 
+                Route::pattern('role_id', '[0-9]+');
+                Route::pattern('user_id', '[0-9]+');
+
                 Route::get('/', 'RoleController@getIndex');
                 Route::get('/detail/{id}', 'RoleController@getDetail');
                 Route::post('/new', 'RoleController@postNew');
@@ -91,11 +94,15 @@ Route::group([
 
             Route::group(['prefix' => 'groups'], function () {
 
+                Route::pattern('group_id', '[0-9]+');
+
                 Route::get('/', 'GroupsController@getGroups');
-                Route::get('/{id}', 'GroupsController@getGroupDetail');
+                Route::get('/{group_id}', 'GroupsController@getGroupDetail');
             });
 
             Route::group(['prefix' => 'character'], function () {
+
+                Route::pattern('character_id', '[0-9]+');
 
                 Route::get('/assets/{character_id}', 'CharacterController@getAssets');
                 Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
@@ -125,6 +132,9 @@ Route::group([
             });
 
             Route::group(['prefix' => 'corporation'], function () {
+
+                Route::pattern('corporation_id', '[0-9]+');
+                Route::pattern('starbase_id', '[0-9]+');
 
                 Route::get('/all', 'CorporationController@getAll');
                 Route::get('/assets/{corporation_id}', 'CorporationController@getAssets');

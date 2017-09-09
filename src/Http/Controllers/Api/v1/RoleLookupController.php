@@ -54,7 +54,9 @@ class RoleLookupController extends Controller
             ->first();
 
         if (! $user)
-            abort(404);
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the user with either id or name "%s"', $user_identifier),
+            ], 404);
 
         $access = $user->hasRole($role_identifier);
 
@@ -75,7 +77,9 @@ class RoleLookupController extends Controller
             ->first();
 
         if (! $user)
-            abort(404);
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the user with either id or name "%s"', $user_identifier),
+            ], 404);
 
         $access = $user->has($permission_identifier, false);
 
