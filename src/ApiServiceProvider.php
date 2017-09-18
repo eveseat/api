@@ -72,7 +72,7 @@ class ApiServiceProvider extends ServiceProvider
 
         // Authenticate checks that the token is valid
         // from an allowed IP address
-        $router->middleware('api.auth', ApiToken::class);
+        $router->aliasMiddleware('api.auth', ApiToken::class);
 
     }
 
