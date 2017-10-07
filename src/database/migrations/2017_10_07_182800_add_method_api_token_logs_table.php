@@ -20,30 +20,39 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-use Illuminate\Database\Eloquent\Model;
-
-/**
- * Class ApiTokenLog.
- * @package Seat\Api\Models
- */
-class ApiTokenLog extends Model
+class AddMethodApiTokenLogsTable extends Migration
 {
     /**
-     * @var array
-     */
-    protected $fillable = [
-        'api_token_id', 'action', 'method', 'request_path', 'src_ip', ];
-
-    /**
-     * Return the token the log entry belongs to.
+     * Run the migrations.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return void
      */
-    public function token()
+    public function up()
     {
 
-        return $this->belongsTo(ApiToken::class);
+        Schema::table('api_token_logs', function (Blueprint $table) {
+
+            $table->string('method', 8)
+                ->nullable()
+                ->after('action');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+
+        Schema::table('api_token_logs', function (Blueprint $table) {
+
+            $table->dropColumn('method');
+
+        });
     }
 }

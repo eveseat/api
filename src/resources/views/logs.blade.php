@@ -16,6 +16,7 @@
         <tr>
           <th>{{ trans('api::seat.date') }}</th>
           <th>{{ trans('api::seat.action') }}</th>
+          <th>{{ trans('api::seat.method') }}</th>
           <th>{{ trans('api::seat.request_path') }}</th>
           <th>{{ trans('api::seat.source_ip') }}</th>
         </tr>
@@ -30,6 +31,9 @@
               </span>
             </td>
             <td>{{ ucfirst($log->action) }}</td>
+            <td>
+              @include('api::logs-method')
+            </td>
             <td>{{ $log->request_path }}</td>
             <td>{{ $log->src_ip }}</td>
           </tr>
