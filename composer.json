@@ -24,5 +24,12 @@
   },
   "require-dev": {
     "phpunit/phpunit": "~5.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Seat\\Api\\ApiServiceProvider"
+      ]
+    }
   }
 }
