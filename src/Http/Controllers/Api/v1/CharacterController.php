@@ -215,7 +215,7 @@ class CharacterController extends Controller
     {
 
         return response()->json(
-            $this->getCharacterSkilQueue($character_id));
+            $this->getCharacterSkillQueue($character_id));
     }
 
     /**
