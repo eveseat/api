@@ -83,7 +83,14 @@ class ApiKeyController extends Controller
     public function show($id)
     {
 
-        return ApiKey::with('info', 'characters')->findOrFail($id);
+        if (!is_numeric($id))
+            return response()->json([
+                'msg' => 'key_id must be a numeric value.',
+            ], 400);
+
+        $keys = ApiKey::with('info', 'characters')->findOrFail($id);
+
+        return response()->json($keys);
     }
 
     /**
@@ -96,6 +103,11 @@ class ApiKeyController extends Controller
      */
     public function update(ApiKeyUpdate $request, $id)
     {
+
+        if (!is_numeric($id))
+            return response()->json([
+                'msg' => 'key_id must be a numeric value.',
+            ], 400);
 
         ApiKey::findOrFail($id)
             ->update($request->all());
@@ -113,6 +125,11 @@ class ApiKeyController extends Controller
     public function destroy($id)
     {
 
+        if (!is_numeric($id))
+            return response()->json([
+                'msg' => 'key_id must be a numeric value.',
+            ], 400);
+
         ApiKey::findOrFail($id)->delete();
 
         return response()->json(['ok']);
@@ -128,6 +145,16 @@ class ApiKeyController extends Controller
      */
     public function transfer($key_id, $user_id)
     {
+
+        if (!is_numeric($key_id))
+            return response()->json([
+                'msg' => 'key_id must be a numeric value.',
+            ], 400);
+
+        if (!is_numeric($user_id))
+            return response()->json([
+                'msg' => 'user_id must be a numeric value.',
+            ], 400);
 
         $key = ApiKey::findOrFail($key_id);
         User::findOrFail($user_id);

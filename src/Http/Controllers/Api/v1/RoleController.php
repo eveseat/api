@@ -67,6 +67,11 @@ class RoleController extends Controller
             ->where(is_numeric($id) ? 'id' : 'title', $id)
             ->first();
 
+        if (! $role)
+            return response()->json([
+                'msg' => sprintf('Unable to retrieve the role with either id or title "%s"', $id),
+            ], 404);
+
         return response()->json($role);
     }
 

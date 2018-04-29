@@ -47,11 +47,11 @@ class GroupsController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getGroupDetail(int $id)
+    public function getGroupDetail(int $group_id)
     {
 
         $detail = Person::with('members', 'members.characters')
-            ->find($id);
+            ->findOrFail($group_id);
 
         return response()->json($detail);
     }
