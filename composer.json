@@ -20,7 +20,8 @@
     "laravel/framework": "5.5.*",
     "eveseat/eveapi": "~3",
     "eveseat/services": "~3",
-    "eveseat/web": "~3"
+    "eveseat/web": "~3",
+    "darkaonline/l5-swagger": "5.5.*"
   },
   "extra": {
     "laravel": {

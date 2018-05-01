@@ -42,6 +42,8 @@ class ApiServiceProvider extends ServiceProvider
 
         $this->add_routes();
 
+        $this->apply_custom_configuration();
+
         $this->add_middleware($router);
 
         $this->add_views();
@@ -49,6 +51,29 @@ class ApiServiceProvider extends ServiceProvider
         $this->add_publications();
 
         $this->add_translations();
+    }
+
+    /**
+     * Apply any configuration overrides to those config/
+     * files published using php artisan vendor:publish.
+     *
+     * In the case of this service provider, this is mostly
+     * configuration items for L5-Swagger.
+     */
+    public function apply_custom_configuration()
+    {
+
+        // Tell L5-swagger where to find annotations. These form
+        // part of the controllers themselves.
+        config(['l5-swagger.paths.annotations' => __DIR__ . '/Http/Controllers/Api/v2']);
+        config(['l5-swagger.swagger_version' => '3.0']);
+
+        // Use base host configured in the .env file for the swagger host.
+        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => str_after(env('APP_URL'), '://')]);
+
+        // SwaggerUI long description.
+        config(['l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. ' .
+            'All endpoints require an API key. Keys may be obtained from: ' . route('api-admin.list')]);
     }
 
     /**

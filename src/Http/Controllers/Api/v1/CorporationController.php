@@ -40,6 +40,9 @@ use Seat\Services\Repositories\Corporation\Wallet;
 
 /**
  * Class CorporationController.
+ *
+ * @resource Corporation
+ *
  * @package Seat\Api\Http\Controllers\Api\v1
  */
 class CorporationController extends Controller
