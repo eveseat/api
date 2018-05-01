@@ -57,7 +57,6 @@ class CharacterController extends Controller
     use Bookmarks;
     use Calendar;
     use Character;
-    use ChatChannels;
     use Contacts;
     use Contracts;
     use Industry;
