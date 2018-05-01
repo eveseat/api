@@ -89,15 +89,19 @@ Route::group([
 //                Route::get('/{id}', 'GroupsController@getGroupDetail');
 //            });
 
+            Route::group(['prefix' => 'killmails'], function () {
+
+                Route::get('/detail/{killmail_id}', 'KillmailsController@getDetail');
+            });
+
             Route::group(['prefix' => 'character'], function () {
 
                 Route::get('/assets/{character_id}/{item_id?}', 'CharacterController@getAssets');
-//                Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
-//                Route::get('/channels/{character_id}', 'CharacterController@getChannels');
-//                Route::get('/contacts/{character_id}', 'CharacterController@getContacts');
+                Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
+                Route::get('/contacts/{character_id}', 'CharacterController@getContacts');
 //                Route::get('/info/{character_id}', 'CharacterController@getInfo');
-//                Route::get('/industry/{character_id}', 'CharacterController@getIndustry');
-//                Route::get('/killmails/{character_id}', 'CharacterController@getKillmails');
+                Route::get('/industry/{character_id}', 'CharacterController@getIndustry');
+                Route::get('/killmails/{character_id}/{killmail_id?}', 'CharacterController@getKillmails');
 //                Route::get('/market-orders/{character_id}', 'CharacterController@getMarketOrders');
 //                Route::get('/contracts/{character_id}', 'CharacterController@getContracts');
 //                Route::get('/sheet/{character_id}', 'CharacterController@getSheet');
