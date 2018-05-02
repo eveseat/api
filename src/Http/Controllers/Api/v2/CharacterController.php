@@ -24,13 +24,35 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 
 use Seat\Api\Http\Resources\AssetResource;
+use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
+use Seat\Api\Http\Resources\ContractResource;
+use Seat\Api\Http\Resources\CorporationHistoryResource;
 use Seat\Api\Http\Resources\IndustryResource;
+use Seat\Api\Http\Resources\JumpcloneResource;
 use Seat\Api\Http\Resources\KillmailResource;
+use Seat\Api\Http\Resources\MailResource;
+use Seat\Api\Http\Resources\MarketOrderResource;
+use Seat\Api\Http\Resources\NotificationResource;
+use Seat\Api\Http\Resources\SkillQueueResource;
+use Seat\Api\Http\Resources\SkillsResource;
+use Seat\Api\Http\Resources\WalletJournalResource;
+use Seat\Api\Http\Resources\WalletTransactionResource;
 use Seat\Eveapi\Models\Assets\CharacterAsset;
+use Seat\Eveapi\Models\Character\CharacterCorporationHistory;
+use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Eveapi\Models\Character\CharacterNotification;
+use Seat\Eveapi\Models\Character\CharacterSkill;
+use Seat\Eveapi\Models\Clones\CharacterJumpClone;
 use Seat\Eveapi\Models\Contacts\CharacterContact;
+use Seat\Eveapi\Models\Contracts\CharacterContract;
 use Seat\Eveapi\Models\Industry\CharacterIndustryJob;
 use Seat\Eveapi\Models\Killmails\CharacterKillmail;
+use Seat\Eveapi\Models\Mail\MailHeader;
+use Seat\Eveapi\Models\Market\CharacterOrder;
+use Seat\Eveapi\Models\Skills\CharacterSkillQueue;
+use Seat\Eveapi\Models\Wallet\CharacterWalletJournal;
+use Seat\Eveapi\Models\Wallet\CharacterWalletTransaction;
 
 /**
  * Class CharacterController.
@@ -58,10 +80,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns list of assets
-     */
-
-    /**
      * @SWG\Get(
      *      path="/character/assets/{character_id}/{item_id}",
      *      tags={"Assets"},
@@ -87,10 +105,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns an asset
-     */
-
-    /**
      * @param int $character_id
      * @param int $item_id
      *
@@ -126,10 +140,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns a list of bookmarks
-     */
-
-    /**
      * @param int $chacter_id
      */
     public function getBookmarks(int $chacter_id)
@@ -142,7 +152,7 @@ class CharacterController extends ApiController
      * @SWG\Get(
      *      path="/character/contacts/{character_id}",
      *      tags={"Contacts"},
-     *      summary="Get a paginated list of contacs for a character",
+     *      summary="Get a paginated list of contacts for a character",
      *      description="Returns list of contacs",
      *      security={"ApiKeyAuth"},
      *      @SWG\Parameter(
@@ -157,10 +167,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns a list of contacts
-     */
-
-    /**
      * @param int $character_id
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -170,6 +176,66 @@ class CharacterController extends ApiController
 
         return ContactResource::collection(CharacterContact::where('character_id', $character_id)
             ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/contracts/{character_id}",
+     *      tags={"Contracts"},
+     *      summary="Get a paginated list of contracts for a character",
+     *      description="Returns list of contracts",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getContracts(int $character_id)
+    {
+
+        return ContractResource::collection(CharacterContract::where('character_id', $character_id)
+            ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/corporation-history/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get the corporation history for a character",
+     *      description="Returns a corporation history",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getCorporationHistory(int $character_id)
+    {
+
+        return CorporationHistoryResource::collection(CharacterCorporationHistory::where('character_id', $character_id)
+            ->get());
     }
 
     /**
@@ -191,10 +257,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns a list of industry jobs
-     */
-
-    /**
      * @param int $character_id
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -204,6 +266,36 @@ class CharacterController extends ApiController
 
         return IndustryResource::collection(CharacterIndustryJob::where('character_id', $character_id)
             ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/jump-clones/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get a paginated list of jump clones for a character",
+     *      description="Returns list of jump clones",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getJumpClones(int $character_id)
+    {
+
+        return JumpcloneResource::collection(CharacterJumpClone::where('character_id', $character_id)
+            ->get());
     }
 
     /**
@@ -225,10 +317,6 @@ class CharacterController extends ApiController
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * Returns a list of killmails
-     */
-
-    /**
      * @param int $character_id
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -237,6 +325,242 @@ class CharacterController extends ApiController
     {
 
         return KillmailResource::collection(CharacterKillmail::where('character_id', $character_id)
+            ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/mail/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get a paginated list of mail for a character",
+     *      description="Returns mail",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getMail(int $character_id)
+    {
+
+        return MailResource::collection(MailHeader::where('character_id', $character_id)->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/market-orders/{character_id}",
+     *      tags={"Market"},
+     *      summary="Get a paginated list of market orders for a character",
+     *      description="Returns list of market orders",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getMarketOrders(int $character_id)
+    {
+
+        return MarketOrderResource::collection(CharacterOrder::where('character_id', $character_id)
+            ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/notifications/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get a paginated list of notifications for a character",
+     *      description="Returns a list of notifications",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getNotifications(int $character_id)
+    {
+
+        return NotificationResource::collection(CharacterNotification::where('character_id', $character_id)
+            ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/sheet/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get the character sheet for a character",
+     *      description="Returns a character sheet",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Seat\Api\Http\Resources\CharacterSheetResource
+     */
+    public function getSheet(int $character_id)
+    {
+
+        return new CharacterSheetResource(CharacterInfo::findOrFail($character_id));
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/skills/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get the skills for a character",
+     *      description="Returns character skills",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getSkills(int $character_id)
+    {
+
+        return SkillsResource::collection(CharacterSkill::where('character_id', $character_id)->get());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/skill-queue/{character_id}",
+     *      tags={"Character"},
+     *      summary="Get a list of characters skill queue",
+     *      description="Returns a skill queue",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getSkillQueue(int $character_id)
+    {
+
+        return SkillQueueResource::collection(CharacterSkillQueue::where('character_id', $character_id)->get());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/wallet-journal/{character_id}",
+     *      tags={"Wallet"},
+     *      summary="Get a paginated wallet journal for a character",
+     *      description="Returns a wallet journal",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getWalletJournal(int $character_id)
+    {
+
+        return WalletJournalResource::collection(CharacterWalletJournal::where('character_id', $character_id)
+            ->paginate());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/character/wallet-transactions/{character_id}",
+     *      tags={"Wallet"},
+     *      summary="Get paginated wallet transactions for a character",
+     *      description="Returns wallet transactions",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="character_id",
+     *          description="Character id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $character_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getWalletTransactions(int $character_id)
+    {
+
+        return WalletTransactionResource::collection(CharacterWalletTransaction::where('character_id', $character_id)
             ->paginate());
     }
 }

@@ -99,27 +99,19 @@ Route::group([
                 Route::get('/assets/{character_id}/{item_id?}', 'CharacterController@getAssets');
                 Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
                 Route::get('/contacts/{character_id}', 'CharacterController@getContacts');
-//                Route::get('/info/{character_id}', 'CharacterController@getInfo');
                 Route::get('/industry/{character_id}', 'CharacterController@getIndustry');
                 Route::get('/killmails/{character_id}/{killmail_id?}', 'CharacterController@getKillmails');
-//                Route::get('/market-orders/{character_id}', 'CharacterController@getMarketOrders');
-//                Route::get('/contracts/{character_id}', 'CharacterController@getContracts');
-//                Route::get('/sheet/{character_id}', 'CharacterController@getSheet');
-//                Route::get('/skills/{character_id}', 'CharacterController@getSkills');
-//                Route::get('/skill-in-training/{character_id}', 'CharacterController@getSkillInTraining');
-//                Route::get('/skill-queue/{character_id}', 'CharacterController@getSkillQueue');
-//                Route::get('/wallet-journal/{character_id}', 'CharacterController@getWalletJournal');
-//                Route::get('/wallet-transactions/{character_id}', 'CharacterController@getWalletTransactions');
-//                Route::get('/employment-history/{character_id}', 'CharacterController@getEmploymentHistory');
-//                Route::get('/implants/{character_id}', 'CharacterController@getImplants');
-//                Route::get('/jump-clones/{character_id}', 'CharacterController@getJumpClones');
-//                Route::get('/account-info/{character_id}', 'CharacterController@getAccountInfo');
-//                Route::get('/mail/{character_id}', 'CharacterController@getMail');
-//                Route::get('/notifications/{character_id}', 'CharacterController@getNotifications');
-//                Route::get('/pi/{character_id}', 'CharacterController@getPi');
-//                Route::get('/standings/{character_id}', 'CharacterController@getStandings');
-//                Route::get('/research/{character_id}', 'CharacterController@getResearch');
-//                Route::get('/calendar/{character_id}', 'CharacterController@getCalendar');
+                Route::get('/market-orders/{character_id}', 'CharacterController@getMarketOrders');
+                Route::get('/contracts/{character_id}', 'CharacterController@getContracts');
+                Route::get('/sheet/{character_id}', 'CharacterController@getSheet');
+                Route::get('/skills/{character_id}', 'CharacterController@getSkills');
+                Route::get('/skill-queue/{character_id}', 'CharacterController@getSkillQueue');
+                Route::get('/wallet-journal/{character_id}', 'CharacterController@getWalletJournal');
+                Route::get('/wallet-transactions/{character_id}', 'CharacterController@getWalletTransactions');
+                Route::get('/corporation-history/{character_id}', 'CharacterController@getCorporationHistory');
+                Route::get('/jump-clones/{character_id}', 'CharacterController@getJumpClones');
+                Route::get('/mail/{character_id}', 'CharacterController@getMail');
+                Route::get('/notifications/{character_id}', 'CharacterController@getNotifications');
             });
 
 //            Route::group(['prefix' => 'corporation'], function () {
