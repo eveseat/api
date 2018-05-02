@@ -60,8 +60,6 @@ Route::group([
         Route::group(['namespace' => 'v2', 'prefix' => 'v2'], function () {
 
 //            // Define the transfer method before the resource controller
-//            Route::get('key/transfer/{key_id}/{user_id}', 'ApiKeyController@transfer');
-//            Route::resource('key', 'ApiKeyController');
 //            Route::resource('user', 'UserController');
 //
 //            Route::group(['prefix' => 'role'], function () {
