@@ -112,32 +112,20 @@ Route::group([
                 Route::get('/notifications/{character_id}', 'CharacterController@getNotifications');
             });
 
-//            Route::group(['prefix' => 'corporation'], function () {
-//
-//                Route::get('/all', 'CorporationController@getAll');
-//                Route::get('/assets/{corporation_id}', 'CorporationController@getAssets');
-//                Route::get('/assets-by-location/{corporation_id}', 'CorporationController@getAssetsByLocation');
-//                Route::get('/assets-contents/{corporation_id}/{parent_asset_id?}/{parent_item_id?}',
-//                    'CorporationController@getAssetsByLocation');
-//                Route::get('/bookmarks/{corporation_id}', 'CorporationController@getBookmarks');
-//                Route::get('/contacts/{corporation_id}', 'CorporationController@getContacts');
-//                Route::get('/contracts/{corporation_id}', 'CorporationController@getContracts');
-//                Route::get('/divisions/{corporation_id}', 'CorporationController@getDivisions');
-//                Route::get('/industry/{corporation_id}', 'CorporationController@getIndustry');
-//                Route::get('/killmails/{corporation_id}', 'CorporationController@getKillmails');
-//                Route::get('/market-orders/{corporation_id}', 'CorporationController@getMarketOrders');
-//                Route::get('/member-security/{corporation_id}', 'CorporationController@getMemberSecurity');
-//                Route::get('/member-security-logs/{corporation_id}', 'CorporationController@getMemberSecurityLogs');
-//                Route::get('/member-security-titles/{corporation_id}', 'CorporationController@getMemberSecurityTitles');
-//                Route::get('/member-tracking/{corporation_id}', 'CorporationController@getMemberTracking');
-//                Route::get('/pocos/{corporation_id}', 'CorporationController@getPocos');
-//                Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');
-//                Route::get('/standings/{corporation_id}', 'CorporationController@getStandings');
-//                Route::get('/starbases/{corporation_id}/{starbase_id?}', 'CorporationController@getStarbases');
-//                Route::get('/wallet-divisions/{corporation_id}', 'CorporationController@getWalletDivisions');
-//                Route::get('/wallet-journal/{corporation_id}', 'CorporationController@getWalletJournal');
-//                Route::get('/wallet-transactions/{corporation_id}', 'CorporationController@getWalletTransactions');
-//            });
+            Route::group(['prefix' => 'corporation'], function () {
+
+                Route::get('/assets/{corporation_id}', 'CorporationController@getAssets');
+                Route::get('/bookmarks/{corporation_id}', 'CorporationController@getBookmarks');
+                Route::get('/contacts/{corporation_id}', 'CorporationController@getContacts');
+                Route::get('/contracts/{corporation_id}', 'CorporationController@getContracts');
+                Route::get('/industry/{corporation_id}', 'CorporationController@getIndustry');
+                Route::get('/killmails/{corporation_id}', 'CorporationController@getKillmails');
+                Route::get('/market-orders/{corporation_id}', 'CorporationController@getMarketOrders');
+                Route::get('/member-tracking/{corporation_id}', 'CorporationController@getMemberTracking');
+                Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');
+                Route::get('/wallet-journal/{corporation_id}', 'CorporationController@getWalletJournal');
+                Route::get('/wallet-transactions/{corporation_id}', 'CorporationController@getWalletTransactions');
+            });
         });
 
     });

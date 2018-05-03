@@ -34,6 +34,7 @@ class AssetResource extends Resource
             'map_id'        => $this->map_id,
             'map_name'      => $this->map_name,
             'name'          => $this->name,
+            'type'          => $this->type,
         ];
     }
 }
