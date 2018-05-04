@@ -59,6 +59,12 @@ Route::group([
         // The version 2 API :D
         Route::group(['namespace' => 'v2', 'prefix' => 'v2'], function () {
 
+            Route::group(['prefix' => 'users'], function () {
+
+                Route::get('/get/{user_id?}', 'UserController@getUsers');
+                Route::get('/groups/{group_id?}', 'UserController@getGroups');
+            });
+
 //            // Define the transfer method before the resource controller
 //            Route::resource('user', 'UserController');
 //
