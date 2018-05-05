@@ -25,9 +25,8 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Seat\Api\Http\Resources\KillmailDetailResource;
 use Seat\Eveapi\Models\Killmails\KillmailDetail;
 
-
 /**
- * Class KillmailsController
+ * Class KillmailsController.
  * @package Seat\Api\Http\Controllers\Api\v2
  */
 class KillmailsController extends ApiController

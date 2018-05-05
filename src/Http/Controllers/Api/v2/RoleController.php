@@ -25,8 +25,6 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Seat\Eveapi\Models\Character\CharacterSheet;
-use Seat\Eveapi\Models\Corporation\CorporationSheet;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 

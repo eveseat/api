@@ -45,9 +45,8 @@ use Seat\Eveapi\Models\Market\CorporationOrder;
 use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
 
-
 /**
- * Class CorporationController
+ * Class CorporationController.
  * @package Seat\Api\Http\Controllers\Api\v2
  */
 class CorporationController extends ApiController
