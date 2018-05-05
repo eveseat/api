@@ -126,7 +126,7 @@ class CharacterController extends ApiController
      *      path="/character/bookmarks/{character_id}",
      *      tags={"Bookmarks"},
      *      summary="Get a paginated list of bookmarks for a character",
-     *      description="Returns list of bookmarks",
+     *      description="Returns a list of bookmarks",
      *      security={"ApiKeyAuth"},
      *      @SWG\Parameter(
      *          name="character_id",

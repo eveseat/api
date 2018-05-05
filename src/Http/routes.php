@@ -65,33 +65,24 @@ Route::group([
                 Route::get('/groups/{group_id?}', 'UserController@getGroups');
             });
 
-//            // Define the transfer method before the resource controller
-//            Route::resource('user', 'UserController');
-//
-//            Route::group(['prefix' => 'role'], function () {
-//
-//                Route::get('/', 'RoleController@getIndex');
-//                Route::get('/detail/{id}', 'RoleController@getDetail');
-//                Route::post('/new', 'RoleController@postNew');
-//                Route::delete('/remove/{role_id}', 'RoleController@deleteRemove');
-//                Route::get('/grant-user-role/{user_id}/{role_id}', 'RoleController@getGrantUserRole');
-//                Route::get('/revoke-user-role/{user_id}/{role_id}', 'RoleController@getRevokeUserRole');
-//                Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
-//                Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
-//            });
+            Route::group(['prefix' => 'roles'], function () {
 
-//            Route::group(['prefix' => 'role/query'], function () {
-//
-//                Route::get('/permissions', 'RoleLookupController@getPermissions');
-//                Route::get('/role-check/{user_identifier}/{role_identifier}', 'RoleLookupController@getRoleCheck');
-//                Route::get('/permission-check/{user_identifier}/{role_identifier}', 'RoleLookupController@getPermissionCheck');
-//            });
-//
-//            Route::group(['prefix' => 'groups'], function () {
-//
-//                Route::get('/', 'GroupsController@getGroups');
-//                Route::get('/{id}', 'GroupsController@getGroupDetail');
-//            });
+                Route::get('/', 'RoleController@getIndex');
+                Route::get('/detail/{role_id}', 'RoleController@getDetail');
+                Route::post('/new', 'RoleController@postNew');
+                Route::delete('/delete/{role_id}', 'RoleController@deleteRole');
+                Route::get('/grant-user-role/{user_id}/{role_id}', 'RoleController@getGrantUserRole');
+                Route::get('/revoke-user-role/{user_id}/{role_id}', 'RoleController@getRevokeUserRole');
+                Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
+                Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
+
+                Route::group(['prefix' => 'query'], function () {
+
+                    Route::get('/permissions', 'RoleLookupController@getPermissions');
+                    Route::get('/role-check/{character_id}/{role_name}', 'RoleLookupController@getRoleCheck');
+                    Route::get('/permission-check/{character_id}/{permission_name}', 'RoleLookupController@getPermissionCheck');
+                });
+            });
 
             Route::group(['prefix' => 'killmails'], function () {
 
