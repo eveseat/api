@@ -40,5 +40,6 @@ return [
     'action'             => 'Action',
     'request_path'       => 'Request Path',
     'source_ip'          => 'Source IP',
+    'api_docs'           => 'API Documenation',
 
 ];

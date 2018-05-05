@@ -7,7 +7,14 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ trans('api::seat.new_token') }}</h3>
+      <h3 class="panel-title">
+        {{ trans('api::seat.new_token') }}
+        <span class="pull-right">
+          <a href="{{ route('l5-swagger.api') }}" target="_blank" class="btn btn-success btn-xs">
+            {{ trans('api::seat.api_docs') }}
+          </a>
+        </span>
+      </h3>
     </div>
     <div class="panel-body">
 
@@ -97,6 +104,9 @@
     </div>
     <div class="panel-footer">
       {{ count($tokens) }} {{ trans_choice('api::seat.token', count($tokens)) }}
+      <span class="pull-right">
+        API Documentation can be found <a href="{{ route('l5-swagger.api') }}">here</a>.
+      </span>
     </div>
   </div>
 
