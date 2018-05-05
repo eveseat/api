@@ -22,7 +22,6 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-
 use Seat\Api\Http\Resources\AssetResource;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;

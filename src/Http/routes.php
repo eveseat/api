@@ -35,16 +35,16 @@ Route::group([
 
             Route::get('/', [
                 'as'   => 'api-admin.list',
-                'uses' => 'ApiAdminController@listTokens',]);
+                'uses' => 'ApiAdminController@listTokens', ]);
             Route::post('/', [
                 'as'   => 'api-admin.token.create',
-                'uses' => 'ApiAdminController@generateToken',]);
+                'uses' => 'ApiAdminController@generateToken', ]);
             Route::get('/logs/{token_id}', [
                 'as'   => 'api-admin.token.logs',
-                'uses' => 'ApiAdminController@showLogs',]);
+                'uses' => 'ApiAdminController@showLogs', ]);
             Route::get('/delete/{token_id}', [
                 'as'   => 'api-admin.token.delete',
-                'uses' => 'ApiAdminController@deleteToken',]);
+                'uses' => 'ApiAdminController@deleteToken', ]);
 
         });
     });

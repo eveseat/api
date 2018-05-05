@@ -73,7 +73,7 @@ class ApiServiceProvider extends ServiceProvider
 
         // SwaggerUI long description.
         config(['l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. ' .
-            'All endpoints require an API key. Keys may be obtained from: ' . route('api-admin.list')]);
+            'All endpoints require an API key. Keys may be obtained from: ' . route('api-admin.list'), ]);
     }
 
     /**
