@@ -36,7 +36,7 @@ class UserController extends Controller
 {
     /**
      * @SWG\Get(
-     *      path="/users/get",
+     *      path="/users",
      *      tags={"Users"},
      *      summary="Get a list of users, associated character id's and group ids",
      *      description="Returns list of users",
@@ -47,7 +47,7 @@ class UserController extends Controller
      *     )
      *
      * @SWG\Get(
-     *      path="/users/get/{user_id}",
+     *      path="/users/{user_id}",
      *      tags={"Users"},
      *      summary="Get group id's and assosciated character_id's for a user",
      *      description="Returns a user",

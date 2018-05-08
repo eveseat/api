@@ -61,7 +61,7 @@ Route::group([
 
             Route::group(['prefix' => 'users'], function () {
 
-                Route::get('/get/{user_id?}', 'UserController@getUsers');
+                Route::get('/{user_id?}', 'UserController@getUsers')->where(['user_id' => '[0-9]+']);
                 Route::get('/groups/{group_id?}', 'UserController@getGroups');
             });
 
