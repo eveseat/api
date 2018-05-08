@@ -307,7 +307,7 @@ class RoleController extends Controller
     public function getGrantUserRole($user_id, $role_id)
     {
 
-        $this->giveUserRole($user_id, $role_id);
+        $this->giveGroupRole($user_id, $role_id);
 
         return response()->json(true);
 
