@@ -90,7 +90,7 @@ class UserController extends Controller
      *     )
      *
      * @SWG\Get(
-     *      path="/users/get/{group_id}",
+     *      path="/users/groups/{group_id}",
      *      tags={"Users"},
      *      summary="Get a group with its associated character_id's",
      *      description="Returns a group",
