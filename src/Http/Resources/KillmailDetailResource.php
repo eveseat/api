@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015, 2016, 2017  Leon Jacobs
+ * Copyright (C) 2015, 2016, 2017, 2018  Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,39 +20,34 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Http\Controllers\Api\v1;
+namespace Seat\Api\Http\Resources;
 
-use Illuminate\Routing\Controller;
-use Seat\Web\Models\Person;
+use Illuminate\Http\Resources\Json\Resource;
 
 /**
- * Class GroupsController.
- * @package Seat\Api\Http\Controllers\Api\v1
+ * Class KillmailDetailResource.
+ * @package Seat\Api\Http\Resources
  */
-class GroupsController extends Controller
+class KillmailDetailResource extends Resource
 {
     /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getGroups()
-    {
-
-        $people = Person::all();
-
-        return response()->json($people);
-    }
-
-    /**
-     * @param int $id
+     * Transform the resource into an array.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return array
      */
-    public function getGroupDetail(int $id)
+    public function toArray($request)
     {
 
-        $detail = Person::with('members', 'members.characters')
-            ->find($id);
+        return [
 
-        return response()->json($detail);
+            'killmail_time'   => $this->killmail_time,
+            'solar_system_id' => $this->solar_system_id,
+            'moon_id'         => $this->moon_id,
+            'war_id'          => $this->war_id,
+            'attackers'       => $this->attackers,
+            'victims'         => $this->victims,
+        ];
     }
 }

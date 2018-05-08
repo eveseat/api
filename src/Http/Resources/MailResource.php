@@ -20,35 +20,40 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Validation;
+namespace Seat\Api\Http\Resources;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Resources\Json\Resource;
 
-class UpdateUser extends FormRequest
+/**
+ * Class MailResource.
+ * @package Seat\Api\Http\Resources
+ */
+class MailResource extends Resource
 {
     /**
-     * Authorize the request by default.
+     * Transform the resource into an array.
      *
-     * @return bool
-     */
-    public function authorize()
-    {
-
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
+     * @param  \Illuminate\Http\Request $request
      *
      * @return array
      */
-    public function rules()
+    public function toArray($request)
     {
 
         return [
-            'username' => 'max:255|unique:users,name',
-            'email'    => 'email|unique:users,email',
-            'password' => 'min:6',
+            'mail_id'    => $this->mail_id,
+            'subject'    => $this->subject,
+            'from'       => $this->from,
+            'timestamp'  => $this->timestamp,
+            'is_read'    => $this->is_read,
+            'body'       => $this->body->body,
+            'recipients' => $this->recipients->map(function ($recipient) {
+
+                return [
+                    'recipient_id'   => $recipient->recipient_id,
+                    'recipient_type' => $recipient->recipient_type,
+                ];
+            }),
         ];
     }
 }

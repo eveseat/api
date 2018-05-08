@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015, 2016, 2017  Leon Jacobs
+ * Copyright (C) 2015, 2016, 2017, 2018  Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,97 +56,70 @@ Route::group([
         'prefix'     => 'api',
     ], function () {
 
-        // The version 1 API! :D
-        Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
+        // The version 2 API :D
+        Route::group(['namespace' => 'v2', 'prefix' => 'v2'], function () {
 
-            // Define the transfer method before the resource controller
-            Route::get('key/transfer/{key_id}/{user_id}', 'ApiKeyController@transfer');
-            Route::resource('key', 'ApiKeyController');
-            Route::resource('user', 'UserController');
+            Route::group(['prefix' => 'users'], function () {
 
-            // `Route::controller` Macros were removed in 5.3. Sad.
-            Route::group(['prefix' => 'user/auth'], function () {
-
-                Route::post('login', 'AuthenticationController@postLogin');
+                Route::get('/get/{user_id?}', 'UserController@getUsers');
+                Route::get('/groups/{group_id?}', 'UserController@getGroups');
             });
 
-            Route::group(['prefix' => 'role'], function () {
+            Route::group(['prefix' => 'roles'], function () {
 
                 Route::get('/', 'RoleController@getIndex');
-                Route::get('/detail/{id}', 'RoleController@getDetail');
+                Route::get('/detail/{role_id}', 'RoleController@getDetail');
                 Route::post('/new', 'RoleController@postNew');
-                Route::delete('/remove/{role_id}', 'RoleController@deleteRemove');
+                Route::delete('/delete/{role_id}', 'RoleController@deleteRole');
                 Route::get('/grant-user-role/{user_id}/{role_id}', 'RoleController@getGrantUserRole');
                 Route::get('/revoke-user-role/{user_id}/{role_id}', 'RoleController@getRevokeUserRole');
                 Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
                 Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
+
+                Route::group(['prefix' => 'query'], function () {
+
+                    Route::get('/permissions', 'RoleLookupController@getPermissions');
+                    Route::get('/role-check/{character_id}/{role_name}', 'RoleLookupController@getRoleCheck');
+                    Route::get('/permission-check/{character_id}/{permission_name}', 'RoleLookupController@getPermissionCheck');
+                });
             });
 
-            Route::group(['prefix' => 'role/query'], function () {
+            Route::group(['prefix' => 'killmails'], function () {
 
-                Route::get('/permissions', 'RoleLookupController@getPermissions');
-                Route::get('/role-check/{user_identifier}/{role_identifier}', 'RoleLookupController@getRoleCheck');
-                Route::get('/permission-check/{user_identifier}/{role_identifier}', 'RoleLookupController@getPermissionCheck');
-            });
-
-            Route::group(['prefix' => 'groups'], function () {
-
-                Route::get('/', 'GroupsController@getGroups');
-                Route::get('/{id}', 'GroupsController@getGroupDetail');
+                Route::get('/detail/{killmail_id}', 'KillmailsController@getDetail');
             });
 
             Route::group(['prefix' => 'character'], function () {
 
-                Route::get('/assets/{character_id}', 'CharacterController@getAssets');
+                Route::get('/assets/{character_id}/{item_id?}', 'CharacterController@getAssets');
                 Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
-                Route::get('/channels/{character_id}', 'CharacterController@getChannels');
                 Route::get('/contacts/{character_id}', 'CharacterController@getContacts');
-                Route::get('/info/{character_id}', 'CharacterController@getInfo');
                 Route::get('/industry/{character_id}', 'CharacterController@getIndustry');
-                Route::get('/killmails/{character_id}', 'CharacterController@getKillmails');
+                Route::get('/killmails/{character_id}/{killmail_id?}', 'CharacterController@getKillmails');
                 Route::get('/market-orders/{character_id}', 'CharacterController@getMarketOrders');
                 Route::get('/contracts/{character_id}', 'CharacterController@getContracts');
                 Route::get('/sheet/{character_id}', 'CharacterController@getSheet');
                 Route::get('/skills/{character_id}', 'CharacterController@getSkills');
-                Route::get('/skill-in-training/{character_id}', 'CharacterController@getSkillInTraining');
                 Route::get('/skill-queue/{character_id}', 'CharacterController@getSkillQueue');
                 Route::get('/wallet-journal/{character_id}', 'CharacterController@getWalletJournal');
                 Route::get('/wallet-transactions/{character_id}', 'CharacterController@getWalletTransactions');
-                Route::get('/employment-history/{character_id}', 'CharacterController@getEmploymentHistory');
-                Route::get('/implants/{character_id}', 'CharacterController@getImplants');
+                Route::get('/corporation-history/{character_id}', 'CharacterController@getCorporationHistory');
                 Route::get('/jump-clones/{character_id}', 'CharacterController@getJumpClones');
-                Route::get('/account-info/{character_id}', 'CharacterController@getAccountInfo');
                 Route::get('/mail/{character_id}', 'CharacterController@getMail');
                 Route::get('/notifications/{character_id}', 'CharacterController@getNotifications');
-                Route::get('/pi/{character_id}', 'CharacterController@getPi');
-                Route::get('/standings/{character_id}', 'CharacterController@getStandings');
-                Route::get('/research/{character_id}', 'CharacterController@getResearch');
-                Route::get('/calendar/{character_id}', 'CharacterController@getCalendar');
             });
 
             Route::group(['prefix' => 'corporation'], function () {
 
-                Route::get('/all', 'CorporationController@getAll');
                 Route::get('/assets/{corporation_id}', 'CorporationController@getAssets');
-                Route::get('/assets-by-location/{corporation_id}', 'CorporationController@getAssetsByLocation');
-                Route::get('/assets-contents/{corporation_id}/{parent_asset_id?}/{parent_item_id?}',
-                    'CorporationController@getAssetsByLocation');
                 Route::get('/bookmarks/{corporation_id}', 'CorporationController@getBookmarks');
                 Route::get('/contacts/{corporation_id}', 'CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}', 'CorporationController@getContracts');
-                Route::get('/divisions/{corporation_id}', 'CorporationController@getDivisions');
                 Route::get('/industry/{corporation_id}', 'CorporationController@getIndustry');
                 Route::get('/killmails/{corporation_id}', 'CorporationController@getKillmails');
                 Route::get('/market-orders/{corporation_id}', 'CorporationController@getMarketOrders');
-                Route::get('/member-security/{corporation_id}', 'CorporationController@getMemberSecurity');
-                Route::get('/member-security-logs/{corporation_id}', 'CorporationController@getMemberSecurityLogs');
-                Route::get('/member-security-titles/{corporation_id}', 'CorporationController@getMemberSecurityTitles');
                 Route::get('/member-tracking/{corporation_id}', 'CorporationController@getMemberTracking');
-                Route::get('/pocos/{corporation_id}', 'CorporationController@getPocos');
                 Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');
-                Route::get('/standings/{corporation_id}', 'CorporationController@getStandings');
-                Route::get('/starbases/{corporation_id}/{starbase_id?}', 'CorporationController@getStarbases');
-                Route::get('/wallet-divisions/{corporation_id}', 'CorporationController@getWalletDivisions');
                 Route::get('/wallet-journal/{corporation_id}', 'CorporationController@getWalletJournal');
                 Route::get('/wallet-transactions/{corporation_id}', 'CorporationController@getWalletTransactions');
             });

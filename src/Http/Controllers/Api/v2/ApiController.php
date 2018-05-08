@@ -20,35 +20,41 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Validation;
+namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-class UpdateUser extends FormRequest
+/**
+ * @SWG\Swagger(
+ *     basePath="/api/v2",
+ *     schemes={"http", "https"},
+ *     host=L5_SWAGGER_CONST_HOST,
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     @SWG\Info(
+ *         version="2.0.0",
+ *         title="SeAT API",
+ *         description=L5_SWAGGER_DESCRIPTION,
+ *     )
+ * )
+ */
+
+/**
+ * @SWG\SecurityScheme(
+ *   securityDefinition="ApiKeyAuth",
+ *   type="apiKey",
+ *   description="Authentication token generated from the SeAT Web UI",
+ *   name="X-Token",
+ *   in="header"
+ * )
+ */
+
+/**
+ * Class ApiController.
+ * @package Seat\Api\v2
+ */
+class ApiController extends BaseController
 {
-    /**
-     * Authorize the request by default.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-
-        return [
-            'username' => 'max:255|unique:users,name',
-            'email'    => 'email|unique:users,email',
-            'password' => 'min:6',
-        ];
-    }
+    use ValidatesRequests;
 }

@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015, 2016, 2017  Leon Jacobs
+ * Copyright (C) 2015, 2016, 2017, 2018  Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,32 +20,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Http\Controllers\Api\v1;
+namespace Seat\Api\Http\Resources;
 
-use Auth;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Resources\Json\Resource;
 
 /**
- * Class AuthenticationController.
- * @package Seat\Api\Http\Controllers\Api\v1
+ * Class ContractResource.
+ * @package Seat\Api\Http\Resources
  */
-class AuthenticationController extends Controller
+class ContractResource extends Resource
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * Transform the resource into an array.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return array
      */
-    public function postLogin(Request $request)
+    public function toArray($request)
     {
 
-        $resp = Auth::validate([
-            'name'     => $request->username,
-            'password' => $request->password,
-        ]);
-
-        return response()->json($resp);
-
+        return [
+            'contract_id' => $this->contract_id,
+            'detail'      => $this->detail,
+        ];
     }
 }

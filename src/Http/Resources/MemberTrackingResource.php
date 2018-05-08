@@ -20,35 +20,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Validation;
+namespace Seat\Api\Http\Resources;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Resources\Json\Resource;
 
-class UpdateUser extends FormRequest
+/**
+ * Class MemberTrackingResource.
+ * @package Seat\Api\Http\Resources
+ */
+class MemberTrackingResource extends Resource
 {
     /**
-     * Authorize the request by default.
+     * Transform the resource into an array.
      *
-     * @return bool
-     */
-    public function authorize()
-    {
-
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
+     * @param  \Illuminate\Http\Request $request
      *
      * @return array
      */
-    public function rules()
+    public function toArray($request)
     {
 
         return [
-            'username' => 'max:255|unique:users,name',
-            'email'    => 'email|unique:users,email',
-            'password' => 'min:6',
+            'character_id' => $this->character_id,
+            'start_date'   => $this->start_date,
+            'base_id'      => $this->base_id,
+            'logon_date'   => $this->logon_date,
+            'logoff_date'  => $this->logoff_date,
+            'location_id'  => $this->location_id,
+            'ship_type_id' => $this->ship_type_id,
+            'ship_type'    => $this->type,
         ];
     }
 }
