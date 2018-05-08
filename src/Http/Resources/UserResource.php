@@ -49,10 +49,7 @@ class UserResource extends Resource
             'character_owner_hash'     => $this->character_owner_hash,
             'last_login'               => $this->last_login,
             'last_login_source'        => $this->last_login_source,
-            'group_ids'                => $this->groups->map(function ($group) {
-
-                return $group->id;
-            }),
+            'group_id'                 => $this->group->id,
             'associated_character_ids' => $this->associatedCharacterIds(),
         ];
     }
