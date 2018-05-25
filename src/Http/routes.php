@@ -56,13 +56,14 @@ Route::group([
         'prefix'     => 'api',
     ], function () {
 
-        // The version 2 API :D
+        // The version 2 API :D 
         Route::group(['namespace' => 'v2', 'prefix' => 'v2'], function () {
 
             Route::group(['prefix' => 'users'], function () {
 
                 Route::get('/{user_id?}', 'UserController@getUsers')->where(['user_id' => '[0-9]+']);
                 Route::get('/groups/{group_id?}', 'UserController@getGroups');
+                Route::post('/new', 'UserController@postNew');
             });
 
             Route::group(['prefix' => 'roles'], function () {
