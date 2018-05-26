@@ -127,43 +127,57 @@ class UserController extends Controller
     * @SWG\Post(
     *      path="/users/new",
     *      tags={"Users"},
-    *      summary="Create a New user",
-    *      description="Creates a New Users and refreshToken",
+    *      summary="Create or update a user",
+    *      description="Creates or Updates Users and refreshTokens",
     *      security={"ApiKeyAuth"},
     *      @SWG\Parameter(
     *          name="user_id",
-    *          description="User id",
+    *          description="Eve Online Character ID",
     *          required=true,
-    *          type="integer",
-    *          in="path"
+    *          in="body",
+    *          @SWG\Schema(type="integer")
     *      ),
     *     @SWG\Parameter(
     *          name="group_id",
-    *          description="Group id",
-    *          required=true,
-    *          type="integer",
-    *          in="path"
+    *          description="Group id. If ommited a new group is created",
+    *          required=false,
+    *          in="body",
+    *          @SWG\Schema(type="integer")
     *      ),
     *     @SWG\Parameter(
     *          name="name",
-    *          description="Character Name",
+    *          description="Eve Online Character Name",
     *          required=true,
-    *          type="string",
-    *          in="path"
+    *          in="body",
+    *          @SWG\Schema(type="string")
+    *      ),
+    *     @SWG\Parameter(
+    *          name="active",
+    *          description="Seat Account Active. Default True",
+    *          required=false,
+    *          in="body",
+    *          @SWG\Schema(type="boolean")
     *      ),
     *     @SWG\Parameter(
     *          name="hash",
     *          description="Character Owner Hash",
     *          required=true,
-    *          type="string",
-    *          in="path"
+    *          in="body",
+    *          @SWG\Schema(type="string")
     *      ),
     *     @SWG\Parameter(
     *          name="refresh_token",
-    *          description="A Valid Refresh Token",
+    *          description="A valid Refresh Token",
     *          required=true,
-    *          type="string",
-    *          in="path"
+    *          in="body",
+    *          @SWG\Schema(type="string")
+    *      ),
+    *     @SWG\Parameter(
+    *          name="scopes",
+    *          description="ESI Scopes for refreshToken. Defaults to Seat Scopes",
+    *          required=false,
+    *          in="body",
+    *          @SWG\Schema(type="json")
     *      ),
     *      @SWG\Response(response=200, description="Successful operation"),
     *      @SWG\Response(response=400, description="Bad request"),
@@ -177,36 +191,48 @@ class UserController extends Controller
 
     public function postNew(Request $request)
     {
+        
         $id         = $request->input('id');
         $group_id   = $request->input('group_id');
         $name       = $request->input('name');
-        $active     = true;
+        $active     = $request->input('active');
         $hash       = $request->input('hash');
-
-        $user = User::forceCreate([  // id is not fillable
-            'id'                   => $id,
-            'group_id'             => $group_id,
-            'name'                 => $name,
-            'active'               => true,
-            'character_owner_hash' => $hash,
-        ]);
+        $new        = false;
+                            
+        if (is_null($user=User::find($id))){
+            $user = User::forceCreate([  // id is not fillable
+                'id'                   => $id,
+                'group_id'             => is_null($group_id) ? Group::create()->id : $group_id,
+                'name'                 => $name,
+                'active'               => is_null($active) ? true : $active,
+                'character_owner_hash' => $hash,
+            ]);
+            $new = true;
+        }
+        else{
+            $user->group_id             = is_null($group_id) ? Group::create()->id : $group_id;
+            $user->name                 = $name;
+            $user->active               = true;
+            $user->character_owner_hash = $hash;
+            $user->save();
+        };
 
 
         $character_id   = $request->input('id');
         $refresh_token  = $request->input('refresh_token');
-        $scopes         = setting('sso_scopes', true);
+        $scopes         = $request->input('scopes');
         $expires_on     = '1980-01-01 00:00:00';
         $token          = '-';
 
-        DebugBreak();
+
         $userRefreshToken = RefreshToken::firstorCreate(
             ['character_id' => $character_id],
             ['refresh_token'=> $refresh_token,
-            'scopes'=>$scopes,
-            'expires_on'=>$expires_on,
-            'token'=>$token]
+                'scopes'=> is_null($scopes) ? setting('sso_scopes', true) : $scopes,
+                'expires_on'=>$expires_on,
+                'token'=>$token]
         );
 
-        return response()->json(['id' => $user->id]);
+        return response()->json(['OK'=>true, 'new'=>$new, 'group_id'=>$user->group_id, 'scopes'=>$userRefreshToken->scopes]);
     }
 }
