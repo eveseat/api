@@ -22,54 +22,54 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Seat\Api\Http\Resources\GroupResource;
 use Seat\Api\Http\Resources\UserResource;
+use Seat\Eveapi\Models\RefreshToken;
 use Seat\Web\Models\Group;
 use Seat\Web\Models\User;
-use Seat\Eveapi\Models\RefreshToken;
-use Illuminate\Http\Request;
 
 /**
-* Class UserController.
-* @package Seat\Api\Http\Controllers\Api\v2
-*/
+ * Class UserController.
+ * @package Seat\Api\Http\Controllers\Api\v2
+ */
 class UserController extends Controller
 {
     /**
-    * @SWG\Get(
-    *      path="/users",
-    *      tags={"Users"},
-    *      summary="Get a list of users, associated character id's and group ids",
-    *      description="Returns list of users",
-    *      security={"ApiKeyAuth"},
-    *      @SWG\Response(response=200, description="Successful operation"),
-    *      @SWG\Response(response=400, description="Bad request"),
-    *      @SWG\Response(response=401, description="Unauthorized"),
-    *     )
-    *
-    * @SWG\Get(
-    *      path="/users/{user_id}",
-    *      tags={"Users"},
-    *      summary="Get group id's and assosciated character_id's for a user",
-    *      description="Returns a user",
-    *      security={"ApiKeyAuth"},
-    *      @SWG\Parameter(
-    *          name="user_id",
-    *          description="User id",
-    *          required=true,
-    *          type="integer",
-    *          in="path"
-    *      ),
-    *      @SWG\Response(response=200, description="Successful operation"),
-    *      @SWG\Response(response=400, description="Bad request"),
-    *      @SWG\Response(response=401, description="Unauthorized"),
-    *     )
-    *
-    * @param null $user_id
-    *
-    * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    */
+     * @SWG\Get(
+     *      path="/users",
+     *      tags={"Users"},
+     *      summary="Get a list of users, associated character id's and group ids",
+     *      description="Returns list of users",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @SWG\Get(
+     *      path="/users/{user_id}",
+     *      tags={"Users"},
+     *      summary="Get group id's and assosciated character_id's for a user",
+     *      description="Returns a user",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          description="User id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param null $user_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getUsers($user_id = null)
     {
 
@@ -80,39 +80,39 @@ class UserController extends Controller
     }
 
     /**
-    * @SWG\Get(
-    *      path="/users/groups",
-    *      tags={"Users"},
-    *      summary="Get a list of groups with their associated character_id's",
-    *      description="Returns list of groups",
-    *      security={"ApiKeyAuth"},
-    *      @SWG\Response(response=200, description="Successful operation"),
-    *      @SWG\Response(response=400, description="Bad request"),
-    *      @SWG\Response(response=401, description="Unauthorized"),
-    *     )
-    *
-    * @SWG\Get(
-    *      path="/users/groups/{group_id}",
-    *      tags={"Users"},
-    *      summary="Get a group with its associated character_id's",
-    *      description="Returns a group",
-    *      security={"ApiKeyAuth"},
-    *      @SWG\Parameter(
-    *          name="group_id",
-    *          description="Group id",
-    *          required=true,
-    *          type="integer",
-    *          in="path"
-    *      ),
-    *      @SWG\Response(response=200, description="Successful operation"),
-    *      @SWG\Response(response=400, description="Bad request"),
-    *      @SWG\Response(response=401, description="Unauthorized"),
-    *     )
-    *
-    * @param null $group_id
-    *
-    * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    */
+     * @SWG\Get(
+     *      path="/users/groups",
+     *      tags={"Users"},
+     *      summary="Get a list of groups with their associated character_id's",
+     *      description="Returns list of groups",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @SWG\Get(
+     *      path="/users/groups/{group_id}",
+     *      tags={"Users"},
+     *      summary="Get a group with its associated character_id's",
+     *      description="Returns a group",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="group_id",
+     *          description="Group id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param null $group_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getGroups($group_id = null)
     {
 
@@ -123,83 +123,81 @@ class UserController extends Controller
     }
 
     /**
-    *
-    * @SWG\Post(
-    *      path="/users/new",
-    *      tags={"Users"},
-    *      summary="Create or update a user",
-    *      description="Creates or Updates Users and refreshTokens",
-    *      security={"ApiKeyAuth"},
-    *      @SWG\Parameter(
-    *          name="user_id",
-    *          description="Eve Online Character ID",
-    *          required=true,
-    *          in="body",
-    *          @SWG\Schema(type="integer")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="group_id",
-    *          description="Group id. If ommited a new group is created",
-    *          required=false,
-    *          in="body",
-    *          @SWG\Schema(type="integer")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="name",
-    *          description="Eve Online Character Name",
-    *          required=true,
-    *          in="body",
-    *          @SWG\Schema(type="string")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="active",
-    *          description="Seat Account Active. Default True",
-    *          required=false,
-    *          in="body",
-    *          @SWG\Schema(type="boolean")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="hash",
-    *          description="Character Owner Hash",
-    *          required=true,
-    *          in="body",
-    *          @SWG\Schema(type="string")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="refresh_token",
-    *          description="A valid Refresh Token",
-    *          required=true,
-    *          in="body",
-    *          @SWG\Schema(type="string")
-    *      ),
-    *     @SWG\Parameter(
-    *          name="scopes",
-    *          description="ESI Scopes for refreshToken. Defaults to Seat Scopes",
-    *          required=false,
-    *          in="body",
-    *          @SWG\Schema(type="json")
-    *      ),
-    *      @SWG\Response(response=200, description="Successful operation"),
-    *      @SWG\Response(response=400, description="Bad request"),
-    *      @SWG\Response(response=401, description="Unauthorized"),
-    *     )
-    *
-    * @param null $user_id
-    *
-    * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    */
-
+     * @SWG\Post(
+     *      path="/users/new",
+     *      tags={"Users"},
+     *      summary="Create or update a user",
+     *      description="Creates or Updates Users and refreshTokens",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          description="Eve Online Character ID",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="integer")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="group_id",
+     *          description="Group id. If ommited a new group is created",
+     *          required=false,
+     *          in="body",
+     *          @SWG\Schema(type="integer")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="name",
+     *          description="Eve Online Character Name",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="active",
+     *          description="Seat Account Active. Default True",
+     *          required=false,
+     *          in="body",
+     *          @SWG\Schema(type="boolean")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="hash",
+     *          description="Character Owner Hash",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="refresh_token",
+     *          description="A valid Refresh Token",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="scopes",
+     *          description="ESI Scopes for refreshToken. Defaults to Seat Scopes",
+     *          required=false,
+     *          in="body",
+     *          @SWG\Schema(type="json")
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param null $user_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function postNew(Request $request)
     {
-        
-        $id         = $request->input('id');
-        $group_id   = $request->input('group_id');
-        $name       = $request->input('name');
-        $active     = $request->input('active');
-        $hash       = $request->input('hash');
-        $new        = false;
-                            
-        if (is_null($user=User::find($id))){
+
+        $id = $request->input('id');
+        $group_id = $request->input('group_id');
+        $name = $request->input('name');
+        $active = $request->input('active');
+        $hash = $request->input('hash');
+        $new = false;
+
+        if (is_null($user = User::find($id))){
             $user = User::forceCreate([  // id is not fillable
                 'id'                   => $id,
                 'group_id'             => is_null($group_id) ? Group::create()->id : $group_id,
@@ -210,27 +208,25 @@ class UserController extends Controller
             $new = true;
         }
         else{
-            $user->group_id             = is_null($group_id) ? Group::create()->id : $group_id;
-            $user->name                 = $name;
-            $user->active               = true;
+            $user->group_id = is_null($group_id) ? Group::create()->id : $group_id;
+            $user->name = $name;
+            $user->active = true;
             $user->character_owner_hash = $hash;
             $user->save();
-        };
+        }
 
-
-        $character_id   = $request->input('id');
-        $refresh_token  = $request->input('refresh_token');
-        $scopes         = $request->input('scopes');
-        $expires_on     = '1980-01-01 00:00:00';
-        $token          = '-';
-
+        $character_id = $request->input('id');
+        $refresh_token = $request->input('refresh_token');
+        $scopes = $request->input('scopes');
+        $expires_on = '1980-01-01 00:00:00';
+        $token = '-';
 
         $userRefreshToken = RefreshToken::firstorCreate(
             ['character_id' => $character_id],
             ['refresh_token'=> $refresh_token,
                 'scopes'=> is_null($scopes) ? setting('sso_scopes', true) : $scopes,
                 'expires_on'=>$expires_on,
-                'token'=>$token]
+                'token'=>$token, ]
         );
 
         return response()->json(['OK'=>true, 'new'=>$new, 'group_id'=>$user->group_id, 'scopes'=>$userRefreshToken->scopes]);

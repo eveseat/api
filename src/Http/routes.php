@@ -56,7 +56,7 @@ Route::group([
         'prefix'     => 'api',
     ], function () {
 
-        // The version 2 API :D 
+        // The version 2 API :D
         Route::group(['namespace' => 'v2', 'prefix' => 'v2'], function () {
 
             Route::group(['prefix' => 'users'], function () {
