@@ -24,7 +24,7 @@ namespace Seat\Api\Http\Controllers\Admin;
 
 use Seat\Api\Models\ApiToken;
 use Seat\Api\Models\ApiTokenLog;
-use Seat\Api\Validation\NewToken;
+use Seat\Api\Http\Validation\NewToken;
 use Seat\Web\Http\Controllers\Controller;
 
 /**
@@ -45,7 +45,7 @@ class ApiAdminController extends Controller
     }
 
     /**
-     * @param \Seat\Api\Validation\NewToken $request
+     * @param \Seat\Api\Http\Validation\NewToken $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
