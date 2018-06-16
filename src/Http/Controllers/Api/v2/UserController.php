@@ -25,6 +25,8 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Routing\Controller;
 use Seat\Api\Http\Resources\GroupResource;
 use Seat\Api\Http\Resources\UserResource;
+use Seat\Api\Http\Validation\NewUser;
+use Seat\Eveapi\Models\RefreshToken;
 use Seat\Web\Models\Group;
 use Seat\Web\Models\User;
 
@@ -118,5 +120,151 @@ class UserController extends Controller
             return new GroupResource(Group::findOrFail($group_id));
 
         return GroupResource::collection(Group::all());
+    }
+
+    /**
+     * @SWG\Get(
+     *      path="/users/configured-scopes",
+     *      tags={"Users"},
+     *      summary="Get a list of the scopes configured for this instance",
+     *      description="Returns list of scopes",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Seat\Services\Exceptions\SettingException
+     */
+    public function getConfiguredScopes()
+    {
+
+        return response()
+            ->json(setting('sso_scopes', true));
+    }
+
+    /**
+     * @SWG\Post(
+     *      path="/users/",
+     *      tags={"Users"},
+     *      summary="Create a new SeAT user",
+     *      description="Creates a new SeAT user",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          description="Eve Online Character ID",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="integer")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="group_id",
+     *          description="The SeAT group id. If ommited, a new group will be created",
+     *          required=false,
+     *          in="body",
+     *          @SWG\Schema(type="integer")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="name",
+     *          description="Eve Online Character Name",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="active",
+     *          description="Set the SeAT account state. Default is true",
+     *          required=false,
+     *          in="body",
+     *          @SWG\Schema(type="boolean")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="character_owner_hash",
+     *          description="Eve Online account character hash",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="refresh_token",
+     *          description="A refresh token for the account",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(type="string")
+     *      ),
+     *     @SWG\Parameter(
+     *          name="scopes",
+     *          description="ESI scopes as array that are valid for the refresh token",
+     *          required=true,
+     *          in="body",
+     *          @SWG\Schema(
+     *              type="array",
+     *              @SWG\Items(type="string")
+     *          )
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param \Seat\Api\Http\Validation\NewUser $request
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function postNewUser(NewUser $request)
+    {
+
+        $user = User::forceCreate([  // Only because I don't want to set id as fillable
+            'id'                   => $request->get('user_id'),
+            'group_id'             => $request->get('group_id') ?? Group::create()->id,
+            'name'                 => $request->get('name'),
+            'active'               => $request->get('active') ?? true,
+            'character_owner_hash' => $request->get('character_owner_hash'),
+        ])->refresh_token()->save(new RefreshToken([
+            'refresh_token' => $request->get('refresh_token'),
+            'scopes'        => $request->get('scopes'),
+            'token'         => '-',
+            'expires_on'    => carbon('now'),
+        ]));
+
+        // Log the new account creation
+        event('security.log', [
+            'Created a new account for ' . $request->get('name') . ' via an API call.',
+            'authentication',
+        ]);
+
+        return response()->json($user);
+    }
+
+    /**
+     * @SWG\Delete(
+     *      path="/users/{user_id}",
+     *      tags={"Users"},
+     *      summary="Delete a SeAT user",
+     *      description="Deletes a user",
+     *      security={"ApiKeyAuth"},
+     *      @SWG\Parameter(
+     *          name="user_id",
+     *          description="A SeAT user id",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $user_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteUser(int $user_id)
+    {
+
+        User::findOrFail($user_id)->delete();
+
+        return response()->json();
     }
 }

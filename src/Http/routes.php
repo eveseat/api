@@ -61,8 +61,13 @@ Route::group([
 
             Route::group(['prefix' => 'users'], function () {
 
+                Route::post('/', 'UserController@postNewUser');
+                Route::delete('/{user_id}', 'UserController@deleteUser');
+
                 Route::get('/{user_id?}', 'UserController@getUsers')->where(['user_id' => '[0-9]+']);
                 Route::get('/groups/{group_id?}', 'UserController@getGroups');
+
+                Route::get('/configured-scopes', 'UserController@getConfiguredScopes');
             });
 
             Route::group(['prefix' => 'roles'], function () {
