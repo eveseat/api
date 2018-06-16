@@ -25,7 +25,7 @@ namespace Seat\Api\Http\Validation;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class NewUser
+ * Class NewUser.
  * @package Seat\Api\Http\Validation
  */
 class NewUser extends FormRequest
