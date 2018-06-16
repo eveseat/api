@@ -51,6 +51,7 @@ class UserResource extends Resource
             'last_login_source'        => $this->last_login_source,
             'group_id'                 => $this->group->id,
             'associated_character_ids' => $this->associatedCharacterIds(),
+            'token'                    => $this->refresh_token,
         ];
     }
 }
