@@ -22,9 +22,9 @@
 
 namespace Seat\Api\Http\Controllers\Admin;
 
+use Seat\Api\Http\Validation\NewToken;
 use Seat\Api\Models\ApiToken;
 use Seat\Api\Models\ApiTokenLog;
-use Seat\Api\Http\Validation\NewToken;
 use Seat\Web\Http\Controllers\Controller;
 
 /**
