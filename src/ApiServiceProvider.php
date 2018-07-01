@@ -65,7 +65,19 @@ class ApiServiceProvider extends ServiceProvider
 
         // Tell L5-swagger where to find annotations. These form
         // part of the controllers themselves.
-        config(['l5-swagger.paths.annotations' => __DIR__ . '/Http/Controllers/Api/v2']);
+
+        // ensure current annotations setting is an array of path or transform into it
+        $current_annotations = config('l5-swagger.paths.annotations');
+        if (! is_array($current_annotations))
+            $current_annotations = [$current_annotations];
+
+        // merge paths together and update config
+        config([
+            'l5-swagger.paths.annotations' => array_unique(array_merge($current_annotations, [
+                __DIR__ . '/Http/Controllers/Api/v2',
+            ])),
+        ]);
+
         config(['l5-swagger.swagger_version' => '3.0']);
 
         // Use base host configured in the .env file for the swagger host.
