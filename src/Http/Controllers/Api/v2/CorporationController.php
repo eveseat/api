@@ -274,7 +274,15 @@ class CorporationController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#definitions/CorporationMemberTracking"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -304,7 +312,15 @@ class CorporationController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#definitions/CorporationInfo"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
