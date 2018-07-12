@@ -38,7 +38,21 @@ class RoleLookupController extends Controller
      *      summary="Get the available SeAT permissions",
      *      description="Returns a list of permissions",
      *      security={"ApiKeyAuth"},
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              description="Permissions list",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="scope",
+     *                  description="Permissions for the given scope where field name is scope",
+     *                  @SWG\Items(
+     *                      type="string",
+     *                      description="Permission"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
