@@ -42,30 +42,13 @@ class MarketOrderResource extends Resource
     public function toArray($request)
     {
 
-        $definition = [
-            'order_id'          => $this->order_id,
-            'type_id'           => $this->type_id,
-            'region_id'         => $this->region_id,
-            'location_id'       => $this->location_id,
-            'range'             => $this->range,
-            'is_buy_order'      => $this->is_buy_order,
-            'price'             => $this->price,
-            'volume_total'      => $this->volume_total,
-            'volume_remain'     => $this->volume_remain,
-            'issued'            => $this->issued,
-            'min_volume'        => $this->min_volume,
-            'duration'          => $this->duration,
-            'escrow'            => $this->escrow,
-        ];
+        $definition = parent::toArray($request);
 
         if ($this->resource instanceof CorporationOrder)
-            $definition['wallet_division'] = $this->wallet_division;
+            array_forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterOrder)
-            $definition['is_corporation'] = $this->is_corporation;
-
-        $definition = array_add($definition, 'created_at', $this->created_at);
-        $definition = array_add($definition, 'updated_at', $this->updated_at);
+            array_forget($definition, 'character_id');
 
         return $definition;
     }
