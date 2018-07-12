@@ -42,7 +42,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Get a list of users, associated character id's and group ids",
      *      description="Returns list of users",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Response(response=200, description="Successful operation"),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
@@ -53,7 +55,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Get group id's and assosciated character_id's for a user",
      *      description="Returns a user",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="user_id",
      *          description="User id",
@@ -85,7 +89,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Get a list of groups with their associated character_id's",
      *      description="Returns list of groups",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Response(response=200, description="Successful operation"),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
@@ -96,7 +102,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Get a group with its associated character_id's",
      *      description="Returns a group",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="group_id",
      *          description="Group id",
@@ -128,7 +136,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Get a list of the scopes configured for this instance",
      *      description="Returns list of scopes",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Response(response=200, description="Successful operation"),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
@@ -150,7 +160,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Create a new SeAT user",
      *      description="Creates a new SeAT user",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="user_id",
      *          description="Eve Online Character ID",
@@ -243,7 +255,9 @@ class UserController extends Controller
      *      tags={"Users"},
      *      summary="Delete a SeAT user",
      *      description="Deletes a user",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="user_id",
      *          description="A SeAT user id",

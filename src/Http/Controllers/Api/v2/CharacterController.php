@@ -66,7 +66,9 @@ class CharacterController extends ApiController
      *      tags={"Assets"},
      *      summary="Get a paginated list of a assets for a character",
      *      description="Returns a list of assets",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -84,7 +86,9 @@ class CharacterController extends ApiController
      *      tags={"Assets"},
      *      summary="Get a specific asset",
      *      description="Returns list of assets",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -126,7 +130,9 @@ class CharacterController extends ApiController
      *      tags={"Bookmarks"},
      *      summary="Get a paginated list of bookmarks for a character",
      *      description="Returns a list of bookmarks",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -153,7 +159,9 @@ class CharacterController extends ApiController
      *      tags={"Contacts"},
      *      summary="Get a paginated list of contacts for a character",
      *      description="Returns list of contacs",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -183,7 +191,9 @@ class CharacterController extends ApiController
      *      tags={"Contracts"},
      *      summary="Get a paginated list of contracts for a character",
      *      description="Returns list of contracts",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -213,7 +223,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get the corporation history for a character",
      *      description="Returns a corporation history",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -243,7 +255,9 @@ class CharacterController extends ApiController
      *      tags={"Industry"},
      *      summary="Get a paginated list of industry jobs for a character",
      *      description="Returns list of industry jobs",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -273,7 +287,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get a paginated list of jump clones for a character",
      *      description="Returns list of jump clones",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -303,7 +319,9 @@ class CharacterController extends ApiController
      *      tags={"Killmails"},
      *      summary="Get a paginated list of killmails for a character",
      *      description="Returns list of killmails",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -333,7 +351,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get a paginated list of mail for a character",
      *      description="Returns mail",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -362,7 +382,9 @@ class CharacterController extends ApiController
      *      tags={"Market"},
      *      summary="Get a paginated list of market orders for a character",
      *      description="Returns list of market orders",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -392,7 +414,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get a paginated list of notifications for a character",
      *      description="Returns a list of notifications",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -422,7 +446,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get the character sheet for a character",
      *      description="Returns a character sheet",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -451,7 +477,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get the skills for a character",
      *      description="Returns character skills",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -480,7 +508,9 @@ class CharacterController extends ApiController
      *      tags={"Character"},
      *      summary="Get a list of characters skill queue",
      *      description="Returns a skill queue",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -509,7 +539,9 @@ class CharacterController extends ApiController
      *      tags={"Wallet"},
      *      summary="Get a paginated wallet journal for a character",
      *      description="Returns a wallet journal",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -539,7 +571,9 @@ class CharacterController extends ApiController
      *      tags={"Wallet"},
      *      summary="Get paginated wallet transactions for a character",
      *      description="Returns wallet transactions",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",

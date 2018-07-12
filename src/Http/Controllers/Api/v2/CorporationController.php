@@ -57,7 +57,9 @@ class CorporationController extends ApiController
      *      tags={"Assets"},
      *      summary="Get a paginated list of a assets for a corporation",
      *      description="Returns a list of assets",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -87,7 +89,9 @@ class CorporationController extends ApiController
      *      tags={"Bookmarks"},
      *      summary="Get a list of bookmarks for a corporation",
      *      description="Returns a list of bookmarks",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -116,7 +120,9 @@ class CorporationController extends ApiController
      *      tags={"Contacts"},
      *      summary="Get a list of contacts for a corporation",
      *      description="Returns a list of contacts",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -146,7 +152,9 @@ class CorporationController extends ApiController
      *      tags={"Contracts"},
      *      summary="Get a paginated list of contracts for a corporation",
      *      description="Returns a list of contracts",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -176,7 +184,9 @@ class CorporationController extends ApiController
      *      tags={"Industry"},
      *      summary="Get a paginated list of industry jobs for a corporation",
      *      description="Returns a list of industry jobs",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -206,7 +216,9 @@ class CorporationController extends ApiController
      *      tags={"Killmails"},
      *      summary="Get a paginated list of killmails for a corporation",
      *      description="Returns a list of killmails",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -236,7 +248,9 @@ class CorporationController extends ApiController
      *      tags={"Market"},
      *      summary="Get a paginated list of market orders for a corporation",
      *      description="Returns a list of market orders",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -266,7 +280,9 @@ class CorporationController extends ApiController
      *      tags={"Corporation"},
      *      summary="Get a list of members for a corporation with tracking",
      *      description="Returns a list of members for a corporation",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -296,7 +312,9 @@ class CorporationController extends ApiController
      *      tags={"Corporation"},
      *      summary="Get a corporation sheet",
      *      description="Returns a corporation sheet",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -325,7 +343,9 @@ class CorporationController extends ApiController
      *      tags={"Wallet"},
      *      summary="Get a paginated wallet journal for a corporation",
      *      description="Returns a wallet journal",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
@@ -355,7 +375,9 @@ class CorporationController extends ApiController
      *      tags={"Wallet"},
      *      summary="Get paginated wallet transactions for a corporation",
      *      description="Returns wallet transactions",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",

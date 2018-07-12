@@ -37,7 +37,9 @@ class RoleLookupController extends Controller
      *      tags={"Roles"},
      *      summary="Get the available SeAT permissions",
      *      description="Returns a list of permissions",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Response(response=200, description="Successful operation"),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
@@ -57,7 +59,9 @@ class RoleLookupController extends Controller
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
@@ -96,7 +100,9 @@ class RoleLookupController extends Controller
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="character_id",
      *          description="Character id",
