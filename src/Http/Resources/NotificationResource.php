@@ -40,17 +40,11 @@ class NotificationResource extends Resource
     public function toArray($request)
     {
 
-        return [
-            'id'              => $this->id,
-            'notification_id' => $this->notification_id,
-            'type'            => $this->type,
-            'sender_id'       => $this->sender_id,
-            'sender_type'     => $this->sender_type,
-            'timestamp'       => $this->timestamp,
-            'is_read'         => $this->is_read,
-            'text'            => $this->text,
-            'created_at'      => $this->created_at,
-            'updated_at'      => $this->updated_at,
-        ];
+        $definition = parent::toArray($request);
+
+        array_forget($definition, 'id');
+        array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }
