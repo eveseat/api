@@ -91,7 +91,7 @@ Route::group([
 
             Route::group(['prefix' => 'killmails'], function () {
 
-                Route::get('/detail/{killmail_id}', 'KillmailsController@getDetail');
+                Route::get('/{killmail_id}', 'KillmailsController@getDetail');
             });
 
             Route::group(['prefix' => 'character'], function () {

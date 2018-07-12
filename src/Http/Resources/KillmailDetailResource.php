@@ -39,15 +39,12 @@ class KillmailDetailResource extends Resource
      */
     public function toArray($request)
     {
+        $definition = parent::toArray($request);
 
-        return [
+        array_forget($definition, 'killmail_id');
+        array_forget($definition, 'created_at');
+        array_forget($definition, 'updated_at');
 
-            'killmail_time'   => $this->killmail_time,
-            'solar_system_id' => $this->solar_system_id,
-            'moon_id'         => $this->moon_id,
-            'war_id'          => $this->war_id,
-            'attackers'       => $this->attackers,
-            'victims'         => $this->victims,
-        ];
+        return $definition;
     }
 }
