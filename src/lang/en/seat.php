@@ -38,6 +38,7 @@ return [
     'api_token_logs'     => 'API Token Access Logs',
     'access_logs'        => 'Access Logs',
     'action'             => 'Action',
+    'request_method'     => 'Request Method',
     'request_path'       => 'Request Path',
     'source_ip'          => 'Source IP',
     'api_docs'           => 'API Documenation',
