@@ -40,12 +40,12 @@ class SkillsResource extends Resource
     public function toArray($request)
     {
 
-        return [
-            'skill_id'             => $this->skill_id,
-            'skillpoints_in_skill' => $this->skillpoints_in_skill,
-            'trained_skill_level'  => $this->trained_skill_level,
-            'active_skill_level'   => $this->active_skill_level,
-            'type'                 => $this->type,
-        ];
+        $definition = parent::toArray($request);
+
+        array_forget($definition, 'character_id');
+        array_forget($definition, 'created_at');
+        array_forget($definition, 'updated_at');
+
+        return $definition;
     }
 }

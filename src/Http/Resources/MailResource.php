@@ -40,20 +40,19 @@ class MailResource extends Resource
     public function toArray($request)
     {
 
-        return [
-            'mail_id'    => $this->mail_id,
-            'subject'    => $this->subject,
-            'from'       => $this->from,
-            'timestamp'  => $this->timestamp,
-            'is_read'    => $this->is_read,
-            'body'       => $this->body->body,
-            'recipients' => $this->recipients->map(function ($recipient) {
+        $definition = parent::toArray($request);
 
-                return [
-                    'recipient_id'   => $recipient->recipient_id,
-                    'recipient_type' => $recipient->recipient_type,
-                ];
-            }),
-        ];
+        array_forget($definition, 'character_id');
+        array_forget($definition, 'created_at');
+        array_forget($definition, 'updated_at');
+        array_set($definition, 'body', array_get($definition, 'body.body'));
+        array_set($definition, 'recipients', array_map(function ($recipient) {
+            return [
+                'recipient_id' => $recipient['recipient_id'],
+                'recipient_type' => $recipient['recipient_type'],
+            ];
+        }, array_get($definition, 'recipients')));
+
+        return $definition;
     }
 }

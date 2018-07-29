@@ -20,30 +20,36 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Http\Resources;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-use Illuminate\Http\Resources\Json\Resource;
-
-/**
- * Class JumpcloneResource.
- * @package Seat\Api\Http\Resources
- */
-class JumpcloneResource extends Resource
+class AddMethodToApiTokenLogsTable extends Migration
 {
     /**
-     * Transform the resource into an array.
+     * Run the migrations.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return array
+     * @return void
      */
-    public function toArray($request)
+    public function up()
     {
 
-        $definition = parent::toArray($request);
+        Schema::table('api_token_logs', function (Blueprint $table) {
 
-        array_forget($definition, 'character_id');
+            $table->string('method', 10)->nullable(true)->after('action');
+        });
+    }
 
-        return $definition;
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+
+        Schema::table('api_token_logs', function (Blueprint $table) {
+
+            $table->dropColumn('method');
+        });
     }
 }

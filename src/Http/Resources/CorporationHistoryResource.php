@@ -40,14 +40,10 @@ class CorporationHistoryResource extends Resource
     public function toArray($request)
     {
 
-        return [
+        $definition = parent::toArray($request);
 
-            'start_date'     => $this->start_date,
-            'corporation_id' => $this->corporation_id,
-            'is_deleted'     => $this->is_deleted,
-            'record_id'      => $this->record_id,
-            'created_at'     => $this->created_at,
-            'updated_at'     => $this->updated_at,
-        ];
+        array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }

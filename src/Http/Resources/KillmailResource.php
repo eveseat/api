@@ -23,6 +23,8 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Seat\Eveapi\Models\Killmails\CharacterKillmail;
+use Seat\Eveapi\Models\Killmails\CorporationKillmail;
 
 /**
  * Class KillmailResource.
@@ -40,6 +42,14 @@ class KillmailResource extends Resource
     public function toArray($request)
     {
 
-        return parent::toArray($request);
+        $definition = parent::toArray($request);
+
+        if ($this->resource instanceof CorporationKillmail)
+            array_forget($definition, 'corporation_id');
+
+        if ($this->resource instanceof CharacterKillmail)
+            array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }

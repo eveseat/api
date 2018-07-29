@@ -16,6 +16,7 @@
         <tr>
           <th>{{ trans('api::seat.date') }}</th>
           <th>{{ trans('api::seat.action') }}</th>
+          <th>{{ trans('api::seat.request_method') }}</th>
           <th>{{ trans('api::seat.request_path') }}</th>
           <th>{{ trans('api::seat.source_ip') }}</th>
         </tr>
@@ -23,15 +24,47 @@
         @foreach($logs as $log)
 
           <tr>
-            <td>
+            <td @if($log->action == 'deny')class="danger"@endif>
               <span data-toggle="tooltip"
                     title="" data-original-title="{{ $log->created_at }}">
                 {{ human_diff($log->created_at) }}
               </span>
             </td>
-            <td>{{ ucfirst($log->action) }}</td>
-            <td>{{ $log->request_path }}</td>
-            <td>{{ $log->src_ip }}</td>
+            <td @if($log->action == 'deny')class="danger"@endif>
+              @if($log->action == 'deny')
+                <i class="fa fa-warning"></i>
+              @endif
+              {{ ucfirst($log->action) }}
+            </td>
+            <td @if($log->action == 'deny')class="danger"@endif>
+              @switch(strtolower($log->method))
+                @case('post')
+                  <span class="label label-success">{{ strtoupper($log->method) }}</span>
+                  @break
+                @case('put')
+                  <span class="label label-warning">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @case('get')
+                  <span class="label label-info">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @case('delete')
+                  <span class="label label-danger">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @case('head')
+                  <span class="label bg-purple">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @case('patch')
+                  <span class="label bg-teal">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @case('options')
+                  <span class="label label-primary">{{ strtoupper($log->method) }}</span>
+                  @break;
+                @default
+                  <span class="label label-default">{{ strtoupper($log->method) }}</span>
+              @endswitch
+            </td>
+            <td @if($log->action == 'deny')class="danger"@endif>{{ $log->request_path }}</td>
+            <td @if($log->action == 'deny')class="danger"@endif>{{ $log->src_ip }}</td>
           </tr>
 
         @endforeach

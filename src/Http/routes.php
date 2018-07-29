@@ -73,11 +73,11 @@ Route::group([
             Route::group(['prefix' => 'roles'], function () {
 
                 Route::get('/', 'RoleController@getIndex');
-                Route::get('/detail/{role_id}', 'RoleController@getDetail');
-                Route::post('/new', 'RoleController@postNew');
-                Route::delete('/delete/{role_id}', 'RoleController@deleteRole');
-                Route::get('/grant-user-role/{user_id}/{role_id}', 'RoleController@getGrantUserRole');
-                Route::get('/revoke-user-role/{user_id}/{role_id}', 'RoleController@getRevokeUserRole');
+                Route::get('/{role_id}', 'RoleController@getDetail')->where('role_id', '[0-9]+');
+                Route::post('/', 'RoleController@postNew');
+                Route::delete('/{role_id}', 'RoleController@deleteRole')->where('role_id', '[0-9]+');
+                Route::post('/groups', 'RoleController@postGrantUserRole');
+                Route::delete('/groups/{group_id}/{role_id}', 'RoleController@deleteRevokeGroupRole');
                 Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
                 Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
 
@@ -91,7 +91,7 @@ Route::group([
 
             Route::group(['prefix' => 'killmails'], function () {
 
-                Route::get('/detail/{killmail_id}', 'KillmailsController@getDetail');
+                Route::get('/{killmail_id}', 'KillmailsController@getDetail');
             });
 
             Route::group(['prefix' => 'character'], function () {
