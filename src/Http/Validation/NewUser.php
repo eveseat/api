@@ -56,8 +56,10 @@ class NewUser extends FormRequest
                 'integer',
                 'exists:groups,id',
                 function ($attribute, $value, $fail) {
+
                     // retrieve admin group, if any
                     $admin_group = Group::whereHas('users', function ($query) {
+
                         $query->where('name', 'admin');
                     })->first();
 
