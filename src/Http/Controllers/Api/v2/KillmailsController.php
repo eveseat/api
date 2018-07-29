@@ -37,7 +37,9 @@ class KillmailsController extends ApiController
      *      tags={"Killmails"},
      *      summary="Get full details about a killmail",
      *      description="Returns a detailed killmail",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="killmail_id",
      *          description="Killmail id",

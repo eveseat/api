@@ -43,7 +43,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Get the roles configured within SeAT",
      *      description="Returns a list of roles",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Response(response=200, description="Successful operation",
      *          @SWG\Schema(
      *              type="array",
@@ -85,7 +87,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Get detailed information about a role",
      *      description="Returns a roles details",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="role_id",
      *          description="Role id",
@@ -269,7 +273,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Create a new SeAT role",
      *      description="Creates a role",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          type="object",
      *          name="body",
@@ -347,7 +353,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Add a character affiliation to a SeAT role",
      *      description="Adds a character affiliation",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          type="object",
      *          name="body",
@@ -407,7 +415,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Add a corporation affiliation to a SeAT role",
      *      description="Adds a corporation affiliation",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          type="object",
      *          name="body",
@@ -467,7 +477,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Delete a SeAT role",
      *      description="Deletes a role",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="role_id",
      *          description="Role id",
@@ -498,7 +510,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Grant a user relationship a SeAT role",
      *      description="Grants a role",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          type="object",
      *          name="body",
@@ -547,7 +561,9 @@ class RoleController extends Controller
      *      tags={"Roles"},
      *      summary="Revoke a SeAT role from a user relationship",
      *      description="Revokes a role",
-     *      security={"ApiKeyAuth"},
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
      *      @SWG\Parameter(
      *          name="group_id",
      *          description="User relationship identifier",
