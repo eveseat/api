@@ -23,6 +23,8 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Seat\Eveapi\Models\Market\CharacterOrder;
+use Seat\Eveapi\Models\Market\CorporationOrder;
 
 /**
  * Class MarketOrderResource.
@@ -40,6 +42,14 @@ class MarketOrderResource extends Resource
     public function toArray($request)
     {
 
-        return parent::toArray($request);
+        $definition = parent::toArray($request);
+
+        if ($this->resource instanceof CorporationOrder)
+            array_forget($definition, 'corporation_id');
+
+        if ($this->resource instanceof CharacterOrder)
+            array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }

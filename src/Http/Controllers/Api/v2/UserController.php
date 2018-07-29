@@ -43,7 +43,15 @@ class UserController extends Controller
      *      summary="Get a list of users, associated character id's and group ids",
      *      description="Returns list of users",
      *      security={"ApiKeyAuth"},
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/User")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -61,7 +69,15 @@ class UserController extends Controller
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/definitions/User"
+     *              ),
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -86,7 +102,15 @@ class UserController extends Controller
      *      summary="Get a list of groups with their associated character_id's",
      *      description="Returns list of groups",
      *      security={"ApiKeyAuth"},
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#definitions/Group")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -104,7 +128,15 @@ class UserController extends Controller
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#definitions/Group"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -129,7 +161,13 @@ class UserController extends Controller
      *      summary="Get a list of the scopes configured for this instance",
      *      description="Returns list of scopes",
      *      security={"ApiKeyAuth"},
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="array",
+     *              description="The scope list requested by the SeAT instance",
+     *              @SWG\Items(type="string")
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -152,55 +190,51 @@ class UserController extends Controller
      *      description="Creates a new SeAT user",
      *      security={"ApiKeyAuth"},
      *      @SWG\Parameter(
-     *          name="user_id",
-     *          description="Eve Online Character ID",
+     *          type="object",
+     *          name="body",
+     *          in="body",
      *          required=true,
-     *          in="body",
-     *          @SWG\Schema(type="integer")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="group_id",
-     *          description="The SeAT group id. If ommited, a new group will be created",
-     *          required=false,
-     *          in="body",
-     *          @SWG\Schema(type="integer")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="name",
-     *          description="Eve Online Character Name",
-     *          required=true,
-     *          in="body",
-     *          @SWG\Schema(type="string")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="active",
-     *          description="Set the SeAT account state. Default is true",
-     *          required=false,
-     *          in="body",
-     *          @SWG\Schema(type="boolean")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="character_owner_hash",
-     *          description="Eve Online account character hash",
-     *          required=true,
-     *          in="body",
-     *          @SWG\Schema(type="string")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="refresh_token",
-     *          description="A refresh token for the account",
-     *          required=true,
-     *          in="body",
-     *          @SWG\Schema(type="string")
-     *      ),
-     *     @SWG\Parameter(
-     *          name="scopes",
-     *          description="ESI scopes as array that are valid for the refresh token",
-     *          required=true,
-     *          in="body",
      *          @SWG\Schema(
-     *              type="array",
-     *              @SWG\Items(type="string")
+     *              required={"user_id", "name", "character_owner_hash", "refresh_token", "scopes"},
+     *              @SWG\Property(
+     *                  type="integer",
+     *                  format="int64",
+     *                  minimum=90000000,
+     *                  property="user_id",
+     *                  description="Eve Online Character ID"
+     *              ),
+     *              @SWG\Property(
+     *                  type="integer",
+     *                  minimum=1,
+     *                  property="group_id",
+     *                  description="The SeAT group id. If ommited, a new group will be created"
+     *              ),
+     *              @SWG\Property(
+     *                  type="string",
+     *                  property="name",
+     *                  description="Eve Online Character Name"
+     *              ),
+     *              @SWG\Property(
+     *                  type="boolean",
+     *                  property="active",
+     *                  description="Set the SeAT account state. Default is true"
+     *              ),
+     *              @SWG\Property(
+     *                  type="string",
+     *                  property="character_owner_hash",
+     *                  description="Eve Online account character hash"
+     *              ),
+     *              @SWG\Property(
+     *                  type="string",
+     *                  property="refresh_token",
+     *                  description="A refresh token for the account"
+     *              ),
+     *              @SWG\Property(
+     *                  type="array",
+     *                  @SWG\Items(type="string"),
+     *                  property="scopes",
+     *                  description="ESI scopes as array that are valid for the refresh token"
+     *              )
      *          )
      *      ),
      *      @SWG\Response(response=200, description="Successful operation"),

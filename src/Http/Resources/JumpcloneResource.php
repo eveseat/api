@@ -40,15 +40,10 @@ class JumpcloneResource extends Resource
     public function toArray($request)
     {
 
-        return [
-            'jump_clone_id' => $this->jump_clone_id,
-            'name'          => $this->name,
-            'location_id'   => $this->location_id,
-            'location_type' => $this->location_type,
-            'location'      => $this->location,
-            'implants'      => $this->implants,
-            'created_at'    => $this->created_at,
-            'updated_at'    => $this->updated_at,
-        ];
+        $definition = parent::toArray($request);
+
+        array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }

@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Seat\Api\Http\Resources\AssetResource;
+use Seat\Api\Http\Resources\BookmarkResource;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
@@ -38,6 +39,7 @@ use Seat\Api\Http\Resources\SkillsResource;
 use Seat\Api\Http\Resources\WalletJournalResource;
 use Seat\Api\Http\Resources\WalletTransactionResource;
 use Seat\Eveapi\Models\Assets\CharacterAsset;
+use Seat\Eveapi\Models\Bookmarks\CharacterBookmark;
 use Seat\Eveapi\Models\Character\CharacterCorporationHistory;
 use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\Character\CharacterNotification;
@@ -74,7 +76,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterAsset")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -99,7 +180,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/definitions/CharacterAsset"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -134,17 +224,26 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterBookmark")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $chacter_id
      */
-    public function getBookmarks(int $chacter_id)
+    public function getBookmarks(int $character_id)
     {
 
-        // TODO
+        return BookmarkResource::collection(CharacterBookmark::where('character_id', $character_id)->get());
     }
 
     /**
@@ -161,7 +260,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterContact")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -191,7 +299,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterContract")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -221,7 +408,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterCorporationHistory")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -251,7 +447,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterIndustryJob")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -281,7 +556,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterJumpClone")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -311,7 +595,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterKillmail")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -341,7 +704,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/MailHeader")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -353,7 +795,8 @@ class CharacterController extends ApiController
     public function getMail(int $character_id)
     {
 
-        return MailResource::collection(MailHeader::where('character_id', $character_id)->paginate());
+        return MailResource::collection(
+            MailHeader::with('body', 'recipients')->where('character_id', $character_id)->paginate());
     }
 
     /**
@@ -370,7 +813,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterOrder")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -400,7 +922,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterNotification")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -430,7 +1031,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/definitions/CharacterInfo"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -442,7 +1052,7 @@ class CharacterController extends ApiController
     public function getSheet(int $character_id)
     {
 
-        return new CharacterSheetResource(CharacterInfo::findOrFail($character_id));
+        return new CharacterSheetResource(CharacterInfo::with('balance')->findOrFail($character_id));
     }
 
     /**
@@ -459,7 +1069,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterSkill")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -471,7 +1090,8 @@ class CharacterController extends ApiController
     public function getSkills(int $character_id)
     {
 
-        return SkillsResource::collection(CharacterSkill::where('character_id', $character_id)->get());
+        return SkillsResource::collection(
+            CharacterSkill::with('type')->where('character_id', $character_id)->get());
     }
 
     /**
@@ -488,7 +1108,16 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterSkillQueue")
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -500,7 +1129,8 @@ class CharacterController extends ApiController
     public function getSkillQueue(int $character_id)
     {
 
-        return SkillQueueResource::collection(CharacterSkillQueue::where('character_id', $character_id)->get());
+        return SkillQueueResource::collection(
+            CharacterSkillQueue::with('type')->where('character_id', $character_id)->get());
     }
 
     /**
@@ -517,7 +1147,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterWalletJournal")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -547,7 +1256,86 @@ class CharacterController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @SWG\Items(ref="#/definitions/CharacterWalletTransaction")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -559,7 +1347,9 @@ class CharacterController extends ApiController
     public function getWalletTransactions(int $character_id)
     {
 
-        return WalletTransactionResource::collection(CharacterWalletTransaction::where('character_id', $character_id)
+        return WalletTransactionResource::collection(
+                CharacterWalletTransaction::with('type')
+                    ->where('character_id', $character_id)
             ->paginate());
     }
 }

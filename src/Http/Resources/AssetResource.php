@@ -23,6 +23,8 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Seat\Eveapi\Models\Assets\CharacterAsset;
+use Seat\Eveapi\Models\Assets\CorporationAsset;
 
 /**
  * Class AssetResource.
@@ -39,22 +41,17 @@ class AssetResource extends Resource
      */
     public function toArray($request)
     {
+        $definition = parent::toArray($request);
 
-        return [
-            'item_id'       => $this->item_id,
-            'type_id'       => $this->type_id,
-            'quantity'      => $this->quantity,
-            'location_id'   => $this->location_id,
-            'location_type' => $this->location_type,
-            'location_flag' => $this->location_flag,
-            'is_singleton'  => $this->is_singleton,
-            'x'             => $this->x,
-            'y'             => $this->y,
-            'z'             => $this->z,
-            'map_id'        => $this->map_id,
-            'map_name'      => $this->map_name,
-            'name'          => $this->name,
-            'type'          => $this->type,
-        ];
+        array_forget($definition, 'created_at');
+        array_forget($definition, 'updated_at');
+
+        if ($this->resource instanceof CorporationAsset)
+            array_forget($definition, 'corporation_id');
+
+        if ($this->resource instanceof CharacterAsset)
+            array_forget($definition, 'character_id');
+
+        return $definition;
     }
 }

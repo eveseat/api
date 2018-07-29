@@ -33,7 +33,7 @@ class KillmailsController extends ApiController
 {
     /**
      * @SWG\Get(
-     *      path="/killmails/detail/{killmail_id}",
+     *      path="/killmails/{killmail_id}",
      *      tags={"Killmails"},
      *      summary="Get full details about a killmail",
      *      description="Returns a detailed killmail",
@@ -45,7 +45,16 @@ class KillmailsController extends ApiController
      *          type="integer",
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=200, description="Successful operation",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/definitions/KillmailDetail"
+     *              )
+     *          )
+     *      ),
      *      @SWG\Response(response=400, description="Bad request"),
      *      @SWG\Response(response=401, description="Unauthorized"),
      *     )
@@ -61,6 +70,6 @@ class KillmailsController extends ApiController
     public function getDetail(int $killmail_id)
     {
 
-        return new KillmailDetailResource(KillmailDetail::findOrFail($killmail_id));
+        return new KillmailDetailResource(KillmailDetail::with('attackers', 'victims')->findOrFail($killmail_id));
     }
 }
