@@ -1078,7 +1078,7 @@ class CharacterController extends ApiController
     public function getSheet(int $character_id)
     {
 
-        return new CharacterSheetResource(CharacterInfo::with('balance')->findOrFail($character_id));
+        return new CharacterSheetResource(CharacterInfo::with('balance', 'skillpoints')->findOrFail($character_id));
     }
 
     /**
