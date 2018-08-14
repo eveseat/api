@@ -47,10 +47,81 @@ class UserController extends Controller
      *      },
      *      @SWG\Response(response=200, description="Successful operation",
      *          @SWG\Schema(
+     *              type="object",
      *              @SWG\Property(
      *                  type="array",
      *                  property="data",
      *                  @SWG\Items(ref="#/definitions/User")
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="links",
+     *                  description="Provide pagination urls for navigation",
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="first",
+     *                      description="First page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="last",
+     *                      description="Last page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="prev",
+     *                      description="Previous page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="next",
+     *                      description="Next page"
+     *                  )
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="meta",
+     *                  description="Information related to the paginated response",
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="current_page",
+     *                      description="The current page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="from",
+     *                      description="The first entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="last_page",
+     *                      description="The last page available"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="string",
+     *                      format="uri",
+     *                      property="path",
+     *                      description="The base endpoint"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="per_page",
+     *                      description="The pagination step"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="to",
+     *                      description="The last entity number on the page"
+     *                  ),
+     *                  @SWG\Property(
+     *                      type="integer",
+     *                      property="total",
+     *                      description="The total of available entities"
+     *                  )
      *              )
      *          )
      *      ),
@@ -61,7 +132,7 @@ class UserController extends Controller
      * @SWG\Get(
      *      path="/users/{user_id}",
      *      tags={"Users"},
-     *      summary="Get group id's and assosciated character_id's for a user",
+     *      summary="Get group id's and associated character_id's for a user",
      *      description="Returns a user",
      *      security={
      *          {"ApiKeyAuth": {}}
@@ -96,7 +167,7 @@ class UserController extends Controller
         if (! is_null($user_id))
             return new UserResource(User::findOrFail($user_id));
 
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::paginate());
     }
 
     /**
