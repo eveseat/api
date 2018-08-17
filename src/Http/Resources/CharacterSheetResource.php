@@ -39,6 +39,9 @@ class CharacterSheetResource extends Resource
         $definition = parent::toArray($request);
 
         array_forget($definition, 'character_id');
+        array_forget($definition, 'skillpoints.character_id');
+        array_forget($definition, 'skillpoints.created_at');
+        array_forget($definition, 'skillpoints.updated_at');
         array_set($definition, 'balance', array_get($definition, 'balance.balance'));
 
         return  $definition;
