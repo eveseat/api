@@ -21,7 +21,8 @@
     "eveseat/eveapi": "~3",
     "eveseat/services": "~3",
     "eveseat/web": "~3",
-    "darkaonline/l5-swagger": "5.5.*"
+    "darkaonline/l5-swagger": "5.5.*",
+    "zircote/swagger-php": "2.0.13"
   },
   "extra": {
     "laravel": {
