@@ -22,7 +22,7 @@
     "eveseat/services": "~3",
     "eveseat/web": "~3",
     "darkaonline/l5-swagger": "5.5.*",
-    "zircote/swagger-php": "2.0.13"
+    "zircote/swagger-php": "2.*"
   },
   "extra": {
     "laravel": {
