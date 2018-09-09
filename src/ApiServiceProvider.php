@@ -78,7 +78,7 @@ class ApiServiceProvider extends ServiceProvider
             ])),
         ]);
 
-        config(['l5-swagger.swagger_version' => '3.0']);
+        config(['l5-swagger.swagger_version' => '2.0']);
 
         // Use base host configured in the .env file for the swagger host.
         config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => str_after(env('APP_URL'), '://')]);
