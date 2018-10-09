@@ -42,6 +42,7 @@ class GroupResource extends Resource
 
         return [
             'id'    => $this->id,
+            'main_character_id' => $this->main_character_id,
             'users' => $this->users->map(function ($user) {
 
                 return [
