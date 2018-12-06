@@ -48,7 +48,7 @@ class ApiServiceProvider extends ServiceProvider
 
         $this->add_views();
 
-        $this->add_publications();
+        $this->add_migrations();
 
         $this->add_translations();
     }
@@ -123,18 +123,6 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set the paths for migrations and assets that
-     * should be published to the main application.
-     */
-    public function add_publications()
-    {
-
-        $this->publishes([
-            __DIR__ . '/database/migrations/' => database_path('migrations'),
-        ]);
-    }
-
-    /**
      * Add the packages translation files.
      */
     public function add_translations()
@@ -158,5 +146,15 @@ class ApiServiceProvider extends ServiceProvider
         // Include this packages menu items
         $this->mergeConfigFrom(
             __DIR__ . '/Config/package.sidebar.php', 'package.sidebar');
+    }
+
+    /**
+     * Set the path for migrations which should
+     * be migrated by laravel. More informations:
+     * https://laravel.com/docs/5.5/packages#migrations.
+     */
+    private function add_migrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
     }
 }
