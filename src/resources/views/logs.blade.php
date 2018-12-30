@@ -32,7 +32,7 @@
             </td>
             <td @if($log->action == 'deny')class="danger"@endif>
               @if($log->action == 'deny')
-                <i class="fa fa-warning"></i>
+                <i class="fas fa-exclamation-triangle"></i>
               @endif
               {{ ucfirst($log->action) }}
             </td>
