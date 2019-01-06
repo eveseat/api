@@ -25,6 +25,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Seat\Api\Http\Validation\RenameRole;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 
@@ -405,16 +406,12 @@ class RoleController extends Controller
      *      ),
      *     )
      *
-     * @param \Illuminate\Http\Request $request
+     * @param RenameRole $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function putRename(Request $request, $role_id)
+    public function putRename(RenameRole $request, $role_id)
     {
-        $this->validate($request, [
-            'title' => 'required|string|unique:roles,title',
-        ]);
-
         $role = $this->getRole($role_id);
 
         $role->title = $request->input('title');
