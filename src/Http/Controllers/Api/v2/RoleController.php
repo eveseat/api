@@ -25,6 +25,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Seat\Api\Http\Validation\RenameRole;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 
@@ -345,6 +346,78 @@ class RoleController extends Controller
         $role = $this->addRole($name);
 
         return response()->json(['role_id' => $role->id]);
+    }
+
+    /**
+     * @SWG\Put(
+     *      path="/roles/{role_id}",
+     *      tags={"Roles"},
+     *      summary="Rename an existing SeAT role",
+     *      description="Rename a role",
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
+     *      @SWG\Parameter(
+     *          name="role_id",
+     *          description="Role ID",
+     *          required=true,
+     *          type="integer",
+     *          in="path"
+     *      ),
+     *      @SWG\Parameter(
+     *          type="object",
+     *          name="body",
+     *          in="body",
+     *          @SWG\Schema(
+     *              required={"title"},
+     *              @SWG\Property(
+     *                  type="string",
+     *                  property="title",
+     *                  description="The new group name"
+     *              )
+     *          )
+     *      ),
+     *      @SWG\Response(response=200, description="Successful operation"),
+     *      @SWG\Response(response=400, description="Bad request"),
+     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @SWG\Response(response=422, description="Unprocessable Entity",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  type="string",
+     *                  property="message",
+     *                  description="The readable error message"
+     *              ),
+     *              @SWG\Property(
+     *                  type="object",
+     *                  property="errors",
+     *                  description="Detailed information related to the encountered error",
+     *                  @SWG\Property(
+     *                      type="array",
+     *                      property="title",
+     *                      description="The field for which the error has been encountered",
+     *                      @SWG\Items(
+     *                          type="string",
+     *                          description="A list of the encountered error for this field"
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      ),
+     *     )
+     *
+     * @param RenameRole $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function putRename(RenameRole $request, $role_id)
+    {
+        $role = $this->getRole($role_id);
+
+        $role->title = $request->input('title');
+        $role->save();
+
+        return response()->json(true);
     }
 
     /**
