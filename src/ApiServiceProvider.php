@@ -23,14 +23,14 @@
 namespace Seat\Api;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\ServiceProvider;
 use Seat\Api\Http\Middleware\ApiToken;
+use Seat\Services\AbstractSeatPlugin;
 
 /**
  * Class ApiServiceProvider.
  * @package Seat\Api
  */
-class ApiServiceProvider extends ServiceProvider
+class ApiServiceProvider extends AbstractSeatPlugin
 {
     /**
      * Bootstrap the application services.
@@ -156,5 +156,55 @@ class ApiServiceProvider extends ServiceProvider
     private function add_migrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+    }
+
+    /**
+     * Return the plugin public name as it should be displayed into settings.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'SeAT API';
+    }
+
+    /**
+     * Return the plugin repository address.
+     *
+     * @return string
+     */
+    public function getPackageRepositoryUrl(): string
+    {
+        return 'https://github.com/eveseat/api';
+    }
+
+    /**
+     * Return the plugin technical name as published on package manager.
+     *
+     * @return string
+     */
+    public function getPackagistPackageName(): string
+    {
+        return 'api';
+    }
+
+    /**
+     * Return the plugin vendor tag as published on package manager.
+     *
+     * @return string
+     */
+    public function getPackagistVendorName(): string
+    {
+        return 'eveseat';
+    }
+
+    /**
+     * Return the plugin installed version.
+     *
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return config('api.config.version');
     }
 }
