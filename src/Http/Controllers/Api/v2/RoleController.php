@@ -278,12 +278,12 @@ class RoleController extends Controller
      *          {"ApiKeyAuth": {}}
      *      },
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
      *          required=true,
      *          @SWG\Schema(
      *              required={"title"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="string",
      *                  property="title",
@@ -365,11 +365,12 @@ class RoleController extends Controller
      *          in="path"
      *      ),
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
+     *          required=true,
      *          @SWG\Schema(
      *              required={"title"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="string",
      *                  property="title",
@@ -430,12 +431,12 @@ class RoleController extends Controller
      *          {"ApiKeyAuth": {}}
      *      },
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
      *          required=true,
      *          @SWG\Schema(
      *              required={"role_id", "character_id"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="integer",
      *                  minimum=1,
@@ -492,12 +493,12 @@ class RoleController extends Controller
      *          {"ApiKeyAuth": {}}
      *      },
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
      *          required=true,
      *          @SWG\Schema(
      *              required={"role_id", "corporation_id"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="integer",
      *                  minimum=1,
@@ -587,11 +588,12 @@ class RoleController extends Controller
      *          {"ApiKeyAuth": {}}
      *      },
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
+     *          required=true,
      *          @SWG\Schema(
      *              required={"group_id", "role_id"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="integer",
      *                  minimum=1,
