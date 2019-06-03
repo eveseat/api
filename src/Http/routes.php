@@ -52,7 +52,7 @@ Route::group([
     // Http Routes to the SeAT API itself
     Route::group([
         'namespace'  => 'Api',
-        'middleware' => 'api.auth',
+        'middleware' => ['api.request', 'api.auth'],
         'prefix'     => 'api',
     ], function () {
 

@@ -23,6 +23,7 @@
 namespace Seat\Api;
 
 use Illuminate\Routing\Router;
+use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
 use Seat\Services\AbstractSeatPlugin;
 
@@ -110,6 +111,9 @@ class ApiServiceProvider extends AbstractSeatPlugin
         // Authenticate checks that the token is valid
         // from an allowed IP address
         $router->aliasMiddleware('api.auth', ApiToken::class);
+
+        // Ensure incoming request is formed using JSON
+        $router->aliasMiddleware('api.request', ApiRequest::class);
 
     }
 
