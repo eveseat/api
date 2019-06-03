@@ -273,12 +273,12 @@ class UserController extends Controller
      *          {"ApiKeyAuth": {}}
      *      },
      *      @SWG\Parameter(
-     *          type="object",
      *          name="body",
      *          in="body",
      *          required=true,
      *          @SWG\Schema(
      *              required={"user_id", "name", "character_owner_hash", "refresh_token", "scopes"},
+     *              type="object",
      *              @SWG\Property(
      *                  type="integer",
      *                  format="int64",
