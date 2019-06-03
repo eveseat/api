@@ -24,7 +24,6 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Seat\Api\Http\Validation\RenameRole;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
@@ -33,7 +32,7 @@ use Seat\Web\Models\Acl\Role;
  * Class RoleController.
  * @package Seat\Api\Http\Controllers\Api\v1
  */
-class RoleController extends Controller
+class RoleController extends ApiController
 {
     use AccessManager;
     use ValidatesRequests;
