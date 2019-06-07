@@ -22,14 +22,13 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Routing\Controller;
 use Seat\Web\Models\User;
 
 /**
  * Class RoleLookupController.
  * @package Seat\Api\Http\Controllers\Api\v1
  */
-class RoleLookupController extends Controller
+class RoleLookupController extends ApiController
 {
     /**
      * @SWG\Get(
