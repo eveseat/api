@@ -35,7 +35,7 @@ class ApiRequest
     public function handle($request, Closure $next)
     {
         if ($request->headers->has('Accept') && ! in_array($request->headers->get('Accept'), ['', '*/*', 'application/json']))
-            return response()->json('This api is only returning application/json structures', 406);
+            return response()->json("Invalid Accept header. Either accept all response types, or specify 'application/json'.", 406);
 
         // force return to be JSON formatted
         $request->server->set('HTTP_ACCEPT', 'application/json');
@@ -43,7 +43,7 @@ class ApiRequest
 
         // ensure the request has been made using application/json (for PATCH, PUT or POST queries)
         if ($request->headers->has('Content-Type') && ! in_array($request->headers->get('Content-Type'), ['', 'application/json']))
-            return response()->json('This api is only accepting application/json formatted query', 415);
+            return response()->json("Invalid Content-type header. Only the 'application/json' type is accepted.", 415);
 
         return $next($request);
     }
