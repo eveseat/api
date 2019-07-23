@@ -166,7 +166,7 @@ class UserController extends ApiController
         if (! is_null($user_id))
             return new UserResource(User::findOrFail($user_id));
 
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(User::with('group')->paginate());
     }
 
     /**
