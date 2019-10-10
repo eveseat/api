@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 use Seat\Eveapi\Models\Wallet\CharacterWalletTransaction;
 use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
 
@@ -45,12 +46,12 @@ class WalletTransactionResource extends Resource
         $definition = parent::toArray($request);
 
         if ($this->resource instanceof CorporationWalletTransaction)
-            array_forget($definition, 'corporation_id');
+            Arr::forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterWalletTransaction)
-            array_forget($definition, 'character_id');
+            Arr::forget($definition, 'character_id');
 
-        array_forget($definition, 'type_id');
+        Arr::forget($definition, 'type_id');
 
         return $definition;
     }

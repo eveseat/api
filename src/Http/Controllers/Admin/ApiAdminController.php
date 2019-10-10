@@ -22,6 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Admin;
 
+use Illuminate\Support\Str;
 use Seat\Api\Http\Validation\NewToken;
 use Seat\Api\Models\ApiToken;
 use Seat\Api\Models\ApiTokenLog;
@@ -53,7 +54,7 @@ class ApiAdminController extends Controller
     {
 
         $fields = $request->all();
-        $fields['token'] = str_random(32);
+        $fields['token'] = Str::random(32);
 
         ApiToken::create($fields);
 
