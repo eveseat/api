@@ -18,9 +18,9 @@
   "require": {
     "php": "^7.2",
     "laravel/framework": "^6.2",
-    "eveseat/eveapi": "dev-4.0.x",
-    "eveseat/services": "dev-4.0.x",
-    "eveseat/web": "dev-4.0.x",
+    "eveseat/eveapi": "4.0.x-dev",
+    "eveseat/services": "4.0.x-dev",
+    "eveseat/web": "4.0.x-dev",
     "darkaonline/l5-swagger": "^6.0",
     "zircote/swagger-php": "2.*"
   },
