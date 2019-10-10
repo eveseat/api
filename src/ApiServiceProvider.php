@@ -133,7 +133,7 @@ class ApiServiceProvider extends AbstractSeatPlugin
     public function add_translations()
     {
 
-        $this->loadTranslationsFrom(__DIR__ . '/lang', 'api');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'api');
     }
 
     /**
