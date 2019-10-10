@@ -16,12 +16,12 @@
   "minimum-stability": "alpha",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.1",
-    "laravel/framework": "5.5.*",
-    "eveseat/eveapi": "~3",
-    "eveseat/services": "~3",
-    "eveseat/web": "~3",
-    "darkaonline/l5-swagger": "5.5.*",
+    "php": "^7.2",
+    "laravel/framework": "^6.2",
+    "eveseat/eveapi": "dev-4.0.x",
+    "eveseat/services": "dev-4.0.x",
+    "eveseat/web": "dev-4.0.x",
+    "darkaonline/l5-swagger": "^6.0",
     "zircote/swagger-php": "2.*"
   },
   "extra": {
