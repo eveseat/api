@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 use Seat\Eveapi\Models\Assets\CharacterAsset;
 use Seat\Eveapi\Models\Assets\CorporationAsset;
 
@@ -43,14 +44,14 @@ class AssetResource extends Resource
     {
         $definition = parent::toArray($request);
 
-        array_forget($definition, 'created_at');
-        array_forget($definition, 'updated_at');
+        Arr::forget($definition, 'created_at');
+        Arr::forget($definition, 'updated_at');
 
         if ($this->resource instanceof CorporationAsset)
-            array_forget($definition, 'corporation_id');
+            Arr::forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterAsset)
-            array_forget($definition, 'character_id');
+            Arr::forget($definition, 'character_id');
 
         return $definition;
     }

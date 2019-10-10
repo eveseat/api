@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 use Seat\Eveapi\Models\Market\CharacterOrder;
 use Seat\Eveapi\Models\Market\CorporationOrder;
 
@@ -45,10 +46,10 @@ class MarketOrderResource extends Resource
         $definition = parent::toArray($request);
 
         if ($this->resource instanceof CorporationOrder)
-            array_forget($definition, 'corporation_id');
+            Arr::forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterOrder)
-            array_forget($definition, 'character_id');
+            Arr::forget($definition, 'character_id');
 
         return $definition;
     }

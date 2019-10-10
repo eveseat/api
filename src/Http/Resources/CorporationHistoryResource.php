@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 
 /**
  * Class CorporationHistoryResource.
@@ -42,7 +43,7 @@ class CorporationHistoryResource extends Resource
 
         $definition = parent::toArray($request);
 
-        array_forget($definition, 'character_id');
+        Arr::forget($definition, 'character_id');
 
         return $definition;
     }
