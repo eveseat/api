@@ -23,6 +23,7 @@
 namespace Seat\Api;
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Str;
 use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
 use Seat\Services\AbstractSeatPlugin;
@@ -82,7 +83,7 @@ class ApiServiceProvider extends AbstractSeatPlugin
         config(['l5-swagger.swagger_version' => '2.0']);
 
         // Use base host configured in the .env file for the swagger host.
-        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => str_after(env('APP_URL'), '://')]);
+        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => Str::after(env('APP_URL'), '://')]);
 
         // SwaggerUI long description.
         config(['l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. ' .

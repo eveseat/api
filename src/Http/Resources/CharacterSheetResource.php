@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 
 class CharacterSheetResource extends Resource
 {
@@ -38,11 +39,11 @@ class CharacterSheetResource extends Resource
 
         $definition = parent::toArray($request);
 
-        array_forget($definition, 'character_id');
-        array_forget($definition, 'skillpoints.character_id');
-        array_forget($definition, 'skillpoints.created_at');
-        array_forget($definition, 'skillpoints.updated_at');
-        array_set($definition, 'balance', array_get($definition, 'balance.balance'));
+        Arr::forget($definition, 'character_id');
+        Arr::forget($definition, 'skillpoints.character_id');
+        Arr::forget($definition, 'skillpoints.created_at');
+        Arr::forget($definition, 'skillpoints.updated_at');
+        Arr::set($definition, 'balance', Arr::get($definition, 'balance.balance'));
 
         return  $definition;
     }

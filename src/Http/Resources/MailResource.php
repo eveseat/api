@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 
 /**
  * Class MailResource.
@@ -42,16 +43,16 @@ class MailResource extends Resource
 
         $definition = parent::toArray($request);
 
-        array_forget($definition, 'character_id');
-        array_forget($definition, 'created_at');
-        array_forget($definition, 'updated_at');
-        array_set($definition, 'body', array_get($definition, 'body.body'));
-        array_set($definition, 'recipients', array_map(function ($recipient) {
+        Arr::forget($definition, 'character_id');
+        Arr::forget($definition, 'created_at');
+        Arr::forget($definition, 'updated_at');
+        Arr::set($definition, 'body', Arr::get($definition, 'body.body'));
+        Arr::set($definition, 'recipients', array_map(function ($recipient) {
             return [
                 'recipient_id' => $recipient['recipient_id'],
                 'recipient_type' => $recipient['recipient_type'],
             ];
-        }, array_get($definition, 'recipients')));
+        }, Arr::get($definition, 'recipients')));
 
         return $definition;
     }
