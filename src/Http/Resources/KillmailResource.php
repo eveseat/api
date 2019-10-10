@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 use Seat\Eveapi\Models\Killmails\CharacterKillmail;
 use Seat\Eveapi\Models\Killmails\CorporationKillmail;
 
@@ -45,10 +46,10 @@ class KillmailResource extends Resource
         $definition = parent::toArray($request);
 
         if ($this->resource instanceof CorporationKillmail)
-            array_forget($definition, 'corporation_id');
+            Arr::forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterKillmail)
-            array_forget($definition, 'character_id');
+            Arr::forget($definition, 'character_id');
 
         return $definition;
     }

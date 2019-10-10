@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 
 /**
  * Class SkillsResource.
@@ -42,9 +43,9 @@ class SkillsResource extends Resource
 
         $definition = parent::toArray($request);
 
-        array_forget($definition, 'character_id');
-        array_forget($definition, 'created_at');
-        array_forget($definition, 'updated_at');
+        Arr::forget($definition, 'character_id');
+        Arr::forget($definition, 'created_at');
+        Arr::forget($definition, 'updated_at');
 
         return $definition;
     }

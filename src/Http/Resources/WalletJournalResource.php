@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Arr;
 use Seat\Eveapi\Models\Wallet\CharacterWalletJournal;
 use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 
@@ -41,10 +42,10 @@ class WalletJournalResource extends Resource
         $definition = parent::toArray($request);
 
         if ($this->resource instanceof CorporationWalletJournal)
-            array_forget($definition, 'corporation_id');
+            Arr::forget($definition, 'corporation_id');
 
         if ($this->resource instanceof CharacterWalletJournal)
-            array_forget($definition, 'character_id');
+            Arr::forget($definition, 'character_id');
 
         return $definition;
     }
