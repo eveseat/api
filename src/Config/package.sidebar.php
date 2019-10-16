@@ -25,7 +25,7 @@ return [
     'seatapi' => [
         'permission'    => 'Superuser',
         'name'          => 'SeAT API',
-        'icon'          => 'fa-exchange',
+        'icon'          => 'fas fa-exchange-alt',
         'route_segment' => 'api-admin',
         'route'         => 'api-admin.list',
     ],
