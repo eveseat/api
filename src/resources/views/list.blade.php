@@ -5,18 +5,21 @@
 
 @section('left')
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
         {{ trans('api::seat.new_token') }}
-        <span class="pull-right">
+      </h3>
+      <div class="card-tools">
+        <span class="float-right">
           <a href="{{ route('l5-swagger.api') }}" target="_blank" class="btn btn-success btn-xs">
+            <i class="fas fa-book"></i>
             {{ trans('api::seat.api_docs') }}
           </a>
         </span>
-      </h3>
+      </div>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
 
       <form role="form" action="{{ route('api-admin.token.create') }}" method="post" id="key-form">
         {{ csrf_field() }}
@@ -42,7 +45,8 @@
         <!-- /.box-body -->
 
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary pull-right">
+          <button type="submit" class="btn btn-primary float-right">
+            <i class="fas fa-random"></i>
             {{ trans('api::seat.generate') }}
           </button>
         </div>
@@ -55,56 +59,59 @@
 
 @section('right')
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ trans('api::seat.current_tokens') }}</h3>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">{{ trans('api::seat.current_tokens') }}</h3>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
 
-      <table class="table table-condensed table-hover table-responsive">
-        <tbody>
-        <tr>
-          <th>{{ trans('api::seat.date') }}</th>
-          <th>{{ trans('api::seat.comment') }}</th>
-          <th>{{ trans_choice('api::seat.token', 1) }}</th>
-          <th>{{ trans('api::seat.allowed_from') }}</th>
-        </tr>
-
-        @foreach($tokens as $token)
-
+      <table class="table table-condensed table-hover">
+        <thead>
           <tr>
-            <td>
-              <span data-toggle="tooltip"
-                    title="" data-original-title="{{ $token->created_at }}">
-                {{ human_diff($token->created_at) }}
-              </span>
-            </td>
-            <td>{{ $token->comment }}</td>
-            <td>{{ $token->token }}</td>
-            <td>{{ $token->allowed_src }}</td>
-            <td>
-              <div class="btn-group">
-                <a href="{{ route('api-admin.token.delete', [$token->id]) }}" type="button"
-                   class="btn btn-danger btn-xs confirmlink col-xs-6">
-                  {{ trans('api::seat.delete') }}
-                </a>
-                <a href="{{ route('api-admin.token.logs', [$token->id]) }}" type="button"
-                   class="btn btn-primary btn-xs col-xs-6">
-                  {{ trans('api::seat.logs') }}
-                </a>
-              </div>
-            </td>
+            <th>{{ trans('api::seat.date') }}</th>
+            <th>{{ trans('api::seat.comment') }}</th>
+            <th>{{ trans_choice('api::seat.token', 1) }}</th>
+            <th>{{ trans('api::seat.allowed_from') }}</th>
           </tr>
+        </thead>
+        <tbody>
+          @foreach($tokens as $token)
 
-        @endforeach
+            <tr>
+              <td>
+                <span data-toggle="tooltip"
+                      title="" data-original-title="{{ $token->created_at }}">
+                  {{ human_diff($token->created_at) }}
+                </span>
+              </td>
+              <td>{{ $token->comment }}</td>
+              <td>{{ $token->token }}</td>
+              <td>{{ $token->allowed_src }}</td>
+              <td>
+                <div class="btn-group">
+                  <a href="{{ route('api-admin.token.delete', [$token->id]) }}" type="button"
+                     class="btn btn-danger btn-xs confirmlink col-xs-6">
+                    <i class="fas fa-trash-alt"></i>
+                    {{ trans('api::seat.delete') }}
+                  </a>
+                  <a href="{{ route('api-admin.token.logs', [$token->id]) }}" type="button"
+                     class="btn btn-primary btn-xs col-xs-6">
+                    <i class="fas fa-clipboard-list"></i>
+                    {{ trans('api::seat.logs') }}
+                  </a>
+                </div>
+              </td>
+            </tr>
+
+          @endforeach
 
         </tbody>
       </table>
 
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
       {{ count($tokens) }} {{ trans_choice('api::seat.token', count($tokens)) }}
-      <span class="pull-right">
+      <span class="float-right">
         API Documentation can be found <a href="{{ route('l5-swagger.api') }}">here</a>.
       </span>
     </div>
