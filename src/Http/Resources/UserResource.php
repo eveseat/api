@@ -49,9 +49,8 @@ class UserResource extends Resource
             'character_owner_hash'     => $this->character_owner_hash,
             'last_login'               => $this->last_login,
             'last_login_source'        => $this->last_login_source,
-            'group_id'                 => $this->group->id,
             'associated_character_ids' => $this->associatedCharacterIds(),
-            'main_character_id'        => $this->group->main_character_id,
+            'main_character_id'        => $this->main_character_id,
             'token'                    => $this->refresh_token,
         ];
     }
