@@ -22,17 +22,13 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Seat\Api\Http\Resources\AssetResource;
+use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Resources\BookmarkResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
 use Seat\Api\Http\Resources\IndustryResource;
-use Seat\Api\Http\Resources\KillmailResource;
-use Seat\Api\Http\Resources\MarketOrderResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
-use Seat\Api\Http\Resources\WalletJournalResource;
-use Seat\Api\Http\Resources\WalletTransactionResource;
 use Seat\Eveapi\Models\Assets\CorporationAsset;
 use Seat\Eveapi\Models\Bookmarks\CorporationBookmark;
 use Seat\Eveapi\Models\Contacts\CorporationContact;
@@ -40,7 +36,6 @@ use Seat\Eveapi\Models\Contracts\CorporationContract;
 use Seat\Eveapi\Models\Corporation\CorporationInfo;
 use Seat\Eveapi\Models\Corporation\CorporationMemberTracking;
 use Seat\Eveapi\Models\Industry\CorporationIndustryJob;
-use Seat\Eveapi\Models\Killmails\CorporationKillmail;
 use Seat\Eveapi\Models\Market\CorporationOrder;
 use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
@@ -52,103 +47,43 @@ use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
 class CorporationController extends ApiController
 {
     /**
-     * @SWG\Get(
-     *      path="/corporation/assets/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/assets/{corporation_id}",
      *      tags={"Assets"},
      *      summary="Get a paginated list of a assets for a corporation",
      *      description="Returns a list of assets",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationAsset")
+     *                  @OA\Items(ref="#/components/schemas/CorporationAsset")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -158,38 +93,41 @@ class CorporationController extends ApiController
     public function getAssets(int $corporation_id)
     {
 
-        return AssetResource::collection(CorporationAsset::where('corporation_id', $corporation_id)
+        return Resource::collection(CorporationAsset::with('type')
+            ->where('corporation_id', $corporation_id)
             ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/bookmarks/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/bookmarks/{corporation_id}",
      *      tags={"Bookmarks"},
      *      summary="Get a list of bookmarks for a corporation",
      *      description="Returns a list of bookmarks",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationBookmark")
+     *                  @OA\Items(ref="#/components/schemas/CorporationBookmark")
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -203,33 +141,43 @@ class CorporationController extends ApiController
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/contacts/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/contacts/{corporation_id}",
      *      tags={"Contacts"},
      *      summary="Get a list of contacts for a corporation",
      *      description="Returns a list of contacts",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationContact")
+     *                  @OA\Items(ref="#/components/schemas/CorporationContact")
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -239,108 +187,48 @@ class CorporationController extends ApiController
     public function getContacts(int $corporation_id)
     {
 
-        return ContactResource::collection(CorporationContact::where('corporation_id', $corporation_id)
-            ->get());
+        return ContactResource::collection(CorporationContact::with('labels')->where('corporation_id', $corporation_id)
+            ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/contracts/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/contracts/{corporation_id}",
      *      tags={"Contracts"},
      *      summary="Get a paginated list of contracts for a corporation",
      *      description="Returns a list of contracts",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationContract")
+     *                  @OA\Items(ref="#/components/schemas/ContractDetail")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -350,108 +238,49 @@ class CorporationController extends ApiController
     public function getContracts(int $corporation_id)
     {
 
-        return ContractResource::collection(CorporationContract::where('corporation_id', $corporation_id)
+        return ContractResource::collection(CorporationContract::with('detail', 'detail.acceptor', 'detail.assignee', 'detail.issuer', 'detail.bids', 'detail.lines', 'detail.start_location', 'detail.end_location')
+            ->where('corporation_id', $corporation_id)
             ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/industry/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/industry/{corporation_id}",
      *      tags={"Industry"},
      *      summary="Get a paginated list of industry jobs for a corporation",
      *      description="Returns a list of industry jobs",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationIndustryJob")
+     *                  @OA\Items(ref="#/components/schemas/CorporationIndustryJob")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -461,219 +290,49 @@ class CorporationController extends ApiController
     public function getIndustry(int $corporation_id)
     {
 
-        return IndustryResource::collection(CorporationIndustryJob::where('corporation_id', $corporation_id)
+        return IndustryResource::collection(CorporationIndustryJob::with('blueprint', 'product')
+            ->where('corporation_id', $corporation_id)
             ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/killmails/{corporation_id}",
-     *      tags={"Killmails"},
-     *      summary="Get a paginated list of killmails for a corporation",
-     *      description="Returns a list of killmails",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @SWG\Parameter(
-     *          name="corporation_id",
-     *          description="Corporation id",
-     *          required=true,
-     *          type="integer",
-     *          in="path"
-     *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationKillmail")
-     *              ),
-     *              @SWG\Property(
-     *                  type="object",
-     *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
-     *              ),
-     *              @SWG\Property(
-     *                  type="object",
-     *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param int $corporation_id
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getKillmails(int $corporation_id)
-    {
-
-        return KillmailResource::collection(CorporationKillmail::where('corporation_id', $corporation_id)
-            ->paginate());
-    }
-
-    /**
-     * @SWG\Get(
-     *      path="/corporation/market-orders/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/market-orders/{corporation_id}",
      *      tags={"Market"},
      *      summary="Get a paginated list of market orders for a corporation",
      *      description="Returns a list of market orders",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationOrder")
+     *                  @OA\Items(ref="#/components/schemas/CorporationOrder")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -683,37 +342,49 @@ class CorporationController extends ApiController
     public function getMarketOrders(int $corporation_id)
     {
 
-        return MarketOrderResource::collection(CorporationOrder::where('corporation_id', $corporation_id)
+        return Resource::collection(CorporationOrder::with('type')
+            ->where('corporation_id', $corporation_id)
             ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/member-tracking/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/member-tracking/{corporation_id}",
      *      tags={"Corporation"},
      *      summary="Get a list of members for a corporation with tracking",
      *      description="Returns a list of members for a corporation",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  type="object",
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  type="array",
      *                  property="data",
-     *                  ref="#definitions/CorporationMemberTracking"
+     *                  @OA\Items(ref="#/components/schemas/CorporationMemberTracking")
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -723,37 +394,40 @@ class CorporationController extends ApiController
     public function getMemberTracking(int $corporation_id)
     {
 
-        return MemberTrackingResource::collection(CorporationMemberTracking::where('corporation_id', $corporation_id)
-            ->get());
+        return MemberTrackingResource::collection(CorporationMemberTracking::with('ship')
+            ->where('corporation_id', $corporation_id)
+            ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/sheet/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/sheet/{corporation_id}",
      *      tags={"Corporation"},
      *      summary="Get a corporation sheet",
      *      description="Returns a corporation sheet",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              @SWG\Property(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
      *                  type="object",
      *                  property="data",
      *                  ref="#definitions/CorporationInfo"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -763,107 +437,48 @@ class CorporationController extends ApiController
     public function getSheet(int $corporation_id)
     {
 
-        return new CorporationSheetResource(CorporationInfo::findOrFail($corporation_id));
+        return new CorporationSheetResource(CorporationInfo::with('ceo', 'creator', 'alliance', 'faction')
+            ->findOrFail($corporation_id));
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/wallet-journal/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/wallet-journal/{corporation_id}",
      *      tags={"Wallet"},
      *      summary="Get a paginated wallet journal for a corporation",
      *      description="Returns a wallet journal",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationWalletJournal")
+     *                  @OA\Items(ref="#/components/schemas/CorporationWalletJournal")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -873,108 +488,49 @@ class CorporationController extends ApiController
     public function getWalletJournal(int $corporation_id)
     {
 
-        return WalletJournalResource::collection(CorporationWalletJournal::where('corporation_id', $corporation_id)
+        return Resource::collection(CorporationWalletJournal::with('first_party', 'second_party')
+            ->where('corporation_id', $corporation_id)
             ->paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/corporation/wallet-transactions/{corporation_id}",
+     * @OA\Get(
+     *      path="/v2/corporation/wallet-transactions/{corporation_id}",
      *      tags={"Wallet"},
      *      summary="Get paginated wallet transactions for a corporation",
      *      description="Returns wallet transactions",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="corporation_id",
      *          description="Corporation id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/CorporationWalletTransaction")
+     *                  @OA\Items(ref="#/components/schemas/CorporationWalletTransaction")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $corporation_id
@@ -984,8 +540,8 @@ class CorporationController extends ApiController
     public function getWalletTransactions(int $corporation_id)
     {
 
-        return WalletTransactionResource::collection(
-                CorporationWalletTransaction::with('type')
+        return Resource::collection(
+                CorporationWalletTransaction::with('party', 'type')
                     ->where('corporation_id', $corporation_id)
             ->paginate());
     }
