@@ -25,6 +25,34 @@ namespace Seat\Api\Http\Resources;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Arr;
 
+/**
+ * Class CharacterSheetResource.
+ *
+ * @package Seat\Api\Http\Resources
+ *
+ * @OA\Schema(
+ *     type="object",
+ *     title="CharacterSheetResource",
+ *     schema="CharacterSheetResource",
+ *     description="Character Sheet Resource",
+ *     @OA\Property(property="name", type="string", description="Character name"),
+ *     @OA\Property(property="description", type="string", description="Character biography"),
+ *     @OA\Property(property="corporation", ref="#/components/schemas/UniverseName", description="Character corporation"),
+ *     @OA\Property(property="alliance", ref="#/components/schemas/UniverseName", description="Character alliance (if anny)"),
+ *     @OA\Property(property="faction", ref="#/components/schemas/UniverseName", description="Character faction (if any)"),
+ *     @OA\Property(property="birthday", type="string", format="date-time", description="Character birthday"),
+ *     @OA\Property(property="gender", type="string", enum={"male", "female"}, description="Character gender"),
+ *     @OA\Property(property="race_id", type="integer", description="Character race identifier"),
+ *     @OA\Property(property="bloodline_id", type="integer", description="Character bloodline identifier"),
+ *     @OA\Property(property="ancestry_id", type="integer", description="Character ancenstry identifier"),
+ *     @OA\Property(property="security_status", type="number", description="Character security status"),
+ *     @OA\Property(property="balance", type="number", description="Character wallet balance"),
+ *     @OA\Property(property="skillpoints", type="object",
+ *       @OA\Property(property="total_sp", type="number", description="The total skill points owned by the character"),
+ *       @OA\Property(property="unallocated_sp", type="number", description="The total skill points not allocated for this character")
+ *     )
+ * )
+ */
 class CharacterSheetResource extends Resource
 {
     /**
@@ -36,6 +64,24 @@ class CharacterSheetResource extends Resource
      */
     public function toArray($request)
     {
+        return [
+            'name' => $this->name,
+            'description' => $this->description,
+            'corporation' => $this->affiliation->corporation,
+            'alliance' => $this->affiliation->alliance,
+            'faction' => $this->affiliation->faction,
+            'birthday' => $this->birthday,
+            'gender' => $this->gender,
+            'race_id' => $this->race_id,
+            'bloodline_id' => $this->bloodline_id,
+            'ancestry_id' => $this->ancestry_id,
+            'security_status' => $this->security_status,
+            'balance' => $this->balance->balance,
+            'skillpoints' => [
+                'total_sp' => $this->skillpoints->total_sp,
+                'unallocated_sp' => $this->skillpoints->unallocated_sp,
+            ],
+        ];
 
         $definition = parent::toArray($request);
 

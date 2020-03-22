@@ -48,7 +48,7 @@ class ApiToken
 
             $this->log_activity($request, 'deny');
 
-            return response('Unauthorized', 401);
+            return response()->json('Unauthorized', 401);
         }
 
         $this->log_activity($request, 'allow');

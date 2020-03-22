@@ -77,13 +77,14 @@ class ApiServiceProvider extends AbstractSeatPlugin
         config([
             'l5-swagger.paths.annotations' => array_unique(array_merge($current_annotations, [
                 __DIR__ . '/Http/Controllers/Api/v2',
+                __DIR__ . '/Http/Resources',
             ])),
         ]);
 
-        config(['l5-swagger.swagger_version' => '2.0']);
+        config(['l5-swagger.swagger_version' => '3.0']);
 
         // Use base host configured in the .env file for the swagger host.
-        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => Str::after(env('APP_URL'), '://')]);
+        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => sprintf('%s/api', env('APP_URL'))]);
 
         // SwaggerUI long description.
         config(['l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. ' .
