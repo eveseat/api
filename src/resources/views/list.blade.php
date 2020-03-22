@@ -72,6 +72,7 @@
             <th>{{ trans('api::seat.comment') }}</th>
             <th>{{ trans_choice('api::seat.token', 1) }}</th>
             <th>{{ trans('api::seat.allowed_from') }}</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
