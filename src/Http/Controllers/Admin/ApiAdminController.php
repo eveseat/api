@@ -23,9 +23,10 @@
 namespace Seat\Api\Http\Controllers\Admin;
 
 use Illuminate\Support\Str;
+use Seat\Api\Http\DataTables\ApiTokenLogDataTable;
+use Seat\Api\Http\DataTables\Scopes\ApiTokenScope;
 use Seat\Api\Http\Validation\NewToken;
 use Seat\Api\Models\ApiToken;
-use Seat\Api\Models\ApiTokenLog;
 use Seat\Web\Http\Controllers\Controller;
 
 /**
@@ -77,17 +78,13 @@ class ApiAdminController extends Controller
     }
 
     /**
-     * @param $token_id
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param int $token_id
+     * @param \Seat\Api\Http\DataTables\ApiTokenLogDataTable $dataTable
+     * @return mixed
      */
-    public function showLogs($token_id)
+    public function show(int $token_id, ApiTokenLogDataTable $dataTable)
     {
-
-        $logs = ApiTokenLog::where('api_token_id', $token_id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(50);
-
-        return view('api::logs', compact('logs'));
+        return $dataTable->addScope(new ApiTokenScope($token_id))
+            ->render('api::logs.show');
     }
 }
