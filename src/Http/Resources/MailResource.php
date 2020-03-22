@@ -28,6 +28,18 @@ use Illuminate\Support\Arr;
 /**
  * Class MailResource.
  * @package Seat\Api\Http\Resources
+ *
+ * @OA\Schema(
+ *     schema="MailResource",
+ *     description="Mail Resource",
+ *     type="object",
+ *     @OA\Property(property="mail_id", type="integer", format="int64", description="The mail identifier"),
+ *     @OA\Property(property="subject", type="string", description="The mail topic"),
+ *     @OA\Property(property="timestamp", type="string", format="date-time", description="The date-time when the mail has been sent"),
+ *     @OA\Property(property="sender", ref="#/components/schemas/UniverseName", description="The mail sender"),
+ *     @OA\Property(property="body", type="string", description="The mail content"),
+ *     @OA\Property(property="recipients", type="array", description="A list of recipients", @OA\Items(ref="#/components/schemas/UniverseName"))
+ * )
  */
 class MailResource extends Resource
 {
@@ -46,11 +58,14 @@ class MailResource extends Resource
         Arr::forget($definition, 'character_id');
         Arr::forget($definition, 'created_at');
         Arr::forget($definition, 'updated_at');
+        Arr::forget($definition, 'from');
+
         Arr::set($definition, 'body', Arr::get($definition, 'body.body'));
         Arr::set($definition, 'recipients', array_map(function ($recipient) {
             return [
-                'recipient_id' => $recipient['recipient_id'],
-                'recipient_type' => $recipient['recipient_type'],
+                'entity_id' => $recipient['entity']['entity_id'],
+                'name' => $recipient['entity']['name'],
+                'category' => $recipient['entity']['category'],
             ];
         }, Arr::get($definition, 'recipients')));
 
