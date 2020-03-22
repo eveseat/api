@@ -31,31 +31,31 @@ use Seat\Web\Models\User;
 class RoleLookupController extends ApiController
 {
     /**
-     * @SWG\Get(
-     *      path="/roles/query/permissions",
+     * @OA\Get(
+     *      path="/v2/roles/query/permissions",
      *      tags={"Roles"},
      *      summary="Get the available SeAT permissions",
      *      description="Returns a list of permissions",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
      *              description="Permissions list",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="scope",
      *                  description="Permissions for the given scope where field name is scope",
-     *                  @SWG\Items(
+     *                  @OA\Items(
      *                      type="string",
      *                      description="Permission"
      *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @return \Illuminate\Http\JsonResponse
@@ -67,31 +67,35 @@ class RoleLookupController extends ApiController
     }
 
     /**
-     * @SWG\Get(
-     *      path="/roles/query/role-check/{character_id}/{role_name}",
+     * @OA\Get(
+     *      path="/v2/roles/query/role-check/{character_id}/{role_name}",
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="character_id",
      *          description="Character id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="role_name",
      *          description="SeAT Role name",
      *          required=true,
-     *          type="string",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int    $character_id
@@ -108,31 +112,35 @@ class RoleLookupController extends ApiController
     }
 
     /**
-     * @SWG\Get(
-     *      path="/roles/query/permission-check/{character_id}/{permission_name}",
+     * @OA\Get(
+     *      path="/v2/roles/query/permission-check/{character_id}/{permission_name}",
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="character_id",
      *          description="Character id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="permission_name",
      *          description="SeAT Permission name",
      *          required=true,
-     *          type="string",
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int    $character_id

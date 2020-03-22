@@ -43,8 +43,6 @@ class KillmailDetailResource extends Resource
         $definition = parent::toArray($request);
 
         Arr::forget($definition, 'killmail_id');
-        Arr::forget($definition, 'created_at');
-        Arr::forget($definition, 'updated_at');
 
         return $definition;
     }

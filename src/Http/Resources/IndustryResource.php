@@ -47,14 +47,12 @@ class IndustryResource extends Resource
             'station_id'             => $this->station_id,
             'activity_id'            => $this->activity_id,
             'blueprint_id'           => $this->blueprint_id,
-            'blueprint_type_id'      => $this->blueprint_type_id,
             'blueprint_location_id'  => $this->blueprint_location_id,
             'output_location_id'     => $this->output_location_id,
             'runs'                   => $this->runs,
             'cost'                   => $this->cost,
             'licensed_runs'          => $this->licensed_runs,
             'probability'            => $this->probability,
-            'product_type_id'        => $this->product_type_id,
             'status'                 => $this->status,
             'duration'               => $this->duration,
             'start_date'             => $this->start_date,
@@ -63,8 +61,8 @@ class IndustryResource extends Resource
             'completed_date'         => $this->completed_date,
             'completed_character_id' => $this->completed_character_id,
             'successful_runs'        => $this->successful_runs,
-            'created_at'             => $this->created_at,
-            'updated_at'             => $this->updated_at,
+            'blueprint'              => $this->blueprint,
+            'product'                => $this->product,
         ];
     }
 }

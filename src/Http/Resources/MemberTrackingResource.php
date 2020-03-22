@@ -47,8 +47,7 @@ class MemberTrackingResource extends Resource
             'logon_date'   => $this->logon_date,
             'logoff_date'  => $this->logoff_date,
             'location_id'  => $this->location_id,
-            'ship_type_id' => $this->ship_type_id,
-            'ship_type'    => $this->type,
+            'ship'         => $this->ship,
         ];
     }
 }

@@ -36,125 +36,66 @@ use Seat\Web\Models\User;
 class UserController extends ApiController
 {
     /**
-     * @SWG\Get(
-     *      path="/users",
+     * @OA\Get(
+     *      path="/v2/users",
      *      tags={"Users"},
      *      summary="Get a list of users, associated character id's and group ids",
      *      description="Returns list of users",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#/definitions/User")
+     *                  @OA\Items(ref="#/components/schemas/User")
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="links",
-     *                  description="Provide pagination urls for navigation",
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="first",
-     *                      description="First page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="last",
-     *                      description="Last page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="prev",
-     *                      description="Previous page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="next",
-     *                      description="Next page"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
      *              ),
-     *              @SWG\Property(
-     *                  type="object",
+     *              @OA\Property(
      *                  property="meta",
-     *                  description="Information related to the paginated response",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="current_page",
-     *                      description="The current page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="from",
-     *                      description="The first entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="last_page",
-     *                      description="The last page available"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      format="uri",
-     *                      property="path",
-     *                      description="The base endpoint"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="per_page",
-     *                      description="The pagination step"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="to",
-     *                      description="The last entity number on the page"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      property="total",
-     *                      description="The total of available entities"
-     *                  )
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
-     *     )
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     * )
      *
-     * @SWG\Get(
-     *      path="/users/{user_id}",
+     * @OA\Get(
+     *      path="/v2/users/{user_id}",
      *      tags={"Users"},
      *      summary="Get group id's and associated character_id's for a user",
      *      description="Returns a user",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="user_id",
      *          description="User id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              @SWG\Property(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
      *                  type="object",
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/components/schemas/User"
      *              ),
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
-     *     )
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     * )
      *
      * @param null $user_id
      *
@@ -170,53 +111,57 @@ class UserController extends ApiController
     }
 
     /**
-     * @SWG\Get(
-     *      path="/users/groups",
+     * @OA\Get(
+     *      path="/v2/users/groups",
      *      tags={"Users"},
      *      summary="Get a list of groups with their associated character_id's",
      *      description="Returns list of groups",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              @SWG\Property(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
      *                  type="array",
      *                  property="data",
-     *                  @SWG\Items(ref="#definitions/Group")
+     *                  @OA\Items(ref="#definitions/Group")
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @SWG\Get(
-     *      path="/users/groups/{group_id}",
+     * @OA\Get(
+     *      path="/v2/users/groups/{group_id}",
      *      tags={"Users"},
      *      summary="Get a group with its associated character_id's",
      *      description="Returns a group",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="group_id",
      *          description="Group id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              @SWG\Property(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
      *                  type="object",
      *                  property="data",
      *                  ref="#definitions/Group"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param null $group_id
@@ -233,23 +178,23 @@ class UserController extends ApiController
     }
 
     /**
-     * @SWG\Get(
-     *      path="/users/configured-scopes",
+     * @OA\Get(
+     *      path="/v2/users/configured-scopes",
      *      tags={"Users"},
      *      summary="Get a list of the scopes configured for this instance",
      *      description="Returns list of scopes",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="array",
      *              description="The scope list requested by the SeAT instance",
-     *              @SWG\Items(type="string")
+     *              @OA\Items(type="string")
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -263,65 +208,64 @@ class UserController extends ApiController
     }
 
     /**
-     * @SWG\Post(
-     *      path="/users/",
+     * @OA\Post(
+     *      path="/v2/users/",
      *      tags={"Users"},
      *      summary="Create a new SeAT user",
      *      description="Creates a new SeAT user",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"user_id", "name", "character_owner_hash", "refresh_token", "scopes"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  format="int64",
-     *                  minimum=90000000,
-     *                  property="user_id",
-     *                  description="Eve Online Character ID"
-     *              ),
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="group_id",
-     *                  description="The SeAT group id. If ommited, a new group will be created"
-     *              ),
-     *              @SWG\Property(
-     *                  type="string",
-     *                  property="name",
-     *                  description="Eve Online Character Name"
-     *              ),
-     *              @SWG\Property(
-     *                  type="boolean",
-     *                  property="active",
-     *                  description="Set the SeAT account state. Default is true"
-     *              ),
-     *              @SWG\Property(
-     *                  type="string",
-     *                  property="character_owner_hash",
-     *                  description="Eve Online account character hash"
-     *              ),
-     *              @SWG\Property(
-     *                  type="string",
-     *                  property="refresh_token",
-     *                  description="A refresh token for the account"
-     *              ),
-     *              @SWG\Property(
-     *                  type="array",
-     *                  @SWG\Items(type="string"),
-     *                  property="scopes",
-     *                  description="ESI scopes as array that are valid for the refresh token"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"user_id", "name", "character_owner_hash", "refresh_token", "scopes"},
+     *                  @OA\Property(
+     *                      property="user_id",
+     *                      type="integer",
+     *                      format="int64",
+     *                      minimum=90000000,
+     *                      description="Eve Online Character ID"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="group_id",
+     *                      type="integer",
+     *                      minimum=1,
+     *                      description="The SeAT group id. If ommited, a new group will be created"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="string",
+     *                      description="Eve Online Character Name"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="active",
+     *                      type="boolean",
+     *                      description="Set the SeAT account state. Default is true"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="character_owner_hash",
+     *                      type="string",
+     *                      description="Eve Online account character hash"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="refresh_token",
+     *                      type="string",
+     *                      description="A refresh token for the account"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="scopes",
+     *                      type="array",
+     *                      @OA\Items(type="string"),
+     *                      description="ESI scopes as array that are valid for the refresh token"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param \Seat\Api\Http\Validation\NewUser $request
@@ -354,24 +298,26 @@ class UserController extends ApiController
     }
 
     /**
-     * @SWG\Delete(
-     *      path="/users/{user_id}",
+     * @OA\Delete(
+     *      path="/v2/users/{user_id}",
      *      tags={"Users"},
      *      summary="Delete a SeAT user",
      *      description="Deletes a user",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="user_id",
      *          description="A SeAT user id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param int $user_id

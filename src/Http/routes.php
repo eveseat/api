@@ -101,7 +101,7 @@ Route::group([
                 Route::get('/bookmarks/{character_id}', 'CharacterController@getBookmarks');
                 Route::get('/contacts/{character_id}', 'CharacterController@getContacts');
                 Route::get('/industry/{character_id}', 'CharacterController@getIndustry');
-                Route::get('/killmails/{character_id}/{killmail_id?}', 'CharacterController@getKillmails');
+                Route::get('/killmails/{character_id}/{killmail_id?}', 'KillmailsController@getCharacterKillmails');
                 Route::get('/market-orders/{character_id}', 'CharacterController@getMarketOrders');
                 Route::get('/contracts/{character_id}', 'CharacterController@getContracts');
                 Route::get('/sheet/{character_id}', 'CharacterController@getSheet');
@@ -122,7 +122,7 @@ Route::group([
                 Route::get('/contacts/{corporation_id}', 'CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}', 'CorporationController@getContracts');
                 Route::get('/industry/{corporation_id}', 'CorporationController@getIndustry');
-                Route::get('/killmails/{corporation_id}', 'CorporationController@getKillmails');
+                Route::get('/killmails/{corporation_id}', 'KillmailsController@getCorporationKillmails');
                 Route::get('/market-orders/{corporation_id}', 'CorporationController@getMarketOrders');
                 Route::get('/member-tracking/{corporation_id}', 'CorporationController@getMemberTracking');
                 Route::get('/sheet/{corporation_id}', 'CorporationController@getSheet');

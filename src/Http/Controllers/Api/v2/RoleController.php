@@ -24,6 +24,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Validation\RenameRole;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
@@ -38,116 +39,114 @@ class RoleController extends ApiController
     use ValidatesRequests;
 
     /**
-     * @SWG\Get(
-     *      path="/roles",
+     * @OA\Get(
+     *      path="/v2/roles",
      *      tags={"Roles"},
      *      summary="Get the roles configured within SeAT",
      *      description="Returns a list of roles",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
-     *              type="array",
-     *              description="Array of defined roles",
-     *              @SWG\Items(
-     *                  type="object",
-     *                  description="Role",
-     *                  @SWG\Property(
-     *                      type="integer",
-     *                      minimum=1,
-     *                      property="id",
-     *                      description="The unique identifier of the role"
-     *                  ),
-     *                  @SWG\Property(
-     *                      type="string",
-     *                      property="title",
-     *                      description="The name of the role"
-     *                  )
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  description="Array of defined roles",
+     *                  @OA\Items(ref="#/components/schemas/Role")
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getIndex()
     {
 
-        $roles = Role::all();
-
-        return response()->json($roles);
+        return Resource::collection(Role::paginate());
     }
 
     /**
-     * @SWG\Get(
-     *      path="/roles/{role_id}",
+     * @OA\Get(
+     *      path="/v2/roles/{role_id}",
      *      tags={"Roles"},
      *      summary="Get detailed information about a role",
      *      description="Returns a roles details",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="role_id",
      *          description="Role id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
      *              description="Role",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="integer",
      *                  minimum=1,
      *                  property="id",
      *                  description="The unique identifier of the role"
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="string",
      *                  property="title",
      *                  description="The name of the role"
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="groups",
      *                  description="Attached user relationships",
-     *                  @SWG\Items(
+     *                  @OA\Items(
      *                      type="object",
      *                      description="User relationship",
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="integer",
      *                          minimum=1,
      *                          property="id",
      *                          description="The unique identifier of the relationship"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="string",
      *                          format="date-time",
      *                          property="created_at",
      *                          description="The creation date-time of the relationship"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="string",
      *                          format="date-time",
      *                          property="updated_at",
      *                          description="The last update date-time of the relationship"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="object",
      *                          property="pivot",
      *                          description="The association keys between user relationship and role",
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              minimum=1,
      *                              property="role_id",
      *                              description="The role identifier"
      *                          ),
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              minimum=1,
      *                              property="group_id",
@@ -156,41 +155,41 @@ class RoleController extends ApiController
      *                      )
      *                  )
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="permissions",
      *                  description="A list of permissions object",
-     *                  @SWG\Items(
+     *                  @OA\Items(
      *                      type="object",
      *                      description="Permission",
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="integer",
      *                          minimum=1,
      *                          property="id",
      *                          description="The unique identifier of permission"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="string",
      *                          property="title",
      *                          description="The permission name"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="object",
      *                          property="pivot",
      *                          description="The association keys between the role and permission",
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              minimum=1,
      *                              property="role_id",
      *                              description="The role identifier"
      *                          ),
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              minimum=1,
      *                              property="permission_id",
      *                              description="The permission identifier"
      *                          ),
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="boolean",
      *                              property="not",
      *                              description="True if the permission is negated - meaning role does not have it"
@@ -198,48 +197,48 @@ class RoleController extends ApiController
      *                      )
      *                  )
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="array",
      *                  property="affiliations",
      *                  description="A list of affiliated entities (character or corporation)",
-     *                  @SWG\Items(
+     *                  @OA\Items(
      *                      type="object",
      *                      description="Affiliation",
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="integer",
      *                          minimum=1,
      *                          property="id",
      *                          description="The affiliation identifier"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="integer",
      *                          format="int64",
      *                          minimum=0,
      *                          property="affiliation",
      *                          description="The entity ID to which affiliation is related (0 if all)"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="string",
      *                          enum={"corp", "char"},
      *                          property="type",
      *                          description="Determine the type of entity - char for Character - corp for Corporation"
      *                      ),
-     *                      @SWG\Property(
+     *                      @OA\Property(
      *                          type="object",
      *                          property="pivot",
      *                          description="The association keys between the role and an entity",
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              property="role_id",
      *                              description="The role identifier"
      *                          ),
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="integer",
      *                              format="int64",
      *                              property="affiliation_id",
      *                              description="The affiliated entity identifier"
      *                          ),
-     *                          @SWG\Property(
+     *                          @OA\Property(
      *                              type="boolean",
      *                              property="not",
      *                              description="Determine if the affiliation is negated (meaning excluded)"
@@ -249,8 +248,8 @@ class RoleController extends ApiController
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param $role_id
@@ -268,32 +267,31 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Post(
-     *      path="/roles",
+     * @OA\Post(
+     *      path="/v2/roles",
      *      tags={"Roles"},
      *      summary="Create a new SeAT role",
      *      description="Creates a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"title"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="string",
-     *                  property="title",
-     *                  description="The new group name"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"title"},
+     *                  @OA\Property(
+     *                      property="title",
+     *                      type="string",
+     *                      description="The new group name"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="integer",
      *                  minimum=1,
      *                  property="role_id",
@@ -301,25 +299,25 @@ class RoleController extends ApiController
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
-     *      @SWG\Response(response=422, description="Unprocessable Entity",
-     *          @SWG\Schema(
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=422, description="Unprocessable Entity",
+     *          @OA\Schema(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="string",
      *                  property="message",
      *                  description="The readable error message"
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="object",
      *                  property="errors",
      *                  description="Detailed information related to the encountered error",
-     *                  @SWG\Property(
+     *                  @OA\Property(
      *                      type="array",
      *                      property="title",
      *                      description="The field for which the error has been encountered",
-     *                      @SWG\Items(
+     *                      @OA\Items(
      *                          type="string",
      *                          description="A list of the encountered error for this field"
      *                      )
@@ -348,55 +346,56 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Put(
-     *      path="/roles/{role_id}",
+     * @OA\Put(
+     *      path="/v2/roles/{role_id}",
      *      tags={"Roles"},
      *      summary="Rename an existing SeAT role",
      *      description="Rename a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="role_id",
      *          description="Role ID",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"title"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="string",
-     *                  property="title",
-     *                  description="The new group name"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"title"},
+     *                  @OA\Property(
+     *                      property="title",
+     *                      type="string",
+     *                      description="The new group name"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
-     *      @SWG\Response(response=422, description="Unprocessable Entity",
-     *          @SWG\Schema(
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=422, description="Unprocessable Entity",
+     *          @OA\JsonContent(
      *              type="object",
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="string",
      *                  property="message",
      *                  description="The readable error message"
      *              ),
-     *              @SWG\Property(
+     *              @OA\Property(
      *                  type="object",
      *                  property="errors",
      *                  description="Detailed information related to the encountered error",
-     *                  @SWG\Property(
+     *                  @OA\Property(
      *                      type="array",
      *                      property="title",
      *                      description="The field for which the error has been encountered",
-     *                      @SWG\Items(
+     *                      @OA\Items(
      *                          type="string",
      *                          description="A list of the encountered error for this field"
      *                      )
@@ -421,43 +420,42 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Post(
-     *      path="/roles/affiliation/character",
+     * @OA\Post(
+     *      path="/v2/roles/affiliation/character",
      *      tags={"Roles"},
      *      summary="Add a character affiliation to a SeAT role",
      *      description="Adds a character affiliation",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"role_id", "character_id"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="role_id",
-     *                  description="Role id"
-     *              ),
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=0,
-     *                  property="character_id",
-     *                  description="Character id"
-     *              ),
-     *              @SWG\Property(
-     *                  type="boolean",
-     *                  property="inverse",
-     *                  description="Inverse flag"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"role_id", "character_id"},
+     *                  @OA\Property(
+     *                      property="role_id",
+     *                      type="integer",
+     *                      minimum=1,
+     *                      description="Role id"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="character_id",
+     *                      type="integer",
+     *                      minimum=90000000,
+     *                      description="Character id"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="inverse",
+     *                      type="boolean",
+     *                      description="Inverse flag"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param Request $request
@@ -483,43 +481,42 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Post(
-     *      path="/roles/affiliation/corporation",
+     * @OA\Post(
+     *      path="/v2/roles/affiliation/corporation",
      *      tags={"Roles"},
      *      summary="Add a corporation affiliation to a SeAT role",
      *      description="Adds a corporation affiliation",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"role_id", "corporation_id"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="role_id",
-     *                  description="Role id"
-     *              ),
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=0,
-     *                  property="corporation_id",
-     *                  description="Corporation id"
-     *              ),
-     *              @SWG\Property(
-     *                  type="boolean",
-     *                  property="inverse",
-     *                  description="Inverse flag"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"role_id", "corporation_id"},
+     *                  @OA\Property(
+     *                      property="role_id",
+     *                      type="integer",
+     *                      minimum=1,
+     *                      description="Role id"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="corporation_id",
+     *                      type="integer",
+     *                      minimum=98000000,
+     *                      description="Corporation id"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="inverse",
+     *                      type="boolean",
+     *                      description="Inverse flag"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param Request $request
@@ -545,24 +542,26 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Delete(
-     *      path="/roles/{role_id}",
+     * @OA\Delete(
+     *      path="/v2/roles/{role_id}",
      *      tags={"Roles"},
      *      summary="Delete a SeAT role",
      *      description="Deletes a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="role_id",
      *          description="Role id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param $role_id
@@ -578,38 +577,37 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Post(
-     *      path="/roles/groups",
+     * @OA\Post(
+     *      path="/v2/roles/groups",
      *      tags={"Roles"},
      *      summary="Grant a user relationship a SeAT role",
      *      description="Grants a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          required=true,
-     *          @SWG\Schema(
-     *              required={"group_id", "role_id"},
-     *              type="object",
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="group_id",
-     *                  description="The user relationship identifier"
-     *              ),
-     *              @SWG\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="role_id",
-     *                  description="The role identifier"
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  required={"group_id", "role_id"},
+     *                  @OA\Property(
+     *                      property="group_id",
+     *                      type="integer",
+     *                      minimum=1,
+     *                      description="The user relationship identifier"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="role_id",
+     *                      type="integer",
+     *                      minimum=1,
+     *                      description="The role identifier"
+     *                  )
      *              )
      *          )
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param $request
@@ -630,31 +628,35 @@ class RoleController extends ApiController
     }
 
     /**
-     * @SWG\Delete(
-     *      path="/roles/groups/{group_id}/{role_id}",
+     * @OA\Delete(
+     *      path="/v2/roles/groups/{group_id}/{role_id}",
      *      tags={"Roles"},
      *      summary="Revoke a SeAT role from a user relationship",
      *      description="Revokes a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="group_id",
      *          description="User relationship identifier",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Parameter(
+     *      @OA\Parameter(
      *          name="role_id",
      *          description="Role id",
      *          required=true,
-     *          type="integer",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
      *          in="path"
      *      ),
-     *      @SWG\Response(response=200, description="Successful operation"),
-     *      @SWG\Response(response=400, description="Bad request"),
-     *      @SWG\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param $user_id
