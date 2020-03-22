@@ -24,7 +24,6 @@ namespace Seat\Api;
 
 use App\Providers\AbstractSeatPlugin;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Str;
 use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
 
