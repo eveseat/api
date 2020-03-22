@@ -41,7 +41,7 @@ Route::group([
                 'uses' => 'ApiAdminController@generateToken', ]);
             Route::get('/logs/{token_id}', [
                 'as'   => 'api-admin.token.logs',
-                'uses' => 'ApiAdminController@showLogs', ]);
+                'uses' => 'ApiAdminController@show', ]);
             Route::get('/delete/{token_id}', [
                 'as'   => 'api-admin.token.delete',
                 'uses' => 'ApiAdminController@deleteToken', ]);
