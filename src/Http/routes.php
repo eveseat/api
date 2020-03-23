@@ -70,6 +70,14 @@ Route::group([
                 Route::get('/configured-scopes', 'UserController@getConfiguredScopes');
             });
 
+            Route::group(['prefix' => 'squads'], function () {
+                Route::get('/', 'SquadController@index');
+                Route::get('/{squad_id}', 'SquadController@show');
+                Route::post('/', 'SquadController@store');
+                Route::put('/{squad_id}', 'SquadController@update');
+                Route::delete('/{squad_id}', 'SquadController@destroy');
+            });
+
             Route::group(['prefix' => 'roles'], function () {
 
                 Route::get('/', 'RoleController@getIndex');
