@@ -69,8 +69,10 @@ class ApiServiceProvider extends AbstractSeatPlugin
 
         // Tell L5-swagger where to find annotations. These form
         // part of the controllers themselves.
-        $this->registerApiAnnotationsPath(__DIR__ . '/Http/Controllers/Api/v2');
-        $this->registerApiAnnotationsPath(__DIR__ . '/Http/Resources');
+        $this->registerApiAnnotationsPath([
+            __DIR__ . '/Http/Controllers/Api/v2',
+            __DIR__ . '/Http/Resources',
+        ]);
 
         config(['l5-swagger.swagger_version' => '3.0']);
 
