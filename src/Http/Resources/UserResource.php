@@ -27,6 +27,69 @@ use Illuminate\Http\Resources\Json\Resource;
 /**
  * Class UserResource.
  * @package Seat\Api\Http\Resources
+ *
+ * @OA\Schema(
+ *     description="User",
+ *     schema="User",
+ *     title="User",
+ *     type="object"
+ * )
+ *
+ * @OA\Property(
+ *     property="id",
+ *     type="integer",
+ *     format="int64",
+ *     minimum=1,
+ *     description="ID"
+ * )
+ *
+ * @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     description="Name",
+ *     maxLength=255
+ * )
+ *
+ * @OA\Property(
+ *     property="email",
+ *     type="string",
+ *     format="email",
+ *     description="E-Mail address"
+ * )
+ *
+ * @OA\Property(
+ *     property="active",
+ *     type="boolean",
+ *     description="Account status"
+ * )
+ *
+ * @OA\Property(
+ *     property="last_login",
+ *     type="string",
+ *     format="date-time",
+ *     description="Last login to SeAT time"
+ * )
+ *
+ * @OA\Property(
+ *     property="last_login_source",
+ *     type="string",
+ *     description="Last IP address used to sign in to SeAT"
+ * )
+ *
+ * @OA\Property(
+ *     property="associated_character_ids",
+ *     type="array",
+ *     description="Array of attached character ID",
+ *     @OA\Items(type="integer", format="int64", minimum=90000000)
+ * )
+ *
+ * @OA\Property(
+ *     property="main_character_id",
+ *     type="integer",
+ *     format="int64",
+ *     minimum=90000000,
+ *     description="The main character ID of this group"
+ * )
  */
 class UserResource extends Resource
 {
@@ -46,12 +109,10 @@ class UserResource extends Resource
             'name'                     => $this->name,
             'email'                    => $this->email,
             'active'                   => $this->active,
-            'character_owner_hash'     => $this->character_owner_hash,
             'last_login'               => $this->last_login,
             'last_login_source'        => $this->last_login_source,
             'associated_character_ids' => $this->associatedCharacterIds(),
             'main_character_id'        => $this->main_character_id,
-            'token'                    => $this->refresh_token,
         ];
     }
 }
