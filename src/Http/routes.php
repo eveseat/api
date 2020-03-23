@@ -64,8 +64,8 @@ Route::group([
                 Route::post('/', 'UserController@postNewUser');
                 Route::delete('/{user_id}', 'UserController@deleteUser');
 
-                Route::get('/{user_id?}', 'UserController@getUsers')->where(['user_id' => '[0-9]+']);
-                Route::get('/groups/{group_id?}', 'UserController@getGroups');
+                Route::get('/', 'UserController@getUsers');
+                Route::get('/{user_id}', 'UserController@show')->where(['user_id' => '[0-9]+']);
 
                 Route::get('/configured-scopes', 'UserController@getConfiguredScopes');
             });
@@ -78,7 +78,7 @@ Route::group([
                 Route::patch('/{role_id}', 'RoleController@patch')->where('role_id', '[0-9]+');
                 Route::delete('/{role_id}', 'RoleController@deleteRole')->where('role_id', '[0-9]+');
                 Route::post('/members', 'RoleController@postGrantUserRole');
-                Route::delete('/members/{group_id}/{role_id}', 'RoleController@deleteRevokeGroupRole');
+                Route::delete('/members/{user_id}/{role_id}', 'RoleController@deleteRevokeUserRole');
 
                 Route::group(['prefix' => 'query'], function () {
 

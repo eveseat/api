@@ -442,7 +442,7 @@ class RoleController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteRevokeGroupRole($user_id, $role_id)
+    public function deleteRevokeUserRole($user_id, $role_id)
     {
 
         $this->removeUserFromRole($user_id, $role_id);

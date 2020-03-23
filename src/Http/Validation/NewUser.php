@@ -51,31 +51,10 @@ class NewUser extends FormRequest
     {
 
         return [
-            'user_id'              => 'required|integer|unique:users,id',
-            'group_id'             => [
-                'integer',
-                'exists:groups,id',
-                function ($attribute, $value, $fail) {
-
-                    // retrieve admin group, if any
-                    $admin_group = Group::whereHas('users', function ($query) {
-
-                        $query->where('name', 'admin');
-                    })->first();
-
-                    // if the requested group_id is matching the admin one; skip
-                    if (! is_null($admin_group) && $admin_group->id == $value) {
-                        return $fail('You cannot attach any user to the admin group relationship.');
-                    }
-                },
-            ],
             'name'                 => 'required|unique:users,name',
-            'character_owner_hash' => 'required|unique:users,character_owner_hash',
+            'main_character_id'    => 'required|integer',
             'active'               => 'boolean',
-
-            'refresh_token' => 'required|unique:refresh_tokens,refresh_token',
-            'scopes'        => 'required|array',
-            'scopes.*'      => 'required|in:' . implode(',', config('eveapi.scopes')),
+            'email'                => 'email',
         ];
     }
 }
