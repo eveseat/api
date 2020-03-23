@@ -25,7 +25,9 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
-use Seat\Api\Http\Validation\RenameRole;
+use Seat\Api\Http\Resources\RoleResource;
+use Seat\Api\Http\Validation\EditRole;
+use Seat\Api\Http\Validation\NewRole;
 use Seat\Web\Acl\AccessManager;
 use Seat\Web\Models\Acl\Role;
 
@@ -98,153 +100,10 @@ class RoleController extends ApiController
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
-     *              type="object",
-     *              description="Role",
      *              @OA\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="id",
-     *                  description="The unique identifier of the role"
-     *              ),
-     *              @OA\Property(
-     *                  type="string",
-     *                  property="title",
-     *                  description="The name of the role"
-     *              ),
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="groups",
-     *                  description="Attached user relationships",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      description="User relationship",
-     *                      @OA\Property(
-     *                          type="integer",
-     *                          minimum=1,
-     *                          property="id",
-     *                          description="The unique identifier of the relationship"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="string",
-     *                          format="date-time",
-     *                          property="created_at",
-     *                          description="The creation date-time of the relationship"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="string",
-     *                          format="date-time",
-     *                          property="updated_at",
-     *                          description="The last update date-time of the relationship"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="object",
-     *                          property="pivot",
-     *                          description="The association keys between user relationship and role",
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              minimum=1,
-     *                              property="role_id",
-     *                              description="The role identifier"
-     *                          ),
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              minimum=1,
-     *                              property="group_id",
-     *                              description="The user relationship identifier"
-     *                          )
-     *                      )
-     *                  )
-     *              ),
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="permissions",
-     *                  description="A list of permissions object",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      description="Permission",
-     *                      @OA\Property(
-     *                          type="integer",
-     *                          minimum=1,
-     *                          property="id",
-     *                          description="The unique identifier of permission"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="string",
-     *                          property="title",
-     *                          description="The permission name"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="object",
-     *                          property="pivot",
-     *                          description="The association keys between the role and permission",
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              minimum=1,
-     *                              property="role_id",
-     *                              description="The role identifier"
-     *                          ),
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              minimum=1,
-     *                              property="permission_id",
-     *                              description="The permission identifier"
-     *                          ),
-     *                          @OA\Property(
-     *                              type="boolean",
-     *                              property="not",
-     *                              description="True if the permission is negated - meaning role does not have it"
-     *                          )
-     *                      )
-     *                  )
-     *              ),
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="affiliations",
-     *                  description="A list of affiliated entities (character or corporation)",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      description="Affiliation",
-     *                      @OA\Property(
-     *                          type="integer",
-     *                          minimum=1,
-     *                          property="id",
-     *                          description="The affiliation identifier"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="integer",
-     *                          format="int64",
-     *                          minimum=0,
-     *                          property="affiliation",
-     *                          description="The entity ID to which affiliation is related (0 if all)"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="string",
-     *                          enum={"corp", "char"},
-     *                          property="type",
-     *                          description="Determine the type of entity - char for Character - corp for Corporation"
-     *                      ),
-     *                      @OA\Property(
-     *                          type="object",
-     *                          property="pivot",
-     *                          description="The association keys between the role and an entity",
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              property="role_id",
-     *                              description="The role identifier"
-     *                          ),
-     *                          @OA\Property(
-     *                              type="integer",
-     *                              format="int64",
-     *                              property="affiliation_id",
-     *                              description="The affiliated entity identifier"
-     *                          ),
-     *                          @OA\Property(
-     *                              type="boolean",
-     *                              property="not",
-     *                              description="Determine if the affiliation is negated (meaning excluded)"
-     *                          )
-     *                      )
-     *                  )
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/components/schemas/RoleResource"
      *              )
      *          )
      *      ),
@@ -252,18 +111,17 @@ class RoleController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param $role_id
-     *
-     * @return \Illuminate\Http\Response
+     * @param int $role_id
+     * @return \Seat\Api\Http\Resources\RoleResource
      */
-    public function getDetail($role_id)
+    public function getDetail(int $role_id)
     {
 
-        $role = Role::with('groups', 'permissions', 'affiliations')
-            ->where(is_numeric($role_id) ? 'id' : 'title', $role_id)
+        $role = Role::with('permissions', 'users', 'squads')
+            ->where('id', $role_id)
             ->first();
 
-        return response()->json($role);
+        return RoleResource::make($role);
     }
 
     /**
@@ -283,19 +141,28 @@ class RoleController extends ApiController
      *                  @OA\Property(
      *                      property="title",
      *                      type="string",
-     *                      description="The new group name"
+     *                      description="The new role name"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="description",
+     *                      type="string",
+     *                      description="The new role description"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="logo",
+     *                      type="string",
+     *                      format="byte",
+     *                      description="Base64 encoded new role logo"
      *                  )
      *              )
      *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
-     *              type="object",
      *              @OA\Property(
-     *                  type="integer",
-     *                  minimum=1,
-     *                  property="role_id",
-     *                  description="The newly created role identifier"
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/components/schemas/CreateRole"
      *              )
      *          )
      *      ),
@@ -327,30 +194,32 @@ class RoleController extends ApiController
      *      ),
      *     )
      *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param \Seat\Api\Http\Validation\NewRole $request
+     * @return \Seat\Api\Http\Resources\RoleResource
      */
-    public function postNew(Request $request)
+    public function postNew(NewRole $request)
     {
-
-        $this->validate($request, [
-            'title' => 'required|string|unique:roles,title',
+        $role = new Role([
+            'title' => $request->input('title'),
         ]);
 
-        $name = $request->input('title');
+        if ($request->has('description'))
+            $role->description = $request->input('description');
 
-        $role = $this->addRole($name);
+        if ($request->has('logo'))
+            $role->logo = $request->input('logo');
 
-        return response()->json(['role_id' => $role->id]);
+        $role->save();
+
+        return RoleResource::make($role);
     }
 
     /**
-     * @OA\Put(
+     * @OA\Patch(
      *      path="/v2/roles/{role_id}",
      *      tags={"Roles"},
-     *      summary="Rename an existing SeAT role",
-     *      description="Rename a role",
+     *      summary="Edit an existing SeAT role",
+     *      description="Edit a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
@@ -367,16 +236,35 @@ class RoleController extends ApiController
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  required={"title"},
      *                  @OA\Property(
      *                      property="title",
      *                      type="string",
-     *                      description="The new group name"
+     *                      description="The new role name"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="description",
+     *                      type="string",
+     *                      description="The new role description"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="logo",
+     *                      type="string",
+     *                      format="byte",
+     *                      description="Base64 encoded new role logo"
      *                  )
      *              )
      *          )
      *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/components/schemas/RoleResource"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=304, description="Your request didn't apply any change"),
      *      @OA\Response(response=400, description="Bad request"),
      *      @OA\Response(response=401, description="Unauthorized"),
      *      @OA\Response(response=422, description="Unprocessable Entity",
@@ -405,140 +293,30 @@ class RoleController extends ApiController
      *      ),
      *     )
      *
-     * @param RenameRole $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param \Seat\Api\Http\Validation\EditRole $request
+     * @param int $role_id
+     * @return \Illuminate\Http\JsonResponse|\Seat\Api\Http\Resources\RoleResource
      */
-    public function putRename(RenameRole $request, $role_id)
+    public function patch(EditRole $request, int $role_id)
     {
         $role = $this->getRole($role_id);
 
-        $role->title = $request->input('title');
-        $role->save();
+        if ($request->has('title'))
+            $role->title = $request->input('title');
 
-        return response()->json(true);
-    }
+        if ($request->has('description'))
+            $role->description = $request->input('description');
 
-    /**
-     * @OA\Post(
-     *      path="/v2/roles/affiliation/character",
-     *      tags={"Roles"},
-     *      summary="Add a character affiliation to a SeAT role",
-     *      description="Adds a character affiliation",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  required={"role_id", "character_id"},
-     *                  @OA\Property(
-     *                      property="role_id",
-     *                      type="integer",
-     *                      minimum=1,
-     *                      description="Role id"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="character_id",
-     *                      type="integer",
-     *                      minimum=90000000,
-     *                      description="Character id"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="inverse",
-     *                      type="boolean",
-     *                      description="Inverse flag"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function postAddCharacterAffiliation(Request $request)
-    {
+        if ($request->has('logo'))
+            $role->logo = $request->input('logo');
 
-        $this->validate($request, [
-            'role_id'      => 'required|exists:roles,id|numeric|min:2',
-            'character_id' => 'required|exists:character_infos,character_id|numeric',
-            'inverse'      => 'sometimes|required|boolean',
-        ]);
+        if ($role->isDirty()) {
+            $role->save();
 
-        $this->giveRoleCharacterAffiliation(
-            $request->input('role_id'),
-            $request->input('character_id'),
-            $request->has('inverse') ? $request->input('inverse') : false
-        );
+            return RoleResource::make($role);
+        }
 
-        return response()->json(true);
-    }
-
-    /**
-     * @OA\Post(
-     *      path="/v2/roles/affiliation/corporation",
-     *      tags={"Roles"},
-     *      summary="Add a corporation affiliation to a SeAT role",
-     *      description="Adds a corporation affiliation",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  required={"role_id", "corporation_id"},
-     *                  @OA\Property(
-     *                      property="role_id",
-     *                      type="integer",
-     *                      minimum=1,
-     *                      description="Role id"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="corporation_id",
-     *                      type="integer",
-     *                      minimum=98000000,
-     *                      description="Corporation id"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="inverse",
-     *                      type="boolean",
-     *                      description="Inverse flag"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function postAddCorporationAffiliation(Request $request)
-    {
-
-        $this->validate($request, [
-            'role_id'        => 'required|exists:roles,id|numeric|min:2',
-            'corporation_id' => 'required|exists:corporation_infos,corporation_id|numeric',
-            'inverse'        => 'sometimes|required|boolean',
-        ]);
-
-        $this->giveRoleCorporationAffiliation(
-            $request->input('role_id'),
-            $request->input('corporation_id'),
-            $request->has('inverse') ? $request->input('inverse') : false
-        );
-
-        return response()->json(true);
+        return response()->json('', 304);
     }
 
     /**
@@ -570,6 +348,7 @@ class RoleController extends ApiController
      */
     public function deleteRole($role_id)
     {
+        Role::findOrFail($role_id);
 
         $this->removeRole($role_id);
 
@@ -578,9 +357,9 @@ class RoleController extends ApiController
 
     /**
      * @OA\Post(
-     *      path="/v2/roles/groups",
+     *      path="/v2/roles/members",
      *      tags={"Roles"},
-     *      summary="Grant a user relationship a SeAT role",
+     *      summary="Grant a user a SeAT role",
      *      description="Grants a role",
      *      security={
      *          {"ApiKeyAuth": {}}
@@ -589,12 +368,12 @@ class RoleController extends ApiController
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  required={"group_id", "role_id"},
+     *                  required={"user_id", "role_id"},
      *                  @OA\Property(
-     *                      property="group_id",
+     *                      property="user_id",
      *                      type="integer",
      *                      minimum=1,
-     *                      description="The user relationship identifier"
+     *                      description="The user identifier"
      *                  ),
      *                  @OA\Property(
      *                      property="role_id",
@@ -617,28 +396,27 @@ class RoleController extends ApiController
     public function postGrantUserRole(Request $request)
     {
         $this->validate($request, [
-            'group_id' => 'required|exists:groups,id|numeric',
+            'user_id' => 'required|exists:users,id|numeric',
             'role_id' => 'required|exists:roles,id|numeric',
         ]);
 
-        $this->giveGroupRole($request->input('group_id'), $request->input('role_id'));
+        $this->giveUserRole($request->input('user_id'), $request->input('role_id'));
 
         return response()->json(true);
-
     }
 
     /**
      * @OA\Delete(
-     *      path="/v2/roles/groups/{group_id}/{role_id}",
+     *      path="/v2/roles/members/{user_id}/{role_id}",
      *      tags={"Roles"},
-     *      summary="Revoke a SeAT role from a user relationship",
+     *      summary="Revoke a SeAT role from an user",
      *      description="Revokes a role",
      *      security={
      *          {"ApiKeyAuth": {}}
      *      },
      *      @OA\Parameter(
-     *          name="group_id",
-     *          description="User relationship identifier",
+     *          name="user_id",
+     *          description="User identifier",
      *          required=true,
      *          @OA\Schema(
      *              type="integer"
@@ -664,10 +442,10 @@ class RoleController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteRevokeGroupRole($group_id, $role_id)
+    public function deleteRevokeGroupRole($user_id, $role_id)
     {
 
-        $this->removeGroupFromRole($group_id, $role_id);
+        $this->removeUserFromRole($user_id, $role_id);
 
         return response()->json(true);
     }

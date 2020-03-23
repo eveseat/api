@@ -62,13 +62,18 @@ class RoleLookupController extends ApiController
      */
     public function getPermissions()
     {
+        $permissions = collect(config('seat.permissions'))->map(function ($item, $scope) {
+            return collect($item)->map(function ($sub_item, $name) {
+                return $name;
+            })->values();
+        });
 
-        return response()->json(config('web.permissions'));
+        return response()->json($permissions);
     }
 
     /**
      * @OA\Get(
-     *      path="/v2/roles/query/role-check/{character_id}/{role_name}",
+     *      path="/v2/roles/query/role-check/{user_id}/{role_name}",
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
@@ -76,8 +81,8 @@ class RoleLookupController extends ApiController
      *          {"ApiKeyAuth": {}}
      *      },
      *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
+     *          name="user_id",
+     *          description="User id",
      *          required=true,
      *          @OA\Schema(
      *              type="integer"
@@ -98,22 +103,22 @@ class RoleLookupController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int    $character_id
+     * @param int    $user_id
      * @param string $role_name
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getRoleCheck(int $character_id, string $role_name)
+    public function getRoleCheck(int $user_id, string $role_name)
     {
 
-        $user = User::findOrFail($character_id);
+        $user = User::findOrFail($user_id);
 
         return response()->json($user->hasRole($role_name));
     }
 
     /**
      * @OA\Get(
-     *      path="/v2/roles/query/permission-check/{character_id}/{permission_name}",
+     *      path="/v2/roles/query/permission-check/{user_id}/{permission_name}",
      *      tags={"Roles"},
      *      summary="Check if a user has a role",
      *      description="Returns a boolean",
@@ -121,8 +126,8 @@ class RoleLookupController extends ApiController
      *          {"ApiKeyAuth": {}}
      *      },
      *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
+     *          name="user_id",
+     *          description="User id",
      *          required=true,
      *          @OA\Schema(
      *              type="integer"
@@ -143,15 +148,15 @@ class RoleLookupController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int    $character_id
+     * @param int    $user_id
      * @param string $permission_name
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPermissionCheck(int $character_id, string $permission_name)
+    public function getPermissionCheck(int $user_id, string $permission_name)
     {
 
-        $user = User::findOrFail($character_id);
+        $user = User::findOrFail($user_id);
 
         return response()->json($user->has($permission_name, false));
     }
