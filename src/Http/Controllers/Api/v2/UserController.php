@@ -22,11 +22,8 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Seat\Api\Http\Resources\GroupResource;
 use Seat\Api\Http\Resources\UserResource;
 use Seat\Api\Http\Validation\NewUser;
-use Seat\Eveapi\Models\RefreshToken;
-use Seat\Web\Models\Group;
 use Seat\Web\Models\User;
 
 /**
@@ -66,6 +63,14 @@ class UserController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      * )
      *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Seat\Api\Http\Resources\UserResource
+     */
+    public function getUsers()
+    {
+        return UserResource::collection(User::paginate());
+    }
+
+    /**
      * @OA\Get(
      *      path="/v2/users/{user_id}",
      *      tags={"Users"},
@@ -97,84 +102,12 @@ class UserController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      * )
      *
-     * @param null $user_id
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param int $user_id
+     * @return \Seat\Api\Http\Resources\UserResource
      */
-    public function getUsers($user_id = null)
+    public function show(int $user_id)
     {
-
-        if (! is_null($user_id))
-            return new UserResource(User::findOrFail($user_id));
-
-        return UserResource::collection(User::with('group')->paginate());
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/v2/users/groups",
-     *      tags={"Users"},
-     *      summary="Get a list of groups with their associated character_id's",
-     *      description="Returns list of groups",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#definitions/Group")
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @OA\Get(
-     *      path="/v2/users/groups/{group_id}",
-     *      tags={"Users"},
-     *      summary="Get a group with its associated character_id's",
-     *      description="Returns a group",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="group_id",
-     *          description="Group id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#definitions/Group"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param null $group_id
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getGroups($group_id = null)
-    {
-
-        if (! is_null($group_id))
-            return new GroupResource(Group::findOrFail($group_id));
-
-        return GroupResource::collection(Group::all());
+        return UserResource::make(User::findOrFail($user_id));
     }
 
     /**
@@ -197,7 +130,7 @@ class UserController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Seat\Services\Exceptions\SettingException
      */
     public function getConfiguredScopes()
@@ -220,24 +153,11 @@ class UserController extends ApiController
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  required={"user_id", "name", "character_owner_hash", "refresh_token", "scopes"},
-     *                  @OA\Property(
-     *                      property="user_id",
-     *                      type="integer",
-     *                      format="int64",
-     *                      minimum=90000000,
-     *                      description="Eve Online Character ID"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="group_id",
-     *                      type="integer",
-     *                      minimum=1,
-     *                      description="The SeAT group id. If ommited, a new group will be created"
-     *                  ),
+     *                  required={"name"},
      *                  @OA\Property(
      *                      property="name",
      *                      type="string",
-     *                      description="Eve Online Character Name"
+     *                      description="Eve Online (main) Character Name"
      *                  ),
      *                  @OA\Property(
      *                      property="active",
@@ -245,48 +165,52 @@ class UserController extends ApiController
      *                      description="Set the SeAT account state. Default is true"
      *                  ),
      *                  @OA\Property(
-     *                      property="character_owner_hash",
+     *                      property="email",
      *                      type="string",
-     *                      description="Eve Online account character hash"
+     *                      format="email",
+     *                      description="A contact email address for the created user"
      *                  ),
      *                  @OA\Property(
-     *                      property="refresh_token",
-     *                      type="string",
-     *                      description="A refresh token for the account"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="scopes",
-     *                      type="array",
-     *                      @OA\Items(type="string"),
-     *                      description="ESI scopes as array that are valid for the refresh token"
+     *                      property="main_character_id",
+     *                      type="integer",
+     *                      format="int64",
+     *                      minimum=90000000,
+     *                      description="Eve Online main Character ID"
      *                  )
      *              )
      *          )
      *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/components/schemas/User"
+     *              ),
+     *          )
+     *      ),
      *      @OA\Response(response=400, description="Bad request"),
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
      * @param \Seat\Api\Http\Validation\NewUser $request
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\JsonResponse|\Seat\Api\Http\Resources\UserResource
      */
     public function postNewUser(NewUser $request)
     {
+        if ($request->get('name') == 'admin')
+            return response()->json('You cannot create this user.', 403);
 
-        $user = User::forceCreate([  // Only because I don't want to set id as fillable
-            'id'                   => $request->get('user_id'),
-            'group_id'             => $request->get('group_id') ?? Group::create()->id,
-            'name'                 => $request->get('name'),
-            'active'               => $request->get('active') ?? true,
-            'character_owner_hash' => $request->get('character_owner_hash'),
-        ])->refresh_token()->save(new RefreshToken([
-            'refresh_token' => $request->get('refresh_token'),
-            'scopes'        => $request->get('scopes'),
-            'token'         => '-',
-            'expires_on'    => carbon('now'),
-        ]));
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->main_character_id = $request->get('main_character_id');
+        $user->active = $request->get('active') ?? true;
+
+        $user->save();
+
+        if ($request->has('email'))
+            setting(['email', $request->get('email'), $user->id], false);
 
         // Log the new account creation
         event('security.log', [
@@ -294,7 +218,7 @@ class UserController extends ApiController
             'authentication',
         ]);
 
-        return response()->json($user);
+        return UserResource::make($user);
     }
 
     /**
@@ -318,6 +242,7 @@ class UserController extends ApiController
      *      @OA\Response(response=200, description="Successful operation"),
      *      @OA\Response(response=400, description="Bad request"),
      *      @OA\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=403, description="Unauthorized"),
      *     )
      *
      * @param int $user_id
@@ -327,7 +252,12 @@ class UserController extends ApiController
     public function deleteUser(int $user_id)
     {
 
-        User::findOrFail($user_id)->delete();
+        $user = User::findOrFail($user_id);
+
+        if ($user->name == 'admin')
+            return response()->json('You cannot delete this user.', 403);
+
+        $user->delete();
 
         return response()->json();
     }
