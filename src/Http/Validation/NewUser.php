@@ -23,7 +23,6 @@
 namespace Seat\Api\Http\Validation;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Seat\Web\Models\Group;
 
 /**
  * Class NewUser.
