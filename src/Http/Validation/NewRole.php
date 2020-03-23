@@ -24,7 +24,12 @@ namespace Seat\Api\Http\Validation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RenameRole extends FormRequest
+/**
+ * Class NewRole.
+ *
+ * @package Seat\Api\Http\Validation
+ */
+class NewRole extends FormRequest
 {
     /**
      * Authorize the request by default.
@@ -46,7 +51,9 @@ class RenameRole extends FormRequest
     {
 
         return [
-            'title' => 'required|string|unique:roles,title',
+            'title' => 'string|unique:roles,title|required',
+            'description' => 'string',
+            'logo' => 'base64image',
         ];
     }
 }
