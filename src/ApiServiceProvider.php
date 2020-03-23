@@ -24,6 +24,7 @@ namespace Seat\Api;
 
 use App\Providers\AbstractSeatPlugin;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Validator;
 use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
 
@@ -48,6 +49,8 @@ class ApiServiceProvider extends AbstractSeatPlugin
         $this->add_middleware($router);
 
         $this->add_views();
+
+        $this->add_custom_validators();
 
         $this->add_migrations();
 
@@ -95,10 +98,7 @@ class ApiServiceProvider extends AbstractSeatPlugin
      */
     public function add_routes()
     {
-
-        if (! $this->app->routesAreCached()) {
-            include __DIR__ . '/Http/routes.php';
-        }
+        $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
     }
 
     /**
@@ -125,6 +125,14 @@ class ApiServiceProvider extends AbstractSeatPlugin
     {
 
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'api');
+    }
+
+    /**
+     * Add custom validator that are not part of Laravel core.
+     */
+    public function add_custom_validators()
+    {
+        Validator::extend('base64image', 'Seat\Api\Http\Validation\Image@validate');
     }
 
     /**

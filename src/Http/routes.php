@@ -75,12 +75,10 @@ Route::group([
                 Route::get('/', 'RoleController@getIndex');
                 Route::get('/{role_id}', 'RoleController@getDetail')->where('role_id', '[0-9]+');
                 Route::post('/', 'RoleController@postNew');
-                Route::put('/{role_id}', 'RoleController@putRename')->where('role_id', '[0-9]+');
+                Route::patch('/{role_id}', 'RoleController@patch')->where('role_id', '[0-9]+');
                 Route::delete('/{role_id}', 'RoleController@deleteRole')->where('role_id', '[0-9]+');
-                Route::post('/groups', 'RoleController@postGrantUserRole');
-                Route::delete('/groups/{group_id}/{role_id}', 'RoleController@deleteRevokeGroupRole');
-                Route::post('/affiliation/character', 'RoleController@postAddCharacterAffiliation');
-                Route::post('/affiliation/corporation', 'RoleController@postAddCorporationAffiliation');
+                Route::post('/members', 'RoleController@postGrantUserRole');
+                Route::delete('/members/{group_id}/{role_id}', 'RoleController@deleteRevokeGroupRole');
 
                 Route::group(['prefix' => 'query'], function () {
 
