@@ -116,10 +116,8 @@ class RoleController extends ApiController
      */
     public function getDetail(int $role_id)
     {
-
         $role = Role::with('permissions', 'users', 'squads')
-            ->where('id', $role_id)
-            ->first();
+            ->findOrFail($role_id);
 
         return RoleResource::make($role);
     }

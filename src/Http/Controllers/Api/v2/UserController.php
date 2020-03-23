@@ -153,7 +153,7 @@ class UserController extends ApiController
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  required={"name"},
+     *                  required={"name", "main_character_id"},
      *                  @OA\Property(
      *                      property="name",
      *                      type="string",
