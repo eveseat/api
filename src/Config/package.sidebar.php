@@ -23,7 +23,7 @@
 return [
 
     'seatapi' => [
-        'permission'    => 'Superuser',
+        'permission'    => 'global.superuser',
         'name'          => 'SeAT API',
         'icon'          => 'fas fa-exchange-alt',
         'route_segment' => 'api-admin',
