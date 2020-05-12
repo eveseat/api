@@ -22,11 +22,11 @@
 
 namespace Seat\Api;
 
-use App\Providers\AbstractSeatPlugin;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Validator;
 use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
+use Seat\Services\AbstractSeatPlugin;
 
 /**
  * Class ApiServiceProvider.
