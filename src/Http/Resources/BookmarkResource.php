@@ -44,7 +44,7 @@ class BookmarkResource extends Resource
             'bookmark_id' => $this->bookmark_id,
             'folder_id'   => $this->folder_id,
             'folder_name' => $this->folder->name,
-            'system'      => $this->system,
+            'system'      => $this->solar_system,
             'created'     => $this->created,
             'label'       => $this->label,
             'notes'       => $this->notes,
