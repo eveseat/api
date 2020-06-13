@@ -80,8 +80,9 @@ class ApiServiceProvider extends AbstractSeatPlugin
         config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => sprintf('%s/api', env('APP_URL'))]);
 
         // SwaggerUI long description.
-        config(['l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. ' .
-            'All endpoints require an API key. Keys may be obtained from: ' . route('api-admin.list'), ]);
+        config([
+            'l5-swagger.constants.L5_SWAGGER_DESCRIPTION' => 'SeAT API Documentation. All endpoints require an API key.',
+        ]);
     }
 
     /**
