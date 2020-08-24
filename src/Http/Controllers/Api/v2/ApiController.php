@@ -31,10 +31,14 @@ use Illuminate\Routing\Controller as BaseController;
  *         version="2.0.0",
  *         title="SeAT API",
  *         description=L5_SWAGGER_DESCRIPTION,
- *     ),
- *     @OA\Server(
- *       url=L5_SWAGGER_CONST_HOST
  *     )
+ * )
+ */
+
+/**
+ * @OA\Server(
+ *   url=L5_SWAGGER_CONST_HOST,
+ *   description="SeAT Server"
  * )
  */
 
