@@ -22,7 +22,7 @@
 
 return [
 
-    'version'      => '4.0.0',
+    'version'      => '4.1.0',
     'log_requests' => true,
 
 ];
