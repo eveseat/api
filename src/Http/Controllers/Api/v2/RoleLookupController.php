@@ -113,7 +113,7 @@ class RoleLookupController extends ApiController
 
         $user = User::findOrFail($user_id);
 
-        return response()->json($user->hasRole($role_name));
+        return response()->json($user->roles->where('title', $role_name)->isNotEmpty());
     }
 
     /**
@@ -158,6 +158,6 @@ class RoleLookupController extends ApiController
 
         $user = User::findOrFail($user_id);
 
-        return response()->json($user->has($permission_name, false));
+        return response()->json($user->can($permission_name));
     }
 }
