@@ -73,6 +73,14 @@ class CharacterController extends ApiController
      *          ),
      *          in="path"
      *      ),
+     *      @OA\Parameter(
+     *          name="item_id",
+     *          description="Specific Item ID",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *          in="query"
+     *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
      *              type="object",
@@ -102,10 +110,13 @@ class CharacterController extends ApiController
      */
     public function getAssets(int $character_id)
     {
+        $query = CharacterAsset::with('type')
+            ->where('character_id', $character_id);
 
-        return Resource::collection(CharacterAsset::with('type')
-            ->where('character_id', $character_id)
-            ->paginate());
+        if (request()->exists('item_id'))
+            $query->where('item_id', request()->query('item_id'));
+
+        return Resource::collection($query->paginate());
     }
 
     /**

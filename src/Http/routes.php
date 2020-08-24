@@ -104,7 +104,7 @@ Route::group([
 
             Route::group(['prefix' => 'character'], function () {
 
-                Route::get('/assets/{character_id}/{item_id?}')->uses('CharacterController@getAssets');
+                Route::get('/assets/{character_id}')->uses('CharacterController@getAssets');
                 Route::get('/bookmarks/{character_id}')->uses('CharacterController@getBookmarks');
                 Route::get('/contacts/{character_id}')->uses('CharacterController@getContacts');
                 Route::get('/industry/{character_id}')->uses('CharacterController@getIndustry');

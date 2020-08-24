@@ -64,6 +64,14 @@ class CorporationController extends ApiController
      *          ),
      *          in="path"
      *      ),
+     *      @OA\Parameter(
+     *          name="item_id",
+     *          description="Specific Item ID",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *          in="query"
+     *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
      *              type="object",
@@ -92,10 +100,13 @@ class CorporationController extends ApiController
      */
     public function getAssets(int $corporation_id)
     {
+        $query = CorporationAsset::with('type')
+            ->where('corporation_id', $corporation_id);
 
-        return Resource::collection(CorporationAsset::with('type')
-            ->where('corporation_id', $corporation_id)
-            ->paginate());
+        if (request()->exists('item_id'))
+            $query->where('item_id', request()->query('item_id'));
+
+        return Resource::collection($query->paginate());
     }
 
     /**
