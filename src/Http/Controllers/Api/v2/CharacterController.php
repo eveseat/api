@@ -110,6 +110,10 @@ class CharacterController extends ApiController
      */
     public function getAssets(int $character_id)
     {
+        request()->validate([
+            'item_id' => 'integer',
+        ]);
+
         $query = CharacterAsset::with('type')
             ->where('character_id', $character_id);
 

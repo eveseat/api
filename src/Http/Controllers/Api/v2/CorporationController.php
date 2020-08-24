@@ -100,6 +100,10 @@ class CorporationController extends ApiController
      */
     public function getAssets(int $corporation_id)
     {
+        request()->validate([
+            'item_id' => 'integer',
+        ]);
+
         $query = CorporationAsset::with('type')
             ->where('corporation_id', $corporation_id);
 
