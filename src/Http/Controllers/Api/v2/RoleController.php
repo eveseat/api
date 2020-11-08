@@ -155,7 +155,7 @@ class RoleController extends ApiController
      *              )
      *          )
      *      ),
-     *      @OA\Response(response=200, description="Successful operation",
+     *      @OA\Response(response=201, description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(
      *                  type="object",
