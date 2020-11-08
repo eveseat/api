@@ -209,6 +209,11 @@ class RoleController extends ApiController
 
         $role->save();
 
+        if ($request->has('permissions'))
+            $this->giveRolePermissions($role->id, $request->input('permissions'), false);
+
+        $role = Role::find($role->id);
+
         return RoleResource::make($role);
     }
 
