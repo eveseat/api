@@ -65,10 +65,10 @@ class ApiToken
      */
     public function valid_token_ip(Request $request)
     {
+        $tk = ApiTokenModel::where('token', $request->header('X-Token'))
+                        ->first();
 
-        return ApiTokenModel::where('token', $request->header('X-Token'))
-            ->where('allowed_src', $request->getClientIp())
-            ->first();
+        return $tk && ($tk->allowed_src == $request->getClientIp() || $tk->allowed_src == '0.0.0.0');
     }
 
     /**
