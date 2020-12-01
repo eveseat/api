@@ -39,6 +39,9 @@
             <span class="help-block">
               {{ trans('api::seat.ip_help') }}
             </span>
+            <div class="card bg-danger p-1">
+              {{ trans('api::seat.ip_danger') }}
+            </div>
           </div>
 
         </div>
