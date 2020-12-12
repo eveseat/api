@@ -105,7 +105,6 @@ Route::group([
             Route::group(['prefix' => 'character'], function () {
 
                 Route::get('/assets/{character_id}')->uses('CharacterController@getAssets');
-                Route::get('/bookmarks/{character_id}')->uses('CharacterController@getBookmarks');
                 Route::get('/contacts/{character_id}')->uses('CharacterController@getContacts');
                 Route::get('/industry/{character_id}')->uses('CharacterController@getIndustry');
                 Route::get('/killmails/{character_id}/{killmail_id?}')->uses('KillmailsController@getCharacterKillmails');
@@ -125,7 +124,6 @@ Route::group([
             Route::group(['prefix' => 'corporation'], function () {
 
                 Route::get('/assets/{corporation_id}')->uses('CorporationController@getAssets');
-                Route::get('/bookmarks/{corporation_id}')->uses('CorporationController@getBookmarks');
                 Route::get('/contacts/{corporation_id}')->uses('CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}')->uses('CorporationController@getContracts');
                 Route::get('/industry/{corporation_id}')->uses('CorporationController@getIndustry');
