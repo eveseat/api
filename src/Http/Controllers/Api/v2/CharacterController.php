@@ -23,7 +23,6 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Http\Resources\Json\Resource;
-use Seat\Api\Http\Resources\BookmarkResource;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
@@ -33,7 +32,6 @@ use Seat\Api\Http\Resources\JumpcloneResource;
 use Seat\Api\Http\Resources\MailResource;
 use Seat\Api\Http\Resources\NotificationResource;
 use Seat\Eveapi\Models\Assets\CharacterAsset;
-use Seat\Eveapi\Models\Bookmarks\CharacterBookmark;
 use Seat\Eveapi\Models\Character\CharacterCorporationHistory;
 use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\Character\CharacterNotification;
@@ -121,46 +119,6 @@ class CharacterController extends ApiController
             $query->where('item_id', request()->query('item_id'));
 
         return Resource::collection($query->paginate());
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/v2/character/bookmarks/{character_id}",
-     *      tags={"Bookmarks"},
-     *      summary="Get a paginated list of bookmarks for a character",
-     *      description="Returns a list of bookmarks",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterBookmark")
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param int $chacter_id
-     */
-    public function getBookmarks(int $character_id)
-    {
-
-        return BookmarkResource::collection(CharacterBookmark::where('character_id', $character_id)->get());
     }
 
     /**

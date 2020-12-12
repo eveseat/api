@@ -23,14 +23,12 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Http\Resources\Json\Resource;
-use Seat\Api\Http\Resources\BookmarkResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
 use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
 use Seat\Eveapi\Models\Assets\CorporationAsset;
-use Seat\Eveapi\Models\Bookmarks\CorporationBookmark;
 use Seat\Eveapi\Models\Contacts\CorporationContact;
 use Seat\Eveapi\Models\Contracts\CorporationContract;
 use Seat\Eveapi\Models\Corporation\CorporationInfo;
@@ -111,48 +109,6 @@ class CorporationController extends ApiController
             $query->where('item_id', request()->query('item_id'));
 
         return Resource::collection($query->paginate());
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/v2/corporation/bookmarks/{corporation_id}",
-     *      tags={"Bookmarks"},
-     *      summary="Get a list of bookmarks for a corporation",
-     *      description="Returns a list of bookmarks",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="corporation_id",
-     *          description="Corporation id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CorporationBookmark")
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param int $corporation_id
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getBookmarks(int $corporation_id)
-    {
-
-        return BookmarkResource::collection(CorporationBookmark::where('corporation_id', $corporation_id)->get());
     }
 
     /**
