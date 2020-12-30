@@ -151,6 +151,15 @@ class RoleController extends ApiController
      *                      type="string",
      *                      format="byte",
      *                      description="Base64 encoded new role logo"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="permissions",
+     *                      description="A list of the permissions which have to be attached to the role.",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          description="A permission name"
+     *                      )
      *                  )
      *              )
      *          )

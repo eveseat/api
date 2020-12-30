@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Validation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Class NewRole.
@@ -53,8 +54,23 @@ class NewRole extends FormRequest
         return [
             'title' => 'string|unique:roles,title|required',
             'description' => 'string',
-            'permissions' => 'array',
+            'permissions' => [
+                'array',
+                Rule::in($this->getPermissionsList()),
+            ],
             'logo' => 'base64image',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getPermissionsList(): array
+    {
+        return collect(config('seat.permissions'))->map(function ($permissions, $scope) {
+            return collect(array_keys($permissions))->transform(function ($permission) use ($scope) {
+                return $scope . '.' . $permission;
+            });
+        })->flatten()->all();
     }
 }
