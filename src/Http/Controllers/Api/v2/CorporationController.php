@@ -66,15 +66,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          name="item_id",
-     *          description="Specific Item ID",
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="query"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -141,7 +133,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -208,7 +200,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -275,7 +267,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -342,7 +334,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -409,7 +401,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -517,7 +509,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -584,7 +576,7 @@ class CorporationController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(

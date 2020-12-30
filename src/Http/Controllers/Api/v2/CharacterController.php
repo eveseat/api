@@ -75,7 +75,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -143,7 +143,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -209,7 +209,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -278,7 +278,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -344,7 +344,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -410,7 +410,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -476,7 +476,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -546,7 +546,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -613,7 +613,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -722,7 +722,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -789,7 +789,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -855,7 +855,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
@@ -922,7 +922,7 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          in="query"
+     *          in="query",
      *          name="$filter",
      *          description="Query filter following OData format",
      *          @OA\Schema(
