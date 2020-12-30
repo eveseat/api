@@ -53,6 +53,7 @@ class NewRole extends FormRequest
         return [
             'title' => 'string|unique:roles,title|required',
             'description' => 'string',
+            'permissions' => 'array',
             'logo' => 'base64image',
         ];
     }
