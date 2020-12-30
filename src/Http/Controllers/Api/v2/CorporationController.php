@@ -472,7 +472,7 @@ class CorporationController extends ApiController
      *              @OA\Property(
      *                  type="object",
      *                  property="data",
-     *                  ref="#definitions/CorporationInfo"
+     *                  ref="#/components/schemas/CorporationInfo"
      *              )
      *          )
      *      ),
