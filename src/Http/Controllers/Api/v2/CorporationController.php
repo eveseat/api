@@ -28,6 +28,7 @@ use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
 use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
+use Seat\Api\Http\Traits\Filterable;
 use Seat\Eveapi\Models\Assets\CorporationAsset;
 use Seat\Eveapi\Models\Contacts\CorporationContact;
 use Seat\Eveapi\Models\Contracts\CorporationContract;
@@ -44,6 +45,8 @@ use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
  */
 class CorporationController extends ApiController
 {
+    use Filterable;
+
     /**
      * @OA\Get(
      *      path="/v2/corporation/assets/{corporation_id}",
@@ -69,6 +72,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="query"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -99,14 +110,14 @@ class CorporationController extends ApiController
     public function getAssets(int $corporation_id)
     {
         request()->validate([
-            'item_id' => 'integer',
+            '$filter' => 'string',
         ]);
 
         $query = CorporationAsset::with('type')
-            ->where('corporation_id', $corporation_id);
-
-        if (request()->exists('item_id'))
-            $query->where('item_id', request()->query('item_id'));
+            ->where('corporation_id', $corporation_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
 
         return Resource::collection($query->paginate());
     }
@@ -128,6 +139,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -157,9 +176,17 @@ class CorporationController extends ApiController
      */
     public function getContacts(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return ContactResource::collection(CorporationContact::with('labels')->where('corporation_id', $corporation_id)
-            ->paginate());
+        $query = CorporationContact::with('labels')
+            ->where('corporation_id', $corporation_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return ContactResource::collection($query->paginate());
     }
 
     /**
@@ -179,6 +206,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -208,10 +243,17 @@ class CorporationController extends ApiController
      */
     public function getContracts(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return ContractResource::collection(CorporationContract::with('detail', 'detail.acceptor', 'detail.assignee', 'detail.issuer', 'detail.bids', 'detail.lines', 'detail.start_location', 'detail.end_location')
+        $query = CorporationContract::with('detail', 'detail.acceptor', 'detail.assignee', 'detail.issuer', 'detail.bids', 'detail.lines', 'detail.start_location', 'detail.end_location')
             ->where('corporation_id', $corporation_id)
-            ->paginate());
+            ->whereHas('detail', function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return ContractResource::collection($query->paginate());
     }
 
     /**
@@ -231,6 +273,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -260,10 +310,17 @@ class CorporationController extends ApiController
      */
     public function getIndustry(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return IndustryResource::collection(CorporationIndustryJob::with('blueprint', 'product')
+        $query = CorporationIndustryJob::with('blueprint', 'product')
             ->where('corporation_id', $corporation_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return IndustryResource::collection($query->paginate());
     }
 
     /**
@@ -283,6 +340,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -312,10 +377,17 @@ class CorporationController extends ApiController
      */
     public function getMarketOrders(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(CorporationOrder::with('type')
+        $query = CorporationOrder::with('type')
             ->where('corporation_id', $corporation_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -335,6 +407,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -364,10 +444,17 @@ class CorporationController extends ApiController
      */
     public function getMemberTracking(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return MemberTrackingResource::collection(CorporationMemberTracking::with('ship')
+        $query = CorporationMemberTracking::with('ship')
             ->where('corporation_id', $corporation_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return MemberTrackingResource::collection($query->paginate());
     }
 
     /**
@@ -407,7 +494,6 @@ class CorporationController extends ApiController
      */
     public function getSheet(int $corporation_id)
     {
-
         return new CorporationSheetResource(CorporationInfo::with('ceo', 'creator', 'alliance', 'faction')
             ->findOrFail($corporation_id));
     }
@@ -429,6 +515,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -458,10 +552,17 @@ class CorporationController extends ApiController
      */
     public function getWalletJournal(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(CorporationWalletJournal::with('first_party', 'second_party')
+        $query = CorporationWalletJournal::with('first_party', 'second_party')
             ->where('corporation_id', $corporation_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -481,6 +582,14 @@ class CorporationController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query"
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -510,10 +619,16 @@ class CorporationController extends ApiController
      */
     public function getWalletTransactions(int $corporation_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(
-                CorporationWalletTransaction::with('party', 'type')
-                    ->where('corporation_id', $corporation_id)
-            ->paginate());
+        $query = CorporationWalletTransaction::with('party', 'type')
+            ->where('corporation_id', $corporation_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 }
