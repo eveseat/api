@@ -50,7 +50,8 @@ use Illuminate\Support\Arr;
  *     @OA\Property(property="skillpoints", type="object",
  *       @OA\Property(property="total_sp", type="number", description="The total skill points owned by the character"),
  *       @OA\Property(property="unallocated_sp", type="number", description="The total skill points not allocated for this character")
- *     )
+ *     ),
+ *     @OA\Property(property="user_id", type="integer", description="Seat user identifier")
  * )
  */
 class CharacterSheetResource extends Resource
@@ -81,6 +82,7 @@ class CharacterSheetResource extends Resource
                 'total_sp' => $this->skillpoints->total_sp,
                 'unallocated_sp' => $this->skillpoints->unallocated_sp,
             ],
+            'user_id' => $this->user->id,
         ];
 
         $definition = parent::toArray($request);
