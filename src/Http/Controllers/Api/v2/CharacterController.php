@@ -31,6 +31,7 @@ use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\JumpcloneResource;
 use Seat\Api\Http\Resources\MailResource;
 use Seat\Api\Http\Resources\NotificationResource;
+use Seat\Api\Http\Traits\Filterable;
 use Seat\Eveapi\Models\Assets\CharacterAsset;
 use Seat\Eveapi\Models\Character\CharacterCorporationHistory;
 use Seat\Eveapi\Models\Character\CharacterInfo;
@@ -49,10 +50,12 @@ use Seat\Eveapi\Models\Wallet\CharacterWalletTransaction;
 /**
  * Class CharacterController.
  *
- * @package  Seat\Api\v2
+ * @package Seat\Api\Http\Controllers\Api\v2
  */
 class CharacterController extends ApiController
 {
+    use Filterable;
+
     /**
      * @OA\Get(
      *      path="/v2/character/assets/{character_id}",
@@ -72,12 +75,12 @@ class CharacterController extends ApiController
      *          in="path"
      *      ),
      *      @OA\Parameter(
-     *          name="item_id",
-     *          description="Specific Item ID",
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
      *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="query"
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -109,14 +112,14 @@ class CharacterController extends ApiController
     public function getAssets(int $character_id)
     {
         request()->validate([
-            'item_id' => 'integer',
+            '$filter' => 'string',
         ]);
 
         $query = CharacterAsset::with('type')
-            ->where('character_id', $character_id);
-
-        if (request()->exists('item_id'))
-            $query->where('item_id', request()->query('item_id'));
+            ->where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
 
         return Resource::collection($query->paginate());
     }
@@ -138,6 +141,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -167,9 +178,16 @@ class CharacterController extends ApiController
      */
     public function getContacts(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return ContactResource::collection(CharacterContact::where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterContact::where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return ContactResource::collection($query->paginate());
     }
 
     /**
@@ -189,6 +207,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -218,10 +244,19 @@ class CharacterController extends ApiController
      */
     public function getContracts(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return ContractResource::collection(CharacterContract::with('detail', 'detail.acceptor', 'detail.assignee', 'detail.issuer', 'detail.bids', 'detail.lines', 'detail.start_location', 'detail.end_location')
+        $query = CharacterContract::with(
+            'detail', 'detail.acceptor', 'detail.assignee', 'detail.issuer',
+            'detail.bids', 'detail.lines', 'detail.start_location', 'detail.end_location')
             ->where('character_id', $character_id)
-            ->paginate());
+            ->whereHas('detail', function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return ContractResource::collection($query->paginate());
     }
 
     /**
@@ -241,6 +276,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -270,9 +313,16 @@ class CharacterController extends ApiController
      */
     public function getCorporationHistory(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return CorporationHistoryResource::collection(CharacterCorporationHistory::where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterCorporationHistory::where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return CorporationHistoryResource::collection($query->paginate());
     }
 
     /**
@@ -292,6 +342,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -321,9 +379,16 @@ class CharacterController extends ApiController
      */
     public function getIndustry(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return IndustryResource::collection(CharacterIndustryJob::where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterIndustryJob::where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return IndustryResource::collection($query->paginate());
     }
 
     /**
@@ -343,6 +408,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -372,9 +445,16 @@ class CharacterController extends ApiController
      */
     public function getJumpClones(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return JumpcloneResource::collection(CharacterJumpClone::where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterJumpClone::where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return JumpcloneResource::collection($query->paginate());
     }
 
     /**
@@ -394,6 +474,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -423,17 +511,20 @@ class CharacterController extends ApiController
      */
     public function getMail(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return MailResource::collection(
-            MailHeader::with('sender', 'body', 'recipients', 'recipients.entity')
-                ->where(function ($query) use ($character_id) {
-                    $query->whereHas('recipients', function ($sub_query) use ($character_id) {
-                        $sub_query->where('recipient_id', $character_id);
-                    });
+        $query = MailHeader::with('sender', 'body', 'recipients', 'recipients.entity')
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            })->where(function ($sub_query) use ($character_id) {
+                $sub_query->whereHas('recipients', function ($query) use ($character_id) {
+                    $query->where('recipient_id', $character_id);
+                })->orWhere('from', $character_id);
+            });
 
-                    $query->orWhere('from', $character_id);
-                })
-                ->paginate());
+        return MailResource::collection($query->paginate());
     }
 
     /**
@@ -453,6 +544,14 @@ class CharacterController extends ApiController
      *              type="integer",
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -482,10 +581,17 @@ class CharacterController extends ApiController
      */
     public function getMarketOrders(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(CharacterOrder::with('type')
+        $query = CharacterOrder::with('type')
             ->where('character_id', $character_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -505,6 +611,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -534,9 +648,16 @@ class CharacterController extends ApiController
      */
     public function getNotifications(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return NotificationResource::collection(CharacterNotification::where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterNotification::where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return NotificationResource::collection($query->paginate());
     }
 
     /**
@@ -577,7 +698,6 @@ class CharacterController extends ApiController
      */
     public function getSheet(int $character_id)
     {
-
         return new CharacterSheetResource(
             CharacterInfo::with('affiliation.corporation', 'affiliation.alliance', 'affiliation.faction', 'balance', 'skillpoints')
                 ->findOrFail($character_id));
@@ -600,6 +720,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -629,9 +757,17 @@ class CharacterController extends ApiController
      */
     public function getSkills(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(
-            CharacterSkill::with('type')->where('character_id', $character_id)->paginate());
+        $query = CharacterSkill::with('type')
+            ->where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -651,6 +787,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -680,9 +824,16 @@ class CharacterController extends ApiController
      */
     public function getSkillQueue(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(
-            CharacterSkillQueue::with('type')->where('character_id', $character_id)->paginate());
+        $query = CharacterSkillQueue::with('type')->where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -702,6 +853,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -731,10 +890,17 @@ class CharacterController extends ApiController
      */
     public function getWalletJournal(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(CharacterWalletJournal::with('first_party', 'second_party')
+        $query = CharacterWalletJournal::with('first_party', 'second_party')
             ->where('character_id', $character_id)
-            ->paginate());
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
@@ -754,6 +920,14 @@ class CharacterController extends ApiController
      *              type="integer"
      *          ),
      *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
      *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
@@ -783,10 +957,16 @@ class CharacterController extends ApiController
      */
     public function getWalletTransactions(int $character_id)
     {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
 
-        return Resource::collection(
-                CharacterWalletTransaction::with('party', 'type')
-                    ->where('character_id', $character_id)
-            ->paginate());
+        $query = CharacterWalletTransaction::with('party', 'type')
+            ->where('character_id', $character_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 }
