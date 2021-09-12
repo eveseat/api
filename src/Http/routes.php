@@ -124,6 +124,7 @@ Route::group([
             Route::group(['prefix' => 'corporation'], function () {
 
                 Route::get('/assets/{corporation_id}')->uses('CorporationController@getAssets');
+                Route::get('/structures/{corporation_id}')->uses('CorporationController@getStructures');
                 Route::get('/contacts/{corporation_id}')->uses('CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}')->uses('CorporationController@getContracts');
                 Route::get('/industry/{corporation_id}')->uses('CorporationController@getIndustry');
