@@ -23,7 +23,7 @@ class CorporationMiningExtractionResource extends Resource
         return [
             'system_name'=>$this->moon->solar_system->name,
             'moon_name'=>$this->moon->name,
-            'structure_name'=>$this->moon->extraction->structure->info->typeName,
+            'structure_name'=>$this->moon->extraction->structure->info->name,
 
             'extraction_start_time'=>$this->moon->extraction->extraction_start_time,
             'chunk_arrival_time'=>$this->moon->extraction->chunk_arrival_time,
