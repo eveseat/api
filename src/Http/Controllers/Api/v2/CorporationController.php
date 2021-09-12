@@ -26,6 +26,7 @@ use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
+use Seat\Api\Http\Resources\CorporationStructure;
 use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
 use Seat\Api\Http\Traits\Filterable;
@@ -114,6 +115,73 @@ class CorporationController extends ApiController
         return Resource::collection($query->paginate());
     }
 
+    /**
+     * @OA\Get(
+     *      path="/v2/corporation/strctures/{corporation_id}",
+     *      tags={"Structures"},
+     *      summary="Get a paginated list of structures for a corporation",
+     *      description="Returns a list of structures",
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="corporation_id",
+     *          description="Corporation id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @OA\Items(ref="#/components/schemas/CorporationStructure")
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $corporation_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getStructures(int $corporation_id)
+    {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
+
+        $query = CorporationStructure::with('type', 'info', 'solar_system') // = CorporationStructure Model, including type() & info() & solar_system() functions 
+            ->where('corporation_id', $corporation_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
+    }
+    
     /**
      * @OA\Get(
      *      path="/v2/corporation/contacts/{corporation_id}",
