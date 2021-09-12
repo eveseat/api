@@ -26,7 +26,7 @@ use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
-use Seat\Api\Http\Resources\CorporationStructure;
+use Seat\Api\Http\Resources\CorporationStructure; // getStructures
 use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
 use Seat\Api\Http\Traits\Filterable;
@@ -39,6 +39,7 @@ use Seat\Eveapi\Models\Industry\CorporationIndustryJob;
 use Seat\Eveapi\Models\Market\CorporationOrder;
 use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
+use Seat\Web\Models\UniverseMoonReport; // getMiningExtractions
 
 /**
  * Class CorporationController.
@@ -381,6 +382,30 @@ class CorporationController extends ApiController
             });
 
         return IndustryResource::collection($query->paginate());
+    }
+    
+    /**
+     *
+     */
+    public function getMiningExtractions(int $corporation_id)
+    {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
+
+        $query = UniverseMoonReport::with('content', 'moon', 'moon.solar_system', 'moon.constellation',
+            'moon.region', 'moon.extraction', 'moon.extraction.structure', 'moon.extraction.structure.info')
+            ->whereHas('moon.extraction.structure', function ($query) use ($corporation_id) {
+                $query->where('corporation_id', $corporation_id);
+            })
+            ->whereHas('moon.extraction', function ($query) {
+                $query->where('natural_decay_time', '>', carbon()->subSeconds(CorporationIndustryMiningExtraction::THEORETICAL_DEPLETION_COUNTDOWN));
+            })
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+            
+        return CorporationMiningExtractionResource::collection($query->paginate());
     }
 
     /**
