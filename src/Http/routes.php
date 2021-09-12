@@ -128,6 +128,7 @@ Route::group([
                 Route::get('/contacts/{corporation_id}')->uses('CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}')->uses('CorporationController@getContracts');
                 Route::get('/industry/{corporation_id}')->uses('CorporationController@getIndustry');
+                Route::get('/mining-extractions/{corporation_id}')->uses('CorporationController@getMiningExtractions');
                 Route::get('/killmails/{corporation_id}')->uses('KillmailsController@getCorporationKillmails');
                 Route::get('/market-orders/{corporation_id}')->uses('CorporationController@getMarketOrders');
                 Route::get('/member-tracking/{corporation_id}')->uses('CorporationController@getMemberTracking');
