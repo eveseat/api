@@ -30,6 +30,27 @@ class CorporationStructureResource extends Resource
             'system_name'=>$this->solar_system->name,
             'system_id'=> $this->system_id,
             
+            ////
+            //
+            // Proposing :
+            //
+            // 'structure' => [
+            //      'name' => $this->info->name,
+            //      'id' => $this->structure_id
+            // ],
+            //
+            // 'type' => [
+            //      'name' => $this->type->typeName,
+            //      'id' => $this->type_id
+            // ],
+            //
+            // 'solar_system' => [
+            //      'name' => $this->solar_system->name,
+            //      'id' => $this->system_id
+            // ],
+            //
+            ////
+            
             'fuel_expires'=>$this->fuel_expires,
             'state'=>$this->state,
             'state_timer_start'=>$this->state_timer_start,
