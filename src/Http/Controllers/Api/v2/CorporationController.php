@@ -174,7 +174,7 @@ class CorporationController extends ApiController
             '$filter' => 'string',
         ]);
 
-        $query = CorporationStructure::with('type', 'info', 'solar_system') // = CorporationStructure Model, including type() & info() & solar_system() functions 
+        $query = CorporationStructure::with('type', 'info', 'solar_system')
             ->where('corporation_id', $corporation_id)
             ->where(function ($sub_query) {
                 $this->applyFilters(request(), $sub_query);
