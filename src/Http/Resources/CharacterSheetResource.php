@@ -44,7 +44,6 @@ use Illuminate\Support\Arr;
  *     @OA\Property(property="gender", type="string", enum={"male", "female"}, description="Character gender"),
  *     @OA\Property(property="race_id", type="integer", description="Character race identifier"),
  *     @OA\Property(property="bloodline_id", type="integer", description="Character bloodline identifier"),
- *     @OA\Property(property="ancestry_id", type="integer", description="Character ancenstry identifier"),
  *     @OA\Property(property="security_status", type="number", description="Character security status"),
  *     @OA\Property(property="balance", type="number", description="Character wallet balance"),
  *     @OA\Property(property="skillpoints", type="object",
@@ -75,7 +74,6 @@ class CharacterSheetResource extends Resource
             'gender' => $this->gender,
             'race_id' => $this->race_id,
             'bloodline_id' => $this->bloodline_id,
-            'ancestry_id' => $this->ancestry_id,
             'security_status' => $this->security_status,
             'balance' => $this->balance->balance,
             'skillpoints' => [
