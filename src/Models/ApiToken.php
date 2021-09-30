@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ApiToken.
+ *
  * @package Seat\Api\Models
  */
 class ApiToken extends Model
@@ -39,6 +40,7 @@ class ApiToken extends Model
      * Make sure we cleanup logs on delete.
      *
      * @return bool|null
+     *
      * @throws \Exception
      */
     public function delete()

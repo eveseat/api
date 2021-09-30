@@ -26,6 +26,7 @@ use Seat\Web\Models\User;
 
 /**
  * Class RoleLookupController.
+ *
  * @package Seat\Api\Http\Controllers\Api\v1
  */
 class RoleLookupController extends ApiController
@@ -103,9 +104,8 @@ class RoleLookupController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int    $user_id
-     * @param string $role_name
-     *
+     * @param  int  $user_id
+     * @param  string  $role_name
      * @return \Illuminate\Http\JsonResponse
      */
     public function getRoleCheck(int $user_id, string $role_name)
@@ -148,9 +148,8 @@ class RoleLookupController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int    $user_id
-     * @param string $permission_name
-     *
+     * @param  int  $user_id
+     * @param  string  $permission_name
      * @return \Illuminate\Http\JsonResponse
      */
     public function getPermissionCheck(int $user_id, string $permission_name)

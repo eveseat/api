@@ -29,6 +29,7 @@ use Seat\Eveapi\Models\Killmails\KillmailDetail;
 
 /**
  * Class KillmailsController.
+ *
  * @package Seat\Api\Http\Controllers\Api\v2
  */
 class KillmailsController extends ApiController
@@ -73,7 +74,7 @@ class KillmailsController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getCharacterKillmails(int $character_id)
@@ -128,7 +129,7 @@ class KillmailsController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getCorporationKillmails(int $corporation_id)
@@ -206,8 +207,7 @@ class KillmailsController extends ApiController
      *
      * Returns a detailed killmail
      *
-     * @param int $killmail_id
-     *
+     * @param  int  $killmail_id
      * @return \Seat\Api\Http\Resources\KillmailDetailResource
      */
     public function getDetail(int $killmail_id)

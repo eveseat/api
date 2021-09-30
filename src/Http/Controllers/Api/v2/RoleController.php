@@ -33,6 +33,7 @@ use Seat\Web\Models\Acl\Role;
 
 /**
  * Class RoleController.
+ *
  * @package Seat\Api\Http\Controllers\Api\v1
  */
 class RoleController extends ApiController
@@ -111,7 +112,7 @@ class RoleController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $role_id
+     * @param  int  $role_id
      * @return \Seat\Api\Http\Resources\RoleResource
      */
     public function getDetail(int $role_id)
@@ -201,7 +202,7 @@ class RoleController extends ApiController
      *      ),
      *     )
      *
-     * @param \Seat\Api\Http\Validation\NewRole $request
+     * @param  \Seat\Api\Http\Validation\NewRole  $request
      * @return \Seat\Api\Http\Resources\RoleResource
      */
     public function postNew(NewRole $request)
@@ -305,8 +306,8 @@ class RoleController extends ApiController
      *      ),
      *     )
      *
-     * @param \Seat\Api\Http\Validation\EditRole $request
-     * @param int $role_id
+     * @param  \Seat\Api\Http\Validation\EditRole  $request
+     * @param  int  $role_id
      * @return \Illuminate\Http\JsonResponse|\Seat\Api\Http\Resources\RoleResource
      */
     public function patch(EditRole $request, int $role_id)
@@ -355,7 +356,6 @@ class RoleController extends ApiController
      *     )
      *
      * @param $role_id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteRole($role_id)
@@ -402,7 +402,6 @@ class RoleController extends ApiController
      *     )
      *
      * @param $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function postGrantUserRole(Request $request)
@@ -451,7 +450,6 @@ class RoleController extends ApiController
      *
      * @param $user_id
      * @param $role_id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteRevokeUserRole($user_id, $role_id)

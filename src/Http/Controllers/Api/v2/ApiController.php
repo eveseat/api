@@ -79,6 +79,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * Class ApiController.
+ *
  * @package Seat\Api\v2
  */
 class ApiController extends BaseController

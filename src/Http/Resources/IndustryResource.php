@@ -26,6 +26,7 @@ use Illuminate\Http\Resources\Json\Resource;
 
 /**
  * Class IndustryResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class IndustryResource extends Resource
@@ -33,8 +34,7 @@ class IndustryResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

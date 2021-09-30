@@ -31,6 +31,7 @@ use Seat\Web\Http\Controllers\Controller;
 
 /**
  * Class ApiAdminController.
+ *
  * @package Seat\Api\Http\Controllers\Admin
  */
 class ApiAdminController extends Controller
@@ -47,8 +48,7 @@ class ApiAdminController extends Controller
     }
 
     /**
-     * @param \Seat\Api\Http\Validation\NewToken $request
-     *
+     * @param  \Seat\Api\Http\Validation\NewToken  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function generateToken(NewToken $request)
@@ -65,7 +65,6 @@ class ApiAdminController extends Controller
 
     /**
      * @param $token_id
-     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteToken($token_id)
@@ -78,8 +77,8 @@ class ApiAdminController extends Controller
     }
 
     /**
-     * @param int $token_id
-     * @param \Seat\Api\Http\DataTables\ApiTokenLogDataTable $dataTable
+     * @param  int  $token_id
+     * @param  \Seat\Api\Http\DataTables\ApiTokenLogDataTable  $dataTable
      * @return mixed
      */
     public function show(int $token_id, ApiTokenLogDataTable $dataTable)

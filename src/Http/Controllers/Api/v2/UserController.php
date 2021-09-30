@@ -28,6 +28,7 @@ use Seat\Web\Models\User;
 
 /**
  * Class UserController.
+ *
  * @package Seat\Api\Http\Controllers\Api\v2
  */
 class UserController extends ApiController
@@ -102,7 +103,7 @@ class UserController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      * )
      *
-     * @param int $user_id
+     * @param  int  $user_id
      * @return \Seat\Api\Http\Resources\UserResource
      */
     public function show(int $user_id)
@@ -131,6 +132,7 @@ class UserController extends ApiController
      *     )
      *
      * @return \Illuminate\Http\JsonResponse
+     *
      * @throws \Seat\Services\Exceptions\SettingException
      */
     public function getConfiguredScopes()
@@ -194,7 +196,7 @@ class UserController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param \Seat\Api\Http\Validation\NewUser $request
+     * @param  \Seat\Api\Http\Validation\NewUser  $request
      * @return \Illuminate\Http\JsonResponse|\Seat\Api\Http\Resources\UserResource
      */
     public function postNewUser(NewUser $request)
@@ -245,8 +247,7 @@ class UserController extends ApiController
      *      @OA\Response(response=403, description="Unauthorized"),
      *     )
      *
-     * @param int $user_id
-     *
+     * @param  int  $user_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteUser(int $user_id)

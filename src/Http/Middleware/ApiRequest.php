@@ -29,7 +29,7 @@ class ApiRequest
 {
     /**
      * @param $request
-     * @param \Closure $next
+     * @param  \Closure  $next
      * @return mixed|void
      */
     public function handle($request, Closure $next)

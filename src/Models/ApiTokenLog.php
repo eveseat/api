@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ApiTokenLog.
+ *
  * @package Seat\Api\Models
  */
 class ApiTokenLog extends Model

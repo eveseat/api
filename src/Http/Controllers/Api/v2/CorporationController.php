@@ -41,6 +41,7 @@ use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
 
 /**
  * Class CorporationController.
+ *
  * @package Seat\Api\Http\Controllers\Api\v2
  */
 class CorporationController extends ApiController
@@ -95,8 +96,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getAssets(int $corporation_id)
@@ -162,8 +162,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getContacts(int $corporation_id)
@@ -229,8 +228,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getContracts(int $corporation_id)
@@ -296,8 +294,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getIndustry(int $corporation_id)
@@ -363,8 +360,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getMarketOrders(int $corporation_id)
@@ -430,8 +426,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getMemberTracking(int $corporation_id)
@@ -480,8 +475,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Seat\Api\Http\Resources\CorporationSheetResource
      */
     public function getSheet(int $corporation_id)
@@ -538,8 +532,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getWalletJournal(int $corporation_id)
@@ -605,8 +598,7 @@ class CorporationController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $corporation_id
-     *
+     * @param  int  $corporation_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getWalletTransactions(int $corporation_id)

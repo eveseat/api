@@ -27,6 +27,7 @@ use Illuminate\Support\Arr;
 
 /**
  * Class NotificationResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class NotificationResource extends Resource
@@ -34,8 +35,7 @@ class NotificationResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
