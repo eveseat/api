@@ -26,6 +26,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class NewUser.
+ *
  * @package Seat\Api\Http\Validation
  */
 class NewUser extends FormRequest

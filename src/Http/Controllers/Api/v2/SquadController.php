@@ -103,7 +103,7 @@ class SquadController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      * )
      *
-     * @param int $squad_id
+     * @param  int  $squad_id
      * @return \Seat\Api\Http\Resources\SquadResource
      */
     public function show(int $squad_id)
@@ -164,7 +164,7 @@ class SquadController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *  )
      *
-     * @param \Seat\Api\Http\Validation\NewSquad $request
+     * @param  \Seat\Api\Http\Validation\NewSquad  $request
      * @return \Seat\Api\Http\Resources\SquadResource
      */
     public function store(NewSquad $request)
@@ -205,7 +205,7 @@ class SquadController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized")
      *   )
      *
-     * @param int $squad_id
+     * @param  int  $squad_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $squad_id)

@@ -26,6 +26,7 @@ use Illuminate\Http\Resources\Json\Resource;
 
 /**
  * Class ContactResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class ContactResource extends Resource
@@ -33,8 +34,7 @@ class ContactResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

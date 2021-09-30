@@ -41,7 +41,7 @@ use Illuminate\Http\Resources\Json\Resource;
 class PermissionResource extends Resource
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

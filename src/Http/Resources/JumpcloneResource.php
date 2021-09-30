@@ -27,6 +27,7 @@ use Illuminate\Support\Arr;
 
 /**
  * Class JumpcloneResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class JumpcloneResource extends Resource
@@ -34,8 +35,7 @@ class JumpcloneResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

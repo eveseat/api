@@ -35,9 +35,8 @@ trait Filterable
     /**
      * Apply OData filter over query.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function applyFilters(Request $request, Builder $query)
@@ -63,11 +62,11 @@ trait Filterable
     /**
      * Append filter to current query builder.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $field
-     * @param string $operator
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $field
+     * @param  string  $operator
      * @param $value
-     * @param string|null $join
+     * @param  string|null  $join
      */
     protected function addFilter(Builder $query, string $field, string $operator, $value, ?string $join = 'and')
     {
@@ -82,8 +81,7 @@ trait Filterable
     /**
      * Convert odata operator into an SQL query operator.
      *
-     * @param string $operator
-     *
+     * @param  string  $operator
      * @return string
      */
     private function odataOperatorToQueryOperator(string $operator): string

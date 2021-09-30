@@ -30,6 +30,7 @@ use Seat\Services\AbstractSeatPlugin;
 
 /**
  * Class ApiServiceProvider.
+ *
  * @package Seat\Api
  */
 class ApiServiceProvider extends AbstractSeatPlugin
@@ -37,7 +38,7 @@ class ApiServiceProvider extends AbstractSeatPlugin
     /**
      * Bootstrap the application services.
      *
-     * @param \Illuminate\Routing\Router $router
+     * @param  \Illuminate\Routing\Router  $router
      */
     public function boot(Router $router)
     {

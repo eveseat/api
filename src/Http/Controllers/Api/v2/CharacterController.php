@@ -104,9 +104,8 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     * @param int $item_id
-     *
+     * @param  int  $character_id
+     * @param  int  $item_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getAssets(int $character_id)
@@ -172,8 +171,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getContacts(int $character_id)
@@ -238,8 +236,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getContracts(int $character_id)
@@ -307,8 +304,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getCorporationHistory(int $character_id)
@@ -373,8 +369,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getIndustry(int $character_id)
@@ -439,8 +434,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getJumpClones(int $character_id)
@@ -505,8 +499,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getMail(int $character_id)
@@ -575,8 +568,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getMarketOrders(int $character_id)
@@ -642,8 +634,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getNotifications(int $character_id)
@@ -692,8 +683,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Seat\Api\Http\Resources\CharacterSheetResource
      */
     public function getSheet(int $character_id)
@@ -751,8 +741,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getSkills(int $character_id)
@@ -818,8 +807,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getSkillQueue(int $character_id)
@@ -884,8 +872,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getWalletJournal(int $character_id)
@@ -951,8 +938,7 @@ class CharacterController extends ApiController
      *      @OA\Response(response=401, description="Unauthorized"),
      *     )
      *
-     * @param int $character_id
-     *
+     * @param  int  $character_id
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getWalletTransactions(int $character_id)

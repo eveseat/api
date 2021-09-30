@@ -55,7 +55,7 @@ use Illuminate\Http\Resources\Json\Resource;
 class RoleResource extends Resource
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

@@ -29,6 +29,7 @@ use Seat\Api\Models\ApiTokenLog;
 
 /**
  * Class ApiToken.
+ *
  * @package Seat\Api\Http\Middleware
  */
 class ApiToken
@@ -36,9 +37,8 @@ class ApiToken
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -59,8 +59,7 @@ class ApiToken
     /**
      * Validate a token / ip pair from a Request.
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function valid_token_ip(Request $request)
@@ -74,8 +73,8 @@ class ApiToken
     /**
      * Log an API request based on the config setting.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param                          $action
+     * @param  \Illuminate\Http\Request  $request
+     * @param  $action
      */
     public function log_activity(Request $request, $action)
     {

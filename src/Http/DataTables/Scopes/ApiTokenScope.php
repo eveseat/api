@@ -36,7 +36,7 @@ class ApiTokenScope implements DataTableScope
     /**
      * ApiTokenScope constructor.
      *
-     * @param int $token_id
+     * @param  int  $token_id
      */
     public function __construct(int $token_id)
     {
@@ -46,7 +46,7 @@ class ApiTokenScope implements DataTableScope
     /**
      * Apply a query scope.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder  $query
      * @return mixed
      */
     public function apply($query)

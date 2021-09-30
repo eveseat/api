@@ -27,6 +27,7 @@ use Illuminate\Support\Arr;
 
 /**
  * Class CorporationHistoryResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class CorporationHistoryResource extends Resource
@@ -34,8 +35,7 @@ class CorporationHistoryResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)

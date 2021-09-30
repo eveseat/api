@@ -27,6 +27,7 @@ use Illuminate\Support\Arr;
 
 /**
  * Class KillmailDetailResource.
+ *
  * @package Seat\Api\Http\Resources
  */
 class KillmailDetailResource extends Resource
@@ -34,8 +35,7 @@ class KillmailDetailResource extends Resource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
