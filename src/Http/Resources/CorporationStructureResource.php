@@ -29,4 +29,5 @@ use Illuminate\Http\Resources\Json\Resource;
  *
  * @package Seat\Api\Http\Resources
  */
-class CorporationSheetResource extends Resource {}
+class CorporationSheetResource extends Resource
+{}
