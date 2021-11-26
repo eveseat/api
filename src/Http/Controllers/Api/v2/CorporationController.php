@@ -522,7 +522,7 @@ class CorporationController extends ApiController
     public function getStructures(int $corporation_id)
     {
         return new CorporationSheetResource(CorporationStructure::with('info', 'type', 'services', 'items', 'items.type', 'items.type.dogma_attributes', 'solar_system')
-            ->where('corporation_id', $corporation->corporation_id)
+            ->where('corporation_id', $corporation->corporation_id));
     }
 
     /**
