@@ -503,6 +503,14 @@ class CorporationController extends ApiController
      *          ),
      *          in="path"
      *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Response(response=200, description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(
@@ -517,12 +525,17 @@ class CorporationController extends ApiController
      *     )
      *
      * @param  int  $corporation_id
-     * @return \Seat\Api\Http\Resources\CorporationSheetResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getStructures(int $corporation_id)
     {
-        return new CorporationSheetResource(CorporationStructure::with('info', 'type', 'services', 'items', 'items.type', 'items.type.dogma_attributes', 'solar_system')
-            ->where('corporation_id', $corporation->corporation_id));
+        $query = new CorporationStructureResource(CorporationStructure::with('info', 'type', 'services', 'items', 'items.type', 'items.type.dogma_attributes', 'solar_system')
+            ->where('corporation_id', $corporation->corporation_id))
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
     }
 
     /**
