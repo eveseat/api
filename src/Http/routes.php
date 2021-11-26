@@ -131,6 +131,7 @@ Route::group([
                 Route::get('/market-orders/{corporation_id}')->uses('CorporationController@getMarketOrders');
                 Route::get('/member-tracking/{corporation_id}')->uses('CorporationController@getMemberTracking');
                 Route::get('/sheet/{corporation_id}')->uses('CorporationController@getSheet');
+                Route::get('/structures/{corporation_id}')->uses('CorporationController@getStructures');
                 Route::get('/wallet-journal/{corporation_id}')->uses('CorporationController@getWalletJournal');
                 Route::get('/wallet-transactions/{corporation_id}')->uses('CorporationController@getWalletTransactions');
             });

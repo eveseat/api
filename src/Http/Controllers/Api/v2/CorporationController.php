@@ -33,6 +33,7 @@ use Seat\Eveapi\Models\Assets\CorporationAsset;
 use Seat\Eveapi\Models\Contacts\CorporationContact;
 use Seat\Eveapi\Models\Contracts\CorporationContract;
 use Seat\Eveapi\Models\Corporation\CorporationInfo;
+use Seat\Eveapi\Models\Corporation\CorporationStructure;
 use Seat\Eveapi\Models\Corporation\CorporationMemberTracking;
 use Seat\Eveapi\Models\Industry\CorporationIndustryJob;
 use Seat\Eveapi\Models\Market\CorporationOrder;
@@ -482,6 +483,46 @@ class CorporationController extends ApiController
     {
         return new CorporationSheetResource(CorporationInfo::with('ceo', 'creator', 'alliance', 'faction')
             ->findOrFail($corporation_id));
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/v2/corporation/structures/{corporation_id}",
+     *      tags={"Corporation"},
+     *      summary="Get a list corporation structures",
+     *      description="Returns a list of corporation structures",
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="corporation_id",
+     *          description="Corporation id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *          in="path"
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  type="object",
+     *                  property="data",
+     *                  ref="#/components/schemas/CorporationStructure"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param  int  $corporation_id
+     * @return \Seat\Api\Http\Resources\CorporationSheetResource
+     */
+    public function getStructures(int $corporation_id)
+    {
+        return new CorporationSheetResource(CorporationStructure::with('info', 'type', 'services', 'items', 'items.type', 'items.type.dogma_attributes', 'solar_system')
+            ->where('corporation_id', $corporation->corporation_id)
     }
 
     /**
