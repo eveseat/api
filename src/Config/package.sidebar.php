@@ -27,6 +27,6 @@ return [
         'name'          => 'SeAT API',
         'icon'          => 'fas fa-exchange-alt',
         'route_segment' => 'api-admin',
-        'route'         => 'api-admin.list',
+        'route'         => 'seatcore::api-admin.list',
     ],
 ];
