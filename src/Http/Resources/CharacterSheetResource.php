@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
 /**
@@ -53,7 +53,7 @@ use Illuminate\Support\Arr;
  *     @OA\Property(property="user_id", type="integer", description="Seat user identifier")
  * )
  */
-class CharacterSheetResource extends Resource
+class CharacterSheetResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
 /**
@@ -30,7 +30,7 @@ use Illuminate\Support\Arr;
  *
  * @package Seat\Api\Http\Resources
  */
-class KillmailDetailResource extends Resource
+class KillmailDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

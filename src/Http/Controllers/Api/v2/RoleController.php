@@ -24,7 +24,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\RoleResource;
 use Seat\Api\Http\Validation\EditRole;
 use Seat\Api\Http\Validation\NewRole;
@@ -78,7 +78,7 @@ class RoleController extends ApiController
     public function getIndex()
     {
 
-        return Resource::collection(Role::paginate());
+        return JsonResource::collection(Role::paginate());
     }
 
     /**

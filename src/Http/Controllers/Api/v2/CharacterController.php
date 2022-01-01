@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
@@ -120,7 +120,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 
     /**
@@ -583,7 +583,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 
     /**
@@ -756,7 +756,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 
     /**
@@ -821,7 +821,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 
     /**
@@ -887,7 +887,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 
     /**
@@ -953,6 +953,6 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return JsonResource::collection($query->paginate());
     }
 }

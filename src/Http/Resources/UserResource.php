@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class UserResource.
@@ -92,7 +92,7 @@ use Illuminate\Http\Resources\Json\Resource;
  *     description="The main character ID of this group"
  * )
  */
-class UserResource extends Resource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
