@@ -24,6 +24,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Server(

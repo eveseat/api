@@ -22,6 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
+use OpenApi\Annotations as OA;
 use Seat\Api\Http\Resources\UserResource;
 use Seat\Api\Http\Validation\NewUser;
 use Seat\Web\Models\User;

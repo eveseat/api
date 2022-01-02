@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
 
 /**
  * Class UserResource.

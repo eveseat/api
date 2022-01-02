@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
 use Seat\Api\Http\Resources\KillmailDetailResource;
 use Seat\Eveapi\Models\Killmails\Killmail;
 use Seat\Eveapi\Models\Killmails\KillmailDetail;
