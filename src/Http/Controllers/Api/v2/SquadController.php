@@ -22,6 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
+use OpenApi\Annotations as OA;
 use Seat\Api\Http\Resources\SquadResource;
 use Seat\Api\Http\Validation\NewSquad;
 use Seat\Web\Models\Squads\Squad;

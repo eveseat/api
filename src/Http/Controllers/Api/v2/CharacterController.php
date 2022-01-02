@@ -23,6 +23,7 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;

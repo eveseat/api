@@ -25,6 +25,7 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
 use Seat\Api\Http\Resources\RoleResource;
 use Seat\Api\Http\Validation\EditRole;
 use Seat\Api\Http\Validation\NewRole;
