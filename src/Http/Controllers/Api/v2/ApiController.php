@@ -27,9 +27,29 @@ use Illuminate\Routing\Controller as BaseController;
 use OpenApi\Annotations as OA;
 
 /**
+ * @OA\OpenApi(
+ *     @OA\Info(
+ *         version="2.0.0",
+ *         title="SeAT API",
+ *         description=L5_SWAGGER_DESCRIPTION,
+ *     )
+ * )
+ */
+
+/**
  * @OA\Server(
  *   url=L5_SWAGGER_CONST_HOST,
  *   description="SeAT Server"
+ * )
+ */
+
+/**
+ * @OA\SecurityScheme(
+ *   securityScheme="ApiKeyAuth",
+ *   type="apiKey",
+ *   description="Authentication token generated from the SeAT Web UI",
+ *   name="X-Token",
+ *   in="header"
  * )
  */
 
@@ -63,18 +83,6 @@ use OpenApi\Annotations as OA;
  *
  * @package Seat\Api\v2
  */
-#[OA\Info(
-    version: '2.0.0',
-    title: 'SeAT API',
-    description: 'SeAT API Documentation. All endpoints require an API key.'
-)]
-#[OA\SecurityScheme(
-    securityScheme: 'ApiKeyAuth',
-    type: 'apiKey',
-    description: 'Authentication token generated from the SeAT Web UI',
-    name: 'X-Token',
-    in: 'header'
-)]
 class ApiController extends BaseController
 {
     use ValidatesRequests;
