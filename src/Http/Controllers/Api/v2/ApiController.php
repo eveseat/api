@@ -27,12 +27,10 @@ use Illuminate\Routing\Controller as BaseController;
 use OpenApi\Annotations as OA;
 
 /**
- * @OA\OpenApi(
- *     @OA\Info(
- *         version="2.0.0",
- *         title="SeAT API",
- *         description=L5_SWAGGER_DESCRIPTION,
- *     )
+ * @OA\Info(
+ *   version="2.0.0",
+ *   title="SeAT API",
+ *   description=L5_SWAGGER_DESCRIPTION,
  * )
  */
 
