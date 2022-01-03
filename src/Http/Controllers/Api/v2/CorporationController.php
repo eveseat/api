@@ -517,6 +517,14 @@ class CorporationController extends ApiController
      *                  type="object",
      *                  property="data",
      *                  ref="#/components/schemas/CorporationStructure"
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
      *              )
      *          )
      *      ),
@@ -529,8 +537,8 @@ class CorporationController extends ApiController
      */
     public function getStructures(int $corporation_id)
     {
-        $query = CorporationStructure::with('info', 'type', 'services', 'items', 'items.type', 'items.type.dogma_attributes', 'solar_system')
-            ->where('corporation_id', $corporation->corporation_id)
+        $query = CorporationStructure::with('info', 'type', 'services', 'solar_system')
+            ->where('corporation_id', $corporation_id)
             ->where(function ($sub_query) {
                 $this->applyFilters(request(), $sub_query);
             });
