@@ -30,7 +30,7 @@ use OpenApi\Annotations as OA;
  * @OA\Info(
  *   version="2.0.0",
  *   title="SeAT API",
- *   description=L5_SWAGGER_DESCRIPTION,
+ *   description="SeAT API Documentation. All endpoints require an API key.",
  * )
  */
 
