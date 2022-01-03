@@ -78,7 +78,7 @@ class ApiServiceProvider extends AbstractSeatPlugin
         config(['l5-swagger.swagger_version' => '3.0']);
 
         // Use base host configured in the .env file for the swagger host.
-        config(['l5-swagger.constants.L5_SWAGGER_CONST_HOST' => sprintf('%s/api', config('app.url'))]);
+        config(['l5-swagger.defaults.constants.L5_SWAGGER_CONST_HOST' => sprintf('%s/api', config('app.url'))]);
     }
 
     /**
