@@ -24,55 +24,12 @@ namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
 /**
- * @OA\Info(
- *   version="2.0.0",
- *   title="SeAT API",
- *   description="SeAT API Documentation. All endpoints require an API key.",
- * )
- */
-
-/**
- * @OA\Server(
+ * OA\Server(
  *   url=L5_SWAGGER_CONST_HOST,
  *   description="SeAT Server"
- * )
- */
-
-/**
- * @OA\SecurityScheme(
- *   securityScheme="ApiKeyAuth",
- *   type="apiKey",
- *   description="Authentication token generated from the SeAT Web UI",
- *   name="X-Token",
- *   in="header"
- * )
- */
-
-/**
- * @OA\Schema(
- *     schema="ResourcePaginatedLinks",
- *     description="Provide pagination urls for navigation",
- *     type="object",
- *     @OA\Property(type="string", format="uri", property="first", description="First Page"),
- *     @OA\Property(type="string", format="uri", property="last", description="Last Page"),
- *     @OA\Property(type="string", format="uri", property="prev", description="Previous Page"),
- *     @OA\Property(type="string", format="uri", property="next", description="Next Page")
- * )
- *
- * @OA\Schema(
- *     schema="ResourcePaginatedMetadata",
- *     description="Information related to the paginated response",
- *     type="object",
- *     @OA\Property(type="integer", property="current_page", description="The current page"),
- *     @OA\Property(type="integer", property="from", description="The first entity number on the page"),
- *     @OA\Property(type="integer", property="last_page", description="The last page available"),
- *     @OA\Property(type="string", format="uri", property="path", description="The base endpoint"),
- *     @OA\Property(type="integer", property="per_page", description="The pagination step"),
- *     @OA\Property(type="integer", property="to", description="The last entity number on the page"),
- *     @OA\Property(type="integer", property="total", description="The total of available entities")
  * )
  */
 
@@ -81,6 +38,18 @@ use OpenApi\Annotations as OA;
  *
  * @package Seat\Api\v2
  */
+#[OA\Info(
+    version: '2.0.0',
+    description: 'SeAT API Documentation. All endpoints require an API key.',
+    title: 'SeAT API'
+)]
+#[OA\SecurityScheme(
+    securityScheme: 'ApiKeyAuth',
+    type: 'apiKey',
+    description: 'Authentication token generated from the SeAT Web UI',
+    name: 'X-Token',
+    in: 'header'
+)]
 class ApiController extends BaseController
 {
     use ValidatesRequests;

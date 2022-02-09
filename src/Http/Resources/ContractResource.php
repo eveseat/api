@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class ContractResource.
