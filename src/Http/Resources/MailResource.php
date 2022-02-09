@@ -22,26 +22,14 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class MailResource.
  *
  * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     schema="MailResource",
- *     description="Mail Resource",
- *     type="object",
- *     @OA\Property(property="mail_id", type="integer", format="int64", description="The mail identifier"),
- *     @OA\Property(property="subject", type="string", description="The mail topic"),
- *     @OA\Property(property="timestamp", type="string", format="date-time", description="The date-time when the mail has been sent"),
- *     @OA\Property(property="sender", ref="#/components/schemas/UniverseName", description="The mail sender"),
- *     @OA\Property(property="body", type="string", description="The mail content"),
- *     @OA\Property(property="recipients", type="array", description="A list of recipients", @OA\Items(ref="#/components/schemas/UniverseName"))
- * )
  */
 class MailResource extends JsonResource
 {
@@ -51,6 +39,14 @@ class MailResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    #[OA\Schema(schema: 'MailResource', description: 'Mail Resource', properties: [
+        new OA\Property(property: 'mail_id', description: 'The mail identifier', type: 'integer', format: 'int64'),
+        new OA\Property(property: 'subject', description: 'The mail topic', type: 'string'),
+        new OA\Property(property: 'timestamp', description: 'The date-time when the mail has been sent', type: 'string', format: 'date-time'),
+        new OA\Property(property:'sender', ref: '#/components/schemas/UniverseName', description:'The mail sender'),
+        new OA\Property(property: 'body', description: 'The mail content', type: 'string'),
+        new OA\Property(property: 'recipients', description: 'A list of recipients', type: 'array', items: new OA\Items(ref: '#/components/schemas/UniverseName')),
+    ], type: 'object')]
     public function toArray($request)
     {
 

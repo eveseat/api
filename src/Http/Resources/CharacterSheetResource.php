@@ -22,38 +22,39 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Arr;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class CharacterSheetResource.
  *
  * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     type="object",
- *     title="CharacterSheetResource",
- *     schema="CharacterSheetResource",
- *     description="Character Sheet Resource",
- *     @OA\Property(property="name", type="string", description="Character name"),
- *     @OA\Property(property="description", type="string", description="Character biography"),
- *     @OA\Property(property="corporation", ref="#/components/schemas/UniverseName", description="Character corporation"),
- *     @OA\Property(property="alliance", ref="#/components/schemas/UniverseName", description="Character alliance (if anny)"),
- *     @OA\Property(property="faction", ref="#/components/schemas/UniverseName", description="Character faction (if any)"),
- *     @OA\Property(property="birthday", type="string", format="date-time", description="Character birthday"),
- *     @OA\Property(property="gender", type="string", enum={"male", "female"}, description="Character gender"),
- *     @OA\Property(property="race_id", type="integer", description="Character race identifier"),
- *     @OA\Property(property="bloodline_id", type="integer", description="Character bloodline identifier"),
- *     @OA\Property(property="security_status", type="number", description="Character security status"),
- *     @OA\Property(property="balance", type="number", description="Character wallet balance"),
- *     @OA\Property(property="skillpoints", type="object",
- *       @OA\Property(property="total_sp", type="number", description="The total skill points owned by the character"),
- *       @OA\Property(property="unallocated_sp", type="number", description="The total skill points not allocated for this character")
- *     ),
- *     @OA\Property(property="user_id", type="integer", description="Seat user identifier")
- * )
  */
+
+#[OA\Schema(
+    schema: 'CharacterSheetResource',
+    title: 'CharacterSheetResource',
+    description: 'Character Sheet Resource',
+    properties: [
+        new OA\Property(property: 'name', description: 'Character name', type: 'string'),
+        new OA\Property(property: 'description', description: 'Character biography', type: 'string'),
+        new OA\Property(property: 'corporation', ref: '#/components/schemas/UniverseName', description: 'Character corporation'),
+        new OA\Property(property: 'alliance', ref: '#/components/schemas/UniverseName', description: 'Character alliance (if any)'),
+        new OA\Property(property: 'faction', ref: '#/components/schemas/UniverseName', description: 'Character faction (if any)'),
+        new OA\Property(property: 'birthday', description: 'Character birthday', type: 'string', format: 'date-time'),
+        new OA\Property(property: 'gender', description: 'Character gender', type: 'string', enum: ['male', 'female']),
+        new OA\Property(property: 'race_id', description: 'Character race identifier', type: 'integer'),
+        new OA\Property(property: 'bloodline_id', description: 'Character bloodline identifier', type: 'integer'),
+        new OA\Property(property: 'security_status', description: 'Character security status', type: 'number'),
+        new OA\Property(property: 'balance', description: 'Character wallet balance', type: 'number'),
+        new OA\Property(property: 'skillpoints', properties: [
+            new OA\Property(property: 'total_sp', description: 'The total skill points owned by the character', type: 'number'),
+            new OA\Property(property: 'unallocated_sp', description: 'The total skill points not allocated for this character', type: 'number'),
+        ], type: 'object'),
+        new OA\Property(property: 'user_id', description: 'Seat user identifier', type: 'integer'),
+    ],
+    type: 'object'
+)]
 class CharacterSheetResource extends JsonResource
 {
     /**
@@ -82,15 +83,5 @@ class CharacterSheetResource extends JsonResource
             ],
             'user_id' => $this->user->id,
         ];
-
-        $definition = parent::toArray($request);
-
-        Arr::forget($definition, 'character_id');
-        Arr::forget($definition, 'skillpoints.character_id');
-        Arr::forget($definition, 'skillpoints.created_at');
-        Arr::forget($definition, 'skillpoints.updated_at');
-        Arr::set($definition, 'balance', Arr::get($definition, 'balance.balance'));
-
-        return  $definition;
     }
 }
