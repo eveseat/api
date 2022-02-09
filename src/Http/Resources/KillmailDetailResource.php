@@ -22,8 +22,8 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class KillmailDetailResource.

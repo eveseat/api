@@ -22,22 +22,13 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class PermissionResource.
  *
  * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     title="PermissionResource",
- *     schema="PermissionResource",
- *     description="Permission Resource"
- * )
- *
- * @OA\Property(property="title", type="string", description="Permission technical name"),
- * @OA\Property(property="filters", type="object", description="Entities to which the permission is limited")
  */
 class PermissionResource extends JsonResource
 {
@@ -45,6 +36,10 @@ class PermissionResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    #[OA\Schema(schema: 'PermissionResource', title: 'PermissionResource', description: 'Permission Resource', properties: [
+        new OA\Property(property: 'title', description: 'Permission technical name', type: 'string'),
+        new OA\Property(property: 'filters', description: 'Entities to which the permission is limited', type: 'object'),
+    ])]
     public function toArray($request)
     {
         return [
