@@ -2,6 +2,7 @@
 
 namespace Seat\Api\Http\Resources\Json;
 
+use Illuminate\Support\Arr;
 use OpenApi\Attributes as OA;
 
 class PaginatedResourceResponse extends \Illuminate\Http\Resources\Json\PaginatedResourceResponse
@@ -22,7 +23,9 @@ class PaginatedResourceResponse extends \Illuminate\Http\Resources\Json\Paginate
     )]
     protected function meta($paginated)
     {
-        return parent::meta($paginated);
+        $meta = parent::meta($paginated);
+
+        return Arr::except($meta, ['links']);
     }
 
     #[OA\Schema(

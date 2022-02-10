@@ -25,12 +25,6 @@ namespace Seat\Api\Http\Resources;
 use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class CharacterSheetResource.
- *
- * @package Seat\Api\Http\Resources
- */
-
 #[OA\Schema(
     schema: 'CharacterSheetResource',
     title: 'CharacterSheetResource',

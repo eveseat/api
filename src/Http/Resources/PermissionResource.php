@@ -25,11 +25,6 @@ namespace Seat\Api\Http\Resources;
 use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class PermissionResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class PermissionResource extends JsonResource
 {
     /**

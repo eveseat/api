@@ -23,9 +23,11 @@
 namespace Seat\Api\Http\Controllers\Api\v2;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\AnonymousResourceCollection;
+use Seat\Api\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\RoleResource;
 use Seat\Api\Http\Validation\EditRole;
 use Seat\Api\Http\Validation\NewRole;
@@ -42,80 +44,67 @@ class RoleController extends ApiController
     use AccessManager;
     use ValidatesRequests;
 
-    /**
-     * @OA\Get(
-     *      path="/v2/roles",
-     *      tags={"Roles"},
-     *      summary="Get the roles configured within SeAT",
-     *      description="Returns a list of roles",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  description="Array of defined roles",
-     *                  @OA\Items(ref="#/components/schemas/Role")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getIndex()
+    #[OA\Get(
+        path: '/api/v2/roles',
+        description: 'Returns a list of roles',
+        summary: 'Get the roles configured within SeAT',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', description: 'Array of defined roles', type: 'array', items: new OA\Items(ref: '#/components/schemas/Role')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getIndex(): AnonymousResourceCollection
     {
 
         return JsonResource::collection(Role::paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/roles/{role_id}",
-     *      tags={"Roles"},
-     *      summary="Get detailed information about a role",
-     *      description="Returns a roles details",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="role_id",
-     *          description="Role id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#/components/schemas/RoleResource"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $role_id
-     * @return \Seat\Api\Http\Resources\RoleResource
-     */
+    #[OA\Get(
+        path: '/api/v2/roles/{role_id}',
+        description: 'Returns a roles details',
+        summary: 'Get detailed information about a role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', description: 'Array of defined roles', type: 'array', items: new OA\Items(ref: '#/components/schemas/RoleResource')),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
     public function getDetail(int $role_id)
     {
         $role = Role::with('permissions', 'users', 'squads')
@@ -124,89 +113,67 @@ class RoleController extends ApiController
         return RoleResource::make($role);
     }
 
-    /**
-     * @OA\Post(
-     *      path="/v2/roles",
-     *      tags={"Roles"},
-     *      summary="Create a new SeAT role",
-     *      description="Creates a role",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  required={"title"},
-     *                  @OA\Property(
-     *                      property="title",
-     *                      type="string",
-     *                      description="The new role name"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="description",
-     *                      type="string",
-     *                      description="The new role description"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="logo",
-     *                      type="string",
-     *                      format="byte",
-     *                      description="Base64 encoded new role logo"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="permissions",
-     *                      description="A list of the permissions which have to be attached to the role.",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          description="A permission name"
-     *                      )
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=201, description="Successful operation",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#/components/schemas/CreateRole"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *      @OA\Response(response=422, description="Unprocessable Entity",
-     *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="string",
-     *                  property="message",
-     *                  description="The readable error message"
-     *              ),
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="errors",
-     *                  description="Detailed information related to the encountered error",
-     *                  @OA\Property(
-     *                      type="array",
-     *                      property="title",
-     *                      description="The field for which the error has been encountered",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          description="A list of the encountered error for this field"
-     *                      )
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *     )
-     *
-     * @param  \Seat\Api\Http\Validation\NewRole  $request
-     * @return \Seat\Api\Http\Resources\RoleResource
-     */
-    public function postNew(NewRole $request)
+    #[OA\Post(
+        path: '/api/v2/roles',
+        description: 'Creates a role',
+        summary: 'Create a new SeAT role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    required: ['title'],
+                    properties: [
+                        new OA\Property(property: 'title', description: 'The new role name', type: 'string'),
+                        new OA\Property(property: 'description', description: 'Base64 encoded new role logo', type: 'string'),
+                        new OA\Property(property: 'permissions', description: 'A list of the permissions which have to be attached to the role.', type: 'array', items: new OA\Items(description: 'A permission name', type: 'string'))
+                    ]
+                )
+            )
+        ),
+        tags: ['Roles'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', ref: '#/components/schemas/CreateRole', type: 'object')
+                    ]
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+            new OA\Response(
+                response: 422,
+                description: 'Unprocessable Entity',
+                content: new OA\Schema(
+                    properties: [
+                        new OA\Property(property: 'message', description: 'The readable error message', type: 'string'),
+                        new OA\Property(
+                            property: 'errors',
+                            description: 'Detailed information related to the encountered error',
+                            properties: [
+                                new OA\Property(
+                                    property: 'title',
+                                    description: 'The field for which the error has been encountered',
+                                    type: 'array',
+                                    items: new OA\Items(description: 'A list of the encountered error for this field', type: 'string')
+                                )
+                            ],
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
+    )]
+    public function postNew(NewRole $request): RoleResource
     {
         $role = new Role([
             'title' => $request->input('title'),
@@ -228,90 +195,62 @@ class RoleController extends ApiController
         return RoleResource::make($role);
     }
 
-    /**
-     * @OA\Patch(
-     *      path="/v2/roles/{role_id}",
-     *      tags={"Roles"},
-     *      summary="Edit an existing SeAT role",
-     *      description="Edit a role",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="role_id",
-     *          description="Role ID",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  @OA\Property(
-     *                      property="title",
-     *                      type="string",
-     *                      description="The new role name"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="description",
-     *                      type="string",
-     *                      description="The new role description"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="logo",
-     *                      type="string",
-     *                      format="byte",
-     *                      description="Base64 encoded new role logo"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#/components/schemas/RoleResource"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=304, description="Your request didn't apply any change"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *      @OA\Response(response=422, description="Unprocessable Entity",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="string",
-     *                  property="message",
-     *                  description="The readable error message"
-     *              ),
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="errors",
-     *                  description="Detailed information related to the encountered error",
-     *                  @OA\Property(
-     *                      type="array",
-     *                      property="title",
-     *                      description="The field for which the error has been encountered",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          description="A list of the encountered error for this field"
-     *                      )
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *     )
-     *
-     * @param  \Seat\Api\Http\Validation\EditRole  $request
-     * @param  int  $role_id
-     * @return \Illuminate\Http\JsonResponse|\Seat\Api\Http\Resources\RoleResource
-     */
-    public function patch(EditRole $request, int $role_id)
+    #[OA\Patch(
+        path: '/api/v2/roles/{role_id}',
+        description: 'Edit a role',
+        summary: 'Edit an existing SeAT role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(property: 'title', description: 'The new role name', type: 'string'),
+                        new OA\Property(property: 'description', description: 'The new role description', type: 'string'),
+                        new OA\Property(property: 'logo', description: 'Base64 encoded new role logo', type: 'string', format: 'byte')
+                    ]
+                )
+            )
+        ),
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation', content: new OA\JsonContent(properties: [new OA\Property(property: 'data', ref: '#/components/schemas/RoleResource', type: 'object')])),
+            new OA\Response(response: 304, description: 'Your request did not apply any change'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+            new OA\Response(
+                response: 422,
+                description: 'Unprocessable Entity',
+                content: new OA\Schema(
+                    properties: [
+                        new OA\Property(property: 'message', description: 'The readable error message', type: 'string'),
+                        new OA\Property(
+                            property: 'errors',
+                            description: 'Detailed information related to the encountered error',
+                            properties: [
+                                new OA\Property(
+                                    property: 'title',
+                                    description: 'The field for which the error has been encountered',
+                                    type: 'array',
+                                    items: new OA\Items(description: 'A list of the encountered error for this field', type: 'string')
+                                )
+                            ],
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
+    )]
+    public function patch(EditRole $request, int $role_id): JsonResponse|RoleResource
     {
         $role = $this->getRole($role_id);
 
@@ -333,33 +272,26 @@ class RoleController extends ApiController
         return response()->json('', 304);
     }
 
-    /**
-     * @OA\Delete(
-     *      path="/v2/roles/{role_id}",
-     *      tags={"Roles"},
-     *      summary="Delete a SeAT role",
-     *      description="Deletes a role",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="role_id",
-     *          description="Role id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param $role_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function deleteRole($role_id)
+    #[OA\Delete(
+        path: '/api/v2/roles/{role_id}',
+        description: 'Deletes a role',
+        summary: 'Delete a SeAT role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function deleteRole($role_id): JsonResponse
     {
         Role::findOrFail($role_id);
 
@@ -368,44 +300,34 @@ class RoleController extends ApiController
         return response()->json(true);
     }
 
-    /**
-     * @OA\Post(
-     *      path="/v2/roles/members",
-     *      tags={"Roles"},
-     *      summary="Grant a user a SeAT role",
-     *      description="Grants a role",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  required={"user_id", "role_id"},
-     *                  @OA\Property(
-     *                      property="user_id",
-     *                      type="integer",
-     *                      minimum=1,
-     *                      description="The user identifier"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="role_id",
-     *                      type="integer",
-     *                      minimum=1,
-     *                      description="The role identifier"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function postGrantUserRole(Request $request)
+    #[OA\Post(
+        path: '/api/v2/roles/members',
+        description: 'Grantes a role',
+        summary: 'Grant a user a SeAT role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                schema: new OA\Schema(
+                    required: ['user_id', 'role_id'],
+                    properties: [
+                        new OA\Property(property: 'user_id', description: 'The user identifier', type: 'integer', minimum: 1),
+                        new OA\Property(property: 'role_id', description: 'The role identifier', type: 'integer', minimum: 1)
+                    ]
+                )
+            )
+        ),
+        tags: ['Roles'],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function postGrantUserRole(Request $request): JsonResponse
     {
         $this->validate($request, [
             'user_id' => 'required|exists:users,id|numeric',
@@ -417,43 +339,26 @@ class RoleController extends ApiController
         return response()->json(true);
     }
 
-    /**
-     * @OA\Delete(
-     *      path="/v2/roles/members/{user_id}/{role_id}",
-     *      tags={"Roles"},
-     *      summary="Revoke a SeAT role from an user",
-     *      description="Revokes a role",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="user_id",
-     *          description="User identifier",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          name="role_id",
-     *          description="Role id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param $user_id
-     * @param $role_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function deleteRevokeUserRole($user_id, $role_id)
+    #[OA\Delete(
+        path: '/api/v2/roles/members/{user_id}/{role_id}',
+        description: 'Revokes a role',
+        summary: 'Revoke a SeAT role from an user',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function deleteRevokeUserRole($user_id, $role_id): JsonResponse
     {
 
         $this->removeUserFromRole($user_id, $role_id);

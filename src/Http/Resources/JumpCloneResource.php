@@ -25,11 +25,6 @@ namespace Seat\Api\Http\Resources;
 use Illuminate\Support\Arr;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class JumpCloneResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class JumpCloneResource extends JsonResource
 {
     /**

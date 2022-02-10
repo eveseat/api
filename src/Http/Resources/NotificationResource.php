@@ -25,11 +25,6 @@ namespace Seat\Api\Http\Resources;
 use Illuminate\Support\Arr;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class NotificationResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class NotificationResource extends JsonResource
 {
     /**
