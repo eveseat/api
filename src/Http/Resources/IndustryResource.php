@@ -24,11 +24,6 @@ namespace Seat\Api\Http\Resources;
 
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class IndustryResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class IndustryResource extends JsonResource
 {
     /**

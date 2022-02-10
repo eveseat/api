@@ -22,13 +22,14 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\CharacterSheetResource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationHistoryResource;
 use Seat\Api\Http\Resources\IndustryResource;
+use Seat\Api\Http\Resources\Json\AnonymousResourceCollection;
+use Seat\Api\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\JumpCloneResource;
 use Seat\Api\Http\Resources\MailResource;
 use Seat\Api\Http\Resources\NotificationResource;
@@ -48,68 +49,42 @@ use Seat\Eveapi\Models\Skills\CharacterSkillQueue;
 use Seat\Eveapi\Models\Wallet\CharacterWalletJournal;
 use Seat\Eveapi\Models\Wallet\CharacterWalletTransaction;
 
-/**
- * Class CharacterController.
- *
- * @package Seat\Api\Http\Controllers\Api\v2
- */
 class CharacterController extends ApiController
 {
     use Filterable;
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/assets/{character_id}",
-     *      tags={"Assets"},
-     *      summary="Get a paginated list of a assets for a character",
-     *      description="Returns a list of assets",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterAsset")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @param  int  $item_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getAssets(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/assets/{character_id}',
+        description: 'Returns a list of assets',
+        summary: 'Get a paginated list of a assets for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Assets'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterAsset')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getAssets(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -124,58 +99,38 @@ class CharacterController extends ApiController
         return JsonResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/contacts/{character_id}",
-     *      tags={"Contacts"},
-     *      summary="Get a paginated list of contacts for a character",
-     *      description="Returns list of contacs",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterContact")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getContacts(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/contacts/{character_id}',
+        description: 'Returns list of contacs',
+        summary: 'Get a paginated list of contacts for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Contacts'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterContact')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getContacts(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -189,58 +144,38 @@ class CharacterController extends ApiController
         return ContactResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/contracts/{character_id}",
-     *      tags={"Contracts"},
-     *      summary="Get a paginated list of contracts for a character",
-     *      description="Returns list of contracts",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/ContractDetail")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getContracts(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/contracts/{character_id}',
+        description: 'Returns list of contracts',
+        summary: 'Get a paginated list of contracts for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Contracts'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/ContractDetail')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getContracts(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -257,58 +192,38 @@ class CharacterController extends ApiController
         return ContractResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/corporation-history/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get the corporation history for a character",
-     *      description="Returns a corporation history",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterCorporationHistory")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getCorporationHistory(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/corporation-history/{character_id}',
+        description: 'Returns a corporation history',
+        summary: 'Get the corporation history for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterCorporationHistory')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getCorporationHistory(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -322,58 +237,38 @@ class CharacterController extends ApiController
         return CorporationHistoryResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/industry/{character_id}",
-     *      tags={"Industry"},
-     *      summary="Get a paginated list of industry jobs for a character",
-     *      description="Returns list of industry jobs",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterIndustryJob")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getIndustry(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/industry/{character_id}',
+        description: 'Returns list of industry jobs',
+        summary: 'Get a paginated list of industry jobs for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Industry'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterIndustryJob')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getIndustry(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -387,58 +282,38 @@ class CharacterController extends ApiController
         return IndustryResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/jump-clones/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get a paginated list of jump clones for a character",
-     *      description="Returns list of jump clones",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterJumpClone")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getJumpClones(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/jump-clones/{character_id}',
+        description: 'Returns list of jump clones',
+        summary: 'Get a paginated list of jump clones for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterJumpClone')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getJumpClones(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -452,58 +327,38 @@ class CharacterController extends ApiController
         return JumpCloneResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/mail/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get a paginated list of mail for a character",
-     *      description="Returns mail",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/MailResource")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getMail(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/mail/{character_id}',
+        description: 'Returns mail',
+        summary: 'Get a paginated list of mail for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/MailResource')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getMail(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -521,58 +376,38 @@ class CharacterController extends ApiController
         return MailResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/market-orders/{character_id}",
-     *      tags={"Market"},
-     *      summary="Get a paginated list of market orders for a character",
-     *      description="Returns list of market orders",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer",
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterOrder")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getMarketOrders(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/market-orders/{character_id}',
+        description: 'Returns list of market orders',
+        summary: 'Get a paginated list of market orders for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Market'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterOrder')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getMarketOrders(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -587,58 +422,38 @@ class CharacterController extends ApiController
         return JsonResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/notifications/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get a paginated list of notifications for a character",
-     *      description="Returns a list of notifications",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterNotification")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getNotifications(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/notifications/{character_id}',
+        description: 'Returns a list of notifications',
+        summary: 'Get a paginated list of notifications for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterNotification')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getNotifications(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -652,100 +467,73 @@ class CharacterController extends ApiController
         return NotificationResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/sheet/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get the character sheet for a character",
-     *      description="Returns a character sheet",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#/components/schemas/CharacterSheetResource"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Seat\Api\Http\Resources\CharacterSheetResource
-     */
-    public function getSheet(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/sheet/{character_id}',
+        description: 'Returns a character sheet',
+        summary: 'Get the character sheet for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', ref: '#/components/schemas/CharacterSheetResource', type: 'object'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getSheet(int $character_id): CharacterSheetResource
     {
         return new CharacterSheetResource(
             CharacterInfo::with('affiliation.corporation', 'affiliation.alliance', 'affiliation.faction', 'balance', 'skillpoints')
                 ->findOrFail($character_id));
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/skills/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get the skills for a character",
-     *      description="Returns character skills",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterSkill")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getSkills(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/skills/{character_id}',
+        description: 'Returns character skills',
+        summary: 'Get the skills for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterSkill')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getSkills(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -760,58 +548,38 @@ class CharacterController extends ApiController
         return JsonResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/skill-queue/{character_id}",
-     *      tags={"Character"},
-     *      summary="Get a list of characters skill queue",
-     *      description="Returns a skill queue",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterSkillQueue")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getSkillQueue(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/skill-queue/{character_id}',
+        description: 'Returns a skill queue',
+        summary: 'Get a list of characters skill queue',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterSkillQueue')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getSkillQueue(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -825,58 +593,38 @@ class CharacterController extends ApiController
         return JsonResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/wallet-journal/{character_id}",
-     *      tags={"Wallet"},
-     *      summary="Get a paginated wallet journal for a character",
-     *      description="Returns a wallet journal",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterWalletJournal")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getWalletJournal(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/wallet-journal/{character_id}',
+        description: 'Returns a wallet journal',
+        summary: 'Get a paginated wallet journal for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Character'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterWalletJournal')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getWalletJournal(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',
@@ -891,58 +639,38 @@ class CharacterController extends ApiController
         return JsonResource::collection($query->paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/character/wallet-transactions/{character_id}",
-     *      tags={"Wallet"},
-     *      summary="Get paginated wallet transactions for a character",
-     *      description="Returns wallet transactions",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/CharacterWalletTransaction")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getWalletTransactions(int $character_id)
+    #[OA\Get(
+        path: '/api/v2/character/wallet-transactions/{character_id}',
+        description: 'Returns wallet transactions',
+        summary: 'Get paginated wallet transactions for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Wallet'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterWalletTransaction')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getWalletTransactions(int $character_id): AnonymousResourceCollection
     {
         request()->validate([
             '$filter' => 'string',

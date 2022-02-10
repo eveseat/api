@@ -22,153 +22,116 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use OpenApi\Annotations as OA;
+use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\AnonymousResourceCollection;
 use Seat\Api\Http\Resources\SquadResource;
 use Seat\Api\Http\Validation\NewSquad;
 use Seat\Web\Models\Squads\Squad;
 
-/**
- * Class SquadController.
- *
- * @package Seat\Api\Http\Controllers\Api\v2
- */
 class SquadController extends ApiController
 {
-    /**
-     * @OA\Get(
-     *      path="/v2/squads",
-     *      tags={"Squads"},
-     *      summary="Get a list of squads",
-     *      description="Returns list of squads",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/SquadResource")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     * )
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
+    #[OA\Get(
+        path: '/v2/squads',
+        description: 'Returns list of squads',
+        summary: 'Get a list of squads',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Squads'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/SquadResource')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function index(): AnonymousResourceCollection
     {
         return SquadResource::collection(Squad::paginate());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/squads/{squad_id}",
-     *      tags={"Squads"},
-     *      summary="Get details about a Squad",
-     *      description="Return detailled information from a Squad",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="squad_id",
-     *          description="Squad id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/Squad")
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     * )
-     *
-     * @param  int  $squad_id
-     * @return \Seat\Api\Http\Resources\SquadResource
-     */
-    public function show(int $squad_id)
+    #[OA\Get(
+        path: '/v2/squads/{squad_id}',
+        description: 'Return detailed information from a Squad',
+        summary: 'Get details about a Squad',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Squads'],
+        parameters: [
+            new OA\Parameter(name: 'squad_id', description: 'Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Squad')),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function show(int $squad_id): SquadResource
     {
         return SquadResource::make(Squad::with('roles', 'moderators', 'members', 'applications')->findOrFail($squad_id));
     }
 
-    /**
-     * @OA\Post(
-     *      path="/v2/squads/",
-     *      tags={"Squads"},
-     *      summary="Create a new SeAT squad",
-     *      description="Creates a new SeAT Squad",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\RequestBody(
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *              @OA\Schema(
-     *                  required={"name", "type", "description"},
-     *                  @OA\Property(
-     *                      property="name",
-     *                      type="string",
-     *                      description="Squad name"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="type",
-     *                      type="string",
-     *                      enum={"hidden", "manual", "auto"},
-     *                      description="Squad type"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="description",
-     *                      type="string",
-     *                      description="Squad description"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="logo",
-     *                      type="string",
-     *                      format="byte",
-     *                      description="Squad logo"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  ref="#/components/schemas/Squad"
-     *              ),
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *  )
-     *
-     * @param  \Seat\Api\Http\Validation\NewSquad  $request
-     * @return \Seat\Api\Http\Resources\SquadResource
-     */
-    public function store(NewSquad $request)
+    #[OA\Post(
+        path: '/v2/squads',
+        description: 'Creates a new SeAT Squad',
+        summary: 'Creates a new SeAT Squad',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(mediaType: 'application/json', schema: new OA\Schema(required: ['name', 'type', 'description'], properties: [
+                new OA\Property(property: 'name', description: 'Squad name', type: 'string'),
+                new OA\Property(property: 'type', description: 'Squad type', type: 'string', enum: ['hidden', 'manual', 'auto']),
+                new OA\Property(property: 'description', description: 'Squad description', type: 'string'),
+                new OA\Property(property: 'name', description: 'Squad logo', type: 'string', format: 'byte')
+            ]))
+        ),
+        tags: [
+            'Squads'
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Squad', type: 'object')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function store(NewSquad $request): SquadResource
     {
         $squad = new Squad();
         $squad->name = $request->get('name');
@@ -183,33 +146,28 @@ class SquadController extends ApiController
         return SquadResource::make($squad->load('roles', 'moderators', 'members', 'applications'));
     }
 
-    /**
-     * @OA\Delete(
-     *      path="/v2/squads/{squad_id}",
-     *      tags={"Squads"},
-     *      summary="Delete a SeAT squad",
-     *      description="Deletes a squad",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="squad_id",
-     *          description="A SeAT squad id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized")
-     *   )
-     *
-     * @param  int  $squad_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(int $squad_id)
+    #[OA\Delete(
+        path: '/v2/squads/{squad_id}',
+        description: 'Deletes a Squad',
+        summary: 'Delete a SeAT Squad',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: [
+            'Squads'
+        ],
+        parameters: [
+            new OA\Parameter(name: 'squad_id', description: 'A SeAT Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function destroy(int $squad_id): JsonResponse
     {
         Squad::findOrFail($squad_id)->delete();
 

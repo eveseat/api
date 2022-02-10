@@ -26,11 +26,6 @@ use Illuminate\Support\Arr;
 use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class MailResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class MailResource extends JsonResource
 {
     /**

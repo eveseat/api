@@ -22,47 +22,43 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use OpenApi\Annotations as OA;
+use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 use Seat\Web\Models\User;
 
-/**
- * Class RoleLookupController.
- *
- * @package Seat\Api\Http\Controllers\Api\v1
- */
 class RoleLookupController extends ApiController
 {
-    /**
-     * @OA\Get(
-     *      path="/v2/roles/query/permissions",
-     *      tags={"Roles"},
-     *      summary="Get the available SeAT permissions",
-     *      description="Returns a list of permissions",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              description="Permissions list",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="scope",
-     *                  description="Permissions for the given scope where field name is scope",
-     *                  @OA\Items(
-     *                      type="string",
-     *                      description="Permission"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getPermissions()
+    #[OA\Get(
+        path: '/v2/roles/query/permissions',
+        description: 'Returns a list of permissions',
+        summary: 'Get the available SeAT permissions',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    description: 'Permissions list',
+                    properties: [
+                        new OA\Property(
+                            property: 'scope',
+                            description: 'Permissions for the given scope where field name is scope',
+                            type: 'array',
+                            items: new OA\Items(description: 'Permission', type: 'string')
+                        )
+                    ], type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getPermissions(): JsonResponse
     {
         $permissions = collect(config('seat.permissions'))->map(function ($item, $scope) {
             return collect($item)->map(function ($sub_item, $name) {
@@ -73,43 +69,27 @@ class RoleLookupController extends ApiController
         return response()->json($permissions);
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/roles/query/role-check/{user_id}/{role_name}",
-     *      tags={"Roles"},
-     *      summary="Check if a user has a role",
-     *      description="Returns a boolean",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="user_id",
-     *          description="User id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          name="role_name",
-     *          description="SeAT Role name",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $user_id
-     * @param  string  $role_name
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getRoleCheck(int $user_id, string $role_name)
+    #[OA\Get(
+        path: '/v2/roles/query/role-check/{user_id}/{role_name}',
+        description: 'Returns a boolean',
+        summary: 'Check if a user has a role',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'role_name', description: 'SeAT Role name', in: 'path', required: true, schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getRoleCheck(int $user_id, string $role_name): JsonResponse
     {
 
         $user = User::findOrFail($user_id);
@@ -117,43 +97,27 @@ class RoleLookupController extends ApiController
         return response()->json($user->roles->where('title', $role_name)->isNotEmpty());
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/roles/query/permission-check/{user_id}/{permission_name}",
-     *      tags={"Roles"},
-     *      summary="Check if a user has a role",
-     *      description="Returns a boolean",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="user_id",
-     *          description="User id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          name="permission_name",
-     *          description="SeAT Permission name",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $user_id
-     * @param  string  $permission_name
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getPermissionCheck(int $user_id, string $permission_name)
+    #[OA\Get(
+        path: '/v2/roles/query/permission-check/{user_id}/{permission_name}',
+        description: 'Returns a boolean',
+        summary: 'Check if a user has a permission',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Roles'],
+        parameters: [
+            new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'permission_name', description: 'SeAT Permission name', in: 'path', required: true, schema: new OA\Schema(type: 'string'))
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getPermissionCheck(int $user_id, string $permission_name): JsonResponse
     {
 
         $user = User::findOrFail($user_id);
