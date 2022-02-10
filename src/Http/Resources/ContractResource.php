@@ -24,11 +24,6 @@ namespace Seat\Api\Http\Resources;
 
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class ContractResource.
- *
- * @package Seat\Api\Http\Resources
- */
 class ContractResource extends JsonResource
 {
     /**

@@ -22,63 +22,46 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+use Seat\Api\Http\Resources\Json\AnonymousResourceCollection;
+use Seat\Api\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\KillmailDetailResource;
 use Seat\Eveapi\Models\Killmails\Killmail;
 use Seat\Eveapi\Models\Killmails\KillmailDetail;
 
-/**
- * Class KillmailsController.
- *
- * @package Seat\Api\Http\Controllers\Api\v2
- */
 class KillmailsController extends ApiController
 {
-    /**
-     * @OA\Get(
-     *      path="/v2/character/killmails/{character_id}",
-     *      tags={"Killmails"},
-     *      summary="Get a paginated list of killmails for a character",
-     *      description="Returns list of killmails",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="character_id",
-     *          description="Character id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/Killmail")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $character_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getCharacterKillmails(int $character_id)
+    #[OA\Get(
+        path: '/v2/character/killmails/{character_id}',
+        description: 'Returns list of killmails',
+        summary: 'Get a paginated list of killmails for a character',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Killmails'],
+        parameters: [
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Killmail')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getCharacterKillmails(int $character_id): AnonymousResourceCollection
     {
         return JsonResource::collection(
             Killmail::with('detail', 'victim', 'attackers')
@@ -90,50 +73,37 @@ class KillmailsController extends ApiController
             );
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/corporation/killmails/{corporation_id}",
-     *      tags={"Killmails"},
-     *      summary="Get a paginated list of killmails for a corporation",
-     *      description="Returns list of killmails",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="corporation_id",
-     *          description="Corporation id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/Killmail")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $corporation_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function getCorporationKillmails(int $corporation_id)
+    #[OA\Get(
+        path: '/v2/corporation/killmails/{corporation_id}',
+        description: 'Returns list of killmails',
+        summary: 'Get a paginated list of killmails for a corporation',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Killmails'],
+        parameters: [
+            new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Killmail')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getCorporationKillmails(int $corporation_id): AnonymousResourceCollection
     {
         return JsonResource::collection(
             Killmail::whereHas('victim', function ($query) use ($corporation_id) {
@@ -144,74 +114,42 @@ class KillmailsController extends ApiController
         );
     }
 
-    /**
-     * @OA\Get(
-     *      path="/v2/killmails/{killmail_id}",
-     *      tags={"Killmails"},
-     *      summary="Get full details about a killmail",
-     *      description="Returns a detailed killmail",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="killmail_id",
-     *          description="Killmail id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="object",
-     *                  property="data",
-     *                  @OA\Property(
-     *                      property="killmail_time",
-     *                      type="string",
-     *                      format="date-time",
-     *                      description="The date-time when kill append"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="solar_system_id",
-     *                      type="integer",
-     *                      description="The solar system identifier in which the kill occurs"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="moon_id",
-     *                      type="integer",
-     *                      description="The moon identifier near to which the kill occurs"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="war_id",
-     *                      type="integer",
-     *                      format="int64",
-     *                      description="The war identifier in which the kill involves"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="attackers",
-     *                      type="array",
-     *                      @OA\Items(ref="#/components/schemas/KillmailAttacker")
-     *                  ),
-     *                  @OA\Property(
-     *                      property="victim",
-     *                      ref="#/components/schemas/KillmailVictim"
-     *                  )
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * Returns a detailed killmail
-     *
-     * @param  int  $killmail_id
-     * @return \Seat\Api\Http\Resources\KillmailDetailResource
-     */
-    public function getDetail(int $killmail_id)
+    #[OA\Get(
+        path: '/v2/killmails/{killmail_id}',
+        description: 'Returns a detailed killmail',
+        summary: 'Get full details about a killmail',
+        security: [
+            [
+                'ApiKeyAuth' => []
+            ]
+        ],
+        tags: ['Killmails'],
+        parameters: [
+            new OA\Parameter(name: 'killmail_id', description: 'Killmail ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', properties: [
+                            new OA\Property(property: 'killmail_time', description: 'The date/time when kill append', type: 'string', format: 'date-time'),
+                            new OA\Property(property: 'solar_system_id', description: 'The solar system identifier in which the kill occurs', type: 'integer'),
+                            new OA\Property(property: 'moon_id', description: 'The moon identifier near to which the kill occurs', type: 'integer'),
+                            new OA\Property(property: 'war_id', description: 'The war identifier in which the kill involves', type: 'integer'),
+                            new OA\Property(property: 'attackers', type: 'array', items: new OA\Items(ref: '#/components/schemas/KillmailAttacker')),
+                            new OA\Property(property: 'victim', ref: '#/components/schemas/KillmailVictim')
+                        ], type: 'object')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized')
+        ]
+    )]
+    public function getDetail(int $killmail_id): KillmailDetailResource
     {
 
         return new KillmailDetailResource(KillmailDetail::with('attackers', 'victim')->findOrFail($killmail_id));

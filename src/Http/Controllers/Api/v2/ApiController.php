@@ -26,18 +26,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use OpenApi\Attributes as OA;
 
-/**
- * OA\Server(
- *   url=L5_SWAGGER_CONST_HOST,
- *   description="SeAT Server"
- * )
- */
-
-/**
- * Class ApiController.
- *
- * @package Seat\Api\v2
- */
 #[OA\Info(
     version: '2.0.0',
     description: 'SeAT API Documentation. All endpoints require an API key.',

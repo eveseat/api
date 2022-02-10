@@ -22,77 +22,25 @@
 
 namespace Seat\Api\Http\Resources;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class UserResource.
- *
- * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     description="User",
- *     schema="User",
- *     title="User",
- *     type="object"
- * )
- *
- * @OA\Property(
- *     property="id",
- *     type="integer",
- *     format="int64",
- *     minimum=1,
- *     description="ID"
- * )
- *
- * @OA\Property(
- *     property="name",
- *     type="string",
- *     description="Name",
- *     maxLength=255
- * )
- *
- * @OA\Property(
- *     property="email",
- *     type="string",
- *     format="email",
- *     description="E-Mail address"
- * )
- *
- * @OA\Property(
- *     property="active",
- *     type="boolean",
- *     description="Account status"
- * )
- *
- * @OA\Property(
- *     property="last_login",
- *     type="string",
- *     format="date-time",
- *     description="Last login to SeAT time"
- * )
- *
- * @OA\Property(
- *     property="last_login_source",
- *     type="string",
- *     description="Last IP address used to sign in to SeAT"
- * )
- *
- * @OA\Property(
- *     property="associated_character_ids",
- *     type="array",
- *     description="Array of attached character ID",
- *     @OA\Items(type="integer", format="int64", minimum=90000000)
- * )
- *
- * @OA\Property(
- *     property="main_character_id",
- *     type="integer",
- *     format="int64",
- *     minimum=90000000,
- *     description="The main character ID of this group"
- * )
- */
+#[OA\Schema(
+    schema: 'User',
+    title: 'User',
+    description: 'User',
+    properties: [
+        new OA\Property(property: 'id', description: 'ID', type: 'integer', format: 'int64', minimum: 1),
+        new OA\Property(property: 'name', description: 'Name', type: 'string', maxLength: 255),
+        new OA\Property(property: 'email', description: 'E-Mail address', type: 'string', format: 'email', minimum: 0),
+        new OA\Property(property: 'active', description: 'Account status', type: 'boolean', format: '', minimum: 0),
+        new OA\Property(property: 'last_login', description: 'Last login to SeAT time', type: 'string', format: 'date-time', minimum: 0),
+        new OA\Property(property: 'last_login_source', description: 'Last IP address used to sign in to SeAT', type: 'string', format: '', minimum: 0),
+        new OA\Property(property: 'associated_character_ids', description: 'Array of attached character ID', type: 'array', items: new OA\Items(type: 'integer', format: 'int64', minimum: 90000000)),
+        new OA\Property(property: 'main_character_id', description: 'The main character ID of this group', type: 'integer', format: 'int64', minimum: 90000000),
+    ],
+    type: 'object'
+)]
 class UserResource extends JsonResource
 {
     /**
@@ -103,9 +51,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
-
             'id'                       => $this->id,
             'name'                     => $this->name,
             'email'                    => $this->email,
