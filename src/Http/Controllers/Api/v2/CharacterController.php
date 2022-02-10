@@ -29,7 +29,7 @@ use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationHistoryResource;
 use Seat\Api\Http\Resources\IndustryResource;
-use Seat\Api\Http\Resources\JumpcloneResource;
+use Seat\Api\Http\Resources\JumpCloneResource;
 use Seat\Api\Http\Resources\MailResource;
 use Seat\Api\Http\Resources\NotificationResource;
 use Seat\Api\Http\Traits\Filterable;
@@ -449,7 +449,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return JumpcloneResource::collection($query->paginate());
+        return JumpCloneResource::collection($query->paginate());
     }
 
     /**
