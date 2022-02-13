@@ -60,6 +60,7 @@ class CorporationController extends ApiController
                 'ApiKeyAuth' => []
             ]
         ],
+        tags: ['Assets'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
             new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
