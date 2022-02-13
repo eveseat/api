@@ -32,7 +32,7 @@ use Seat\Eveapi\Models\Killmails\KillmailDetail;
 class KillmailsController extends ApiController
 {
     #[OA\Get(
-        path: '/v2/character/killmails/{character_id}',
+        path: '/api/v2/character/killmails/{character_id}',
         description: 'Returns list of killmails',
         summary: 'Get a paginated list of killmails for a character',
         security: [
@@ -74,7 +74,7 @@ class KillmailsController extends ApiController
     }
 
     #[OA\Get(
-        path: '/v2/corporation/killmails/{corporation_id}',
+        path: '/api/v2/corporation/killmails/{corporation_id}',
         description: 'Returns list of killmails',
         summary: 'Get a paginated list of killmails for a corporation',
         security: [
@@ -115,7 +115,7 @@ class KillmailsController extends ApiController
     }
 
     #[OA\Get(
-        path: '/v2/killmails/{killmail_id}',
+        path: '/api/v2/killmails/{killmail_id}',
         description: 'Returns a detailed killmail',
         summary: 'Get full details about a killmail',
         security: [
