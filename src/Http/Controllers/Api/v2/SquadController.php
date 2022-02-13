@@ -32,7 +32,7 @@ use Seat\Web\Models\Squads\Squad;
 class SquadController extends ApiController
 {
     #[OA\Get(
-        path: '/v2/squads',
+        path: '/api/v2/squads',
         description: 'Returns list of squads',
         summary: 'Get a list of squads',
         security: [
@@ -64,7 +64,7 @@ class SquadController extends ApiController
     }
 
     #[OA\Get(
-        path: '/v2/squads/{squad_id}',
+        path: '/api/v2/squads/{squad_id}',
         description: 'Return detailed information from a Squad',
         summary: 'Get details about a Squad',
         security: [
@@ -97,7 +97,7 @@ class SquadController extends ApiController
     }
 
     #[OA\Post(
-        path: '/v2/squads',
+        path: '/api/v2/squads',
         description: 'Creates a new SeAT Squad',
         summary: 'Creates a new SeAT Squad',
         security: [
@@ -147,7 +147,7 @@ class SquadController extends ApiController
     }
 
     #[OA\Delete(
-        path: '/v2/squads/{squad_id}',
+        path: '/api/v2/squads/{squad_id}',
         description: 'Deletes a Squad',
         summary: 'Delete a SeAT Squad',
         security: [

@@ -29,7 +29,7 @@ use Seat\Web\Models\User;
 class RoleLookupController extends ApiController
 {
     #[OA\Get(
-        path: '/v2/roles/query/permissions',
+        path: '/api/v2/roles/query/permissions',
         description: 'Returns a list of permissions',
         summary: 'Get the available SeAT permissions',
         security: [
@@ -70,7 +70,7 @@ class RoleLookupController extends ApiController
     }
 
     #[OA\Get(
-        path: '/v2/roles/query/role-check/{user_id}/{role_name}',
+        path: '/api/v2/roles/query/role-check/{user_id}/{role_name}',
         description: 'Returns a boolean',
         summary: 'Check if a user has a role',
         security: [
@@ -98,7 +98,7 @@ class RoleLookupController extends ApiController
     }
 
     #[OA\Get(
-        path: '/v2/roles/query/permission-check/{user_id}/{permission_name}',
+        path: '/api/v2/roles/query/permission-check/{user_id}/{permission_name}',
         description: 'Returns a boolean',
         summary: 'Check if a user has a permission',
         security: [
