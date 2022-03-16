@@ -68,7 +68,7 @@ class SquadController extends ApiController
      */
     public function index()
     {
-        return SquadResource::collection(Squad::paginate());
+        return SquadResource::collection(Squad::paginate()->appends(request()->except('page')));
     }
 
     /**

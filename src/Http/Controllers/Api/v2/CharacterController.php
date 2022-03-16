@@ -120,7 +120,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -185,7 +185,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return ContactResource::collection($query->paginate());
+        return ContactResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -253,7 +253,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return ContractResource::collection($query->paginate());
+        return ContractResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -318,7 +318,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return CorporationHistoryResource::collection($query->paginate());
+        return CorporationHistoryResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -383,7 +383,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return IndustryResource::collection($query->paginate());
+        return IndustryResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -448,7 +448,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return JumpcloneResource::collection($query->paginate());
+        return JumpcloneResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -517,7 +517,7 @@ class CharacterController extends ApiController
                 })->orWhere('from', $character_id);
             });
 
-        return MailResource::collection($query->paginate());
+        return MailResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -583,7 +583,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -648,7 +648,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return NotificationResource::collection($query->paginate());
+        return NotificationResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -756,7 +756,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -821,7 +821,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -887,7 +887,7 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -953,6 +953,6 @@ class CharacterController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 }

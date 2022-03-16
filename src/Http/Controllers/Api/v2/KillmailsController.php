@@ -85,7 +85,7 @@ class KillmailsController extends ApiController
                     $query->where('character_id', $character_id);
                 })->orWhereHas('attackers', function ($query) use ($character_id) {
                     $query->where('character_id', $character_id);
-                })->paginate()
+                })->paginate()->appends(request()->except('page'))
             );
     }
 
@@ -139,7 +139,7 @@ class KillmailsController extends ApiController
                 $query->where('corporation_id', $corporation_id);
             })->orWhereHas('attackers', function ($query) use ($corporation_id) {
                 $query->where('corporation_id', $corporation_id);
-            })->paginate()
+            })->paginate()->appends(request()->except('page'))
         );
     }
 

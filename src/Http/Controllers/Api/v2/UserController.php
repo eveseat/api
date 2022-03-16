@@ -68,7 +68,7 @@ class UserController extends ApiController
      */
     public function getUsers()
     {
-        return UserResource::collection(User::paginate());
+        return UserResource::collection(User::paginate()->appends(request()->except('page')));
     }
 
     /**

@@ -78,7 +78,7 @@ class RoleController extends ApiController
     public function getIndex()
     {
 
-        return Resource::collection(Role::paginate());
+        return Resource::collection(Role::paginate()->appends(request()->except('page')));
     }
 
     /**
