@@ -112,7 +112,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -178,7 +178,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return ContactResource::collection($query->paginate());
+        return ContactResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -244,7 +244,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return ContractResource::collection($query->paginate());
+        return ContractResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -310,7 +310,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return IndustryResource::collection($query->paginate());
+        return IndustryResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -376,7 +376,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -442,7 +442,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return MemberTrackingResource::collection($query->paginate());
+        return MemberTrackingResource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -543,7 +543,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -609,7 +609,7 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
     /**
@@ -675,6 +675,6 @@ class CorporationController extends ApiController
                 $this->applyFilters(request(), $sub_query);
             });
 
-        return Resource::collection($query->paginate());
+        return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 }
