@@ -38,7 +38,7 @@ return [
     'logs'               => '로그',
     'api_token_logs'     => 'API 토큰 접근 기록',
     'access_logs'        => '접속 내역',
-    'action'             => 'Action',
+    'action'             => '작업',
     'request_method'     => '요청 방법',
     'request_path'       => '요청 경로',
     'source_ip'          => '소스 IP',
