@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class PermissionResource.
@@ -38,7 +38,7 @@ use Illuminate\Http\Resources\Json\Resource;
  * @OA\Property(property="title", type="string", description="Permission technical name"),
  * @OA\Property(property="filters", type="object", description="Entities to which the permission is limited")
  */
-class PermissionResource extends Resource
+class PermissionResource extends JsonResource
 {
     /**
      * @param  \Illuminate\Http\Request  $request

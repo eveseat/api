@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Seat\Api\Http\Resources\KillmailDetailResource;
 use Seat\Eveapi\Models\Killmails\Killmail;
 use Seat\Eveapi\Models\Killmails\KillmailDetail;
@@ -79,7 +79,7 @@ class KillmailsController extends ApiController
      */
     public function getCharacterKillmails(int $character_id)
     {
-        return Resource::collection(
+        return JsonResource::collection(
             Killmail::with('detail', 'victim', 'attackers')
                 ->whereHas('victim', function ($query) use ($character_id) {
                     $query->where('character_id', $character_id);
@@ -134,7 +134,7 @@ class KillmailsController extends ApiController
      */
     public function getCorporationKillmails(int $corporation_id)
     {
-        return Resource::collection(
+        return JsonResource::collection(
             Killmail::whereHas('victim', function ($query) use ($corporation_id) {
                 $query->where('corporation_id', $corporation_id);
             })->orWhereHas('attackers', function ($query) use ($corporation_id) {
