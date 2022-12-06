@@ -26,11 +26,11 @@ use Illuminate\Support\Arr;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
- * Class JumpcloneResource.
+ * Class JumpCloneResource.
  *
  * @package Seat\Api\Http\Resources
  */
-class JumpcloneResource extends JsonResource
+class JumpCloneResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
