@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
 /**
@@ -42,7 +42,7 @@ use Illuminate\Support\Arr;
  *     @OA\Property(property="recipients", type="array", description="A list of recipients", @OA\Items(ref="#/components/schemas/UniverseName"))
  * )
  */
-class MailResource extends Resource
+class MailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

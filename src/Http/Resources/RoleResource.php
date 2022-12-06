@@ -22,7 +22,7 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class RoleResource.
@@ -52,7 +52,7 @@ use Illuminate\Http\Resources\Json\Resource;
  *     }
  * )
  */
-class RoleResource extends Resource
+class RoleResource extends JsonResource
 {
     /**
      * @param  \Illuminate\Http\Request  $request

@@ -22,14 +22,14 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Class MemberTrackingResource.
  *
  * @package Seat\Api\Http\Resources
  */
-class MemberTrackingResource extends Resource
+class MemberTrackingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
