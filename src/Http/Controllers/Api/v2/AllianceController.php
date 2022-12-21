@@ -22,7 +22,6 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Traits\Filterable;
 use Seat\Eveapi\Models\Contacts\AllianceContact;
