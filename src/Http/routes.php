@@ -135,6 +135,11 @@ Route::group([
                 Route::get('/wallet-journal/{corporation_id}')->uses('CorporationController@getWalletJournal');
                 Route::get('/wallet-transactions/{corporation_id}')->uses('CorporationController@getWalletTransactions');
             });
+
+            Route::group(['prefix' => 'alliance'], function () {
+
+                Route::get('/contacts/{alliance_id}')->uses('AllianceController@getContacts');
+            });
         });
 
     });
