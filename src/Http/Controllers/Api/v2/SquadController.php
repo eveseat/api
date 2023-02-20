@@ -37,8 +37,8 @@ class SquadController extends ApiController
         summary: 'Get a list of squads',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Squads'],
         responses: [
@@ -55,7 +55,7 @@ class SquadController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function index(): AnonymousResourceCollection
@@ -69,12 +69,12 @@ class SquadController extends ApiController
         summary: 'Get details about a Squad',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Squads'],
         parameters: [
-            new OA\Parameter(name: 'squad_id', description: 'Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'squad_id', description: 'Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -88,7 +88,7 @@ class SquadController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function show(int $squad_id): SquadResource
@@ -102,19 +102,19 @@ class SquadController extends ApiController
         summary: 'Creates a new SeAT Squad',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(mediaType: 'application/json', schema: new OA\Schema(required: ['name', 'type', 'description'], properties: [
                 new OA\Property(property: 'name', description: 'Squad name', type: 'string'),
                 new OA\Property(property: 'type', description: 'Squad type', type: 'string', enum: ['hidden', 'manual', 'auto']),
                 new OA\Property(property: 'description', description: 'Squad description', type: 'string'),
-                new OA\Property(property: 'name', description: 'Squad logo', type: 'string', format: 'byte')
+                new OA\Property(property: 'name', description: 'Squad logo', type: 'string', format: 'byte'),
             ]))
         ),
         tags: [
-            'Squads'
+            'Squads',
         ],
         responses: [
             new OA\Response(
@@ -122,13 +122,13 @@ class SquadController extends ApiController
                 description: 'Successful operation',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'data', ref: '#/components/schemas/Squad', type: 'object')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Squad', type: 'object'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function store(NewSquad $request): SquadResource
@@ -152,19 +152,19 @@ class SquadController extends ApiController
         summary: 'Delete a SeAT Squad',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: [
-            'Squads'
+            'Squads',
         ],
         parameters: [
-            new OA\Parameter(name: 'squad_id', description: 'A SeAT Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'squad_id', description: 'A SeAT Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function destroy(int $squad_id): JsonResponse

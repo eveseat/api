@@ -37,12 +37,12 @@ class KillmailsController extends ApiController
         summary: 'Get a paginated list of killmails for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Killmails'],
         parameters: [
-            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -58,7 +58,7 @@ class KillmailsController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getCharacterKillmails(int $character_id): AnonymousResourceCollection
@@ -79,12 +79,12 @@ class KillmailsController extends ApiController
         summary: 'Get a paginated list of killmails for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Killmails'],
         parameters: [
-            new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -100,7 +100,7 @@ class KillmailsController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getCorporationKillmails(int $corporation_id): AnonymousResourceCollection
@@ -120,12 +120,12 @@ class KillmailsController extends ApiController
         summary: 'Get full details about a killmail',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Killmails'],
         parameters: [
-            new OA\Parameter(name: 'killmail_id', description: 'Killmail ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'killmail_id', description: 'Killmail ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -139,14 +139,14 @@ class KillmailsController extends ApiController
                             new OA\Property(property: 'moon_id', description: 'The moon identifier near to which the kill occurs', type: 'integer'),
                             new OA\Property(property: 'war_id', description: 'The war identifier in which the kill involves', type: 'integer'),
                             new OA\Property(property: 'attackers', type: 'array', items: new OA\Items(ref: '#/components/schemas/KillmailAttacker')),
-                            new OA\Property(property: 'victim', ref: '#/components/schemas/KillmailVictim')
-                        ], type: 'object')
+                            new OA\Property(property: 'victim', ref: '#/components/schemas/KillmailVictim'),
+                        ], type: 'object'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getDetail(int $killmail_id): KillmailDetailResource

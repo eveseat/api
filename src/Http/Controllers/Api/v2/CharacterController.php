@@ -59,13 +59,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of a assets for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Assets'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -81,7 +81,7 @@ class CharacterController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getAssets(int $character_id): AnonymousResourceCollection
@@ -105,13 +105,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of contacts for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Contacts'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -121,13 +121,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterContact')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getContacts(int $character_id): AnonymousResourceCollection
@@ -150,13 +150,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of contracts for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Contracts'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -166,13 +166,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/ContractDetail')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getContracts(int $character_id): AnonymousResourceCollection
@@ -198,13 +198,13 @@ class CharacterController extends ApiController
         summary: 'Get the corporation history for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -214,13 +214,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterCorporationHistory')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getCorporationHistory(int $character_id): AnonymousResourceCollection
@@ -243,13 +243,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of industry jobs for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Industry'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -259,13 +259,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterIndustryJob')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getIndustry(int $character_id): AnonymousResourceCollection
@@ -288,13 +288,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of jump clones for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -304,13 +304,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterJumpClone')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getJumpClones(int $character_id): AnonymousResourceCollection
@@ -333,13 +333,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of mail for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -349,13 +349,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/MailResource')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getMail(int $character_id): AnonymousResourceCollection
@@ -382,13 +382,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of market orders for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Market'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -398,13 +398,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterOrder')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getMarketOrders(int $character_id): AnonymousResourceCollection
@@ -428,13 +428,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated list of notifications for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -444,13 +444,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterNotification')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getNotifications(int $character_id): AnonymousResourceCollection
@@ -473,8 +473,8 @@ class CharacterController extends ApiController
         summary: 'Get the character sheet for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
@@ -492,7 +492,7 @@ class CharacterController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getSheet(int $character_id): CharacterSheetResource
@@ -508,13 +508,13 @@ class CharacterController extends ApiController
         summary: 'Get the skills for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -524,13 +524,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterSkill')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getSkills(int $character_id): AnonymousResourceCollection
@@ -554,13 +554,13 @@ class CharacterController extends ApiController
         summary: 'Get a list of characters skill queue',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -570,13 +570,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterSkillQueue')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getSkillQueue(int $character_id): AnonymousResourceCollection
@@ -599,13 +599,13 @@ class CharacterController extends ApiController
         summary: 'Get a paginated wallet journal for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Character'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -615,13 +615,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterWalletJournal')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getWalletJournal(int $character_id): AnonymousResourceCollection
@@ -645,13 +645,13 @@ class CharacterController extends ApiController
         summary: 'Get paginated wallet transactions for a character',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Wallet'],
         parameters: [
             new OA\Parameter(name: 'character_id', description: 'Character ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -661,13 +661,13 @@ class CharacterController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CharacterWalletTransaction')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getWalletTransactions(int $character_id): AnonymousResourceCollection

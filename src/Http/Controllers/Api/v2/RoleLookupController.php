@@ -34,8 +34,8 @@ class RoleLookupController extends ApiController
         summary: 'Get the available SeAT permissions',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         responses: [
@@ -50,12 +50,12 @@ class RoleLookupController extends ApiController
                             description: 'Permissions for the given scope where field name is scope',
                             type: 'array',
                             items: new OA\Items(description: 'Permission', type: 'string')
-                        )
+                        ),
                     ], type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getPermissions(): JsonResponse
@@ -75,18 +75,18 @@ class RoleLookupController extends ApiController
         summary: 'Check if a user has a role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         parameters: [
             new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: 'role_name', description: 'SeAT Role name', in: 'path', required: true, schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: 'role_name', description: 'SeAT Role name', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getRoleCheck(int $user_id, string $role_name): JsonResponse
@@ -103,18 +103,18 @@ class RoleLookupController extends ApiController
         summary: 'Check if a user has a permission',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         parameters: [
             new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: 'permission_name', description: 'SeAT Permission name', in: 'path', required: true, schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: 'permission_name', description: 'SeAT Permission name', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getPermissionCheck(int $user_id, string $permission_name): JsonResponse
