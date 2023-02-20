@@ -50,8 +50,8 @@ class RoleController extends ApiController
         summary: 'Get the roles configured within SeAT',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         responses: [
@@ -62,13 +62,13 @@ class RoleController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', description: 'Array of defined roles', type: 'array', items: new OA\Items(ref: '#/components/schemas/Role')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getIndex(): AnonymousResourceCollection
@@ -83,12 +83,12 @@ class RoleController extends ApiController
         summary: 'Get detailed information about a role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         parameters: [
-            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -102,7 +102,7 @@ class RoleController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getDetail(int $role_id)
@@ -119,8 +119,8 @@ class RoleController extends ApiController
         summary: 'Create a new SeAT role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
@@ -130,7 +130,7 @@ class RoleController extends ApiController
                     properties: [
                         new OA\Property(property: 'title', description: 'The new role name', type: 'string'),
                         new OA\Property(property: 'description', description: 'Base64 encoded new role logo', type: 'string'),
-                        new OA\Property(property: 'permissions', description: 'A list of the permissions which have to be attached to the role.', type: 'array', items: new OA\Items(description: 'A permission name', type: 'string'))
+                        new OA\Property(property: 'permissions', description: 'A list of the permissions which have to be attached to the role.', type: 'array', items: new OA\Items(description: 'A permission name', type: 'string')),
                     ]
                 )
             )
@@ -142,7 +142,7 @@ class RoleController extends ApiController
                 description: 'Successful operation',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'data', ref: '#/components/schemas/CreateRole', type: 'object')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/CreateRole', type: 'object'),
                     ]
                 )
             ),
@@ -163,14 +163,14 @@ class RoleController extends ApiController
                                     description: 'The field for which the error has been encountered',
                                     type: 'array',
                                     items: new OA\Items(description: 'A list of the encountered error for this field', type: 'string')
-                                )
+                                ),
                             ],
                             type: 'object'
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function postNew(NewRole $request): RoleResource
@@ -201,8 +201,8 @@ class RoleController extends ApiController
         summary: 'Edit an existing SeAT role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
@@ -211,14 +211,14 @@ class RoleController extends ApiController
                     properties: [
                         new OA\Property(property: 'title', description: 'The new role name', type: 'string'),
                         new OA\Property(property: 'description', description: 'The new role description', type: 'string'),
-                        new OA\Property(property: 'logo', description: 'Base64 encoded new role logo', type: 'string', format: 'byte')
+                        new OA\Property(property: 'logo', description: 'Base64 encoded new role logo', type: 'string', format: 'byte'),
                     ]
                 )
             )
         ),
         tags: ['Roles'],
         parameters: [
-            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation', content: new OA\JsonContent(properties: [new OA\Property(property: 'data', ref: '#/components/schemas/RoleResource', type: 'object')])),
@@ -240,14 +240,14 @@ class RoleController extends ApiController
                                     description: 'The field for which the error has been encountered',
                                     type: 'array',
                                     items: new OA\Items(description: 'A list of the encountered error for this field', type: 'string')
-                                )
+                                ),
                             ],
                             type: 'object'
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function patch(EditRole $request, int $role_id): JsonResponse|RoleResource
@@ -278,12 +278,12 @@ class RoleController extends ApiController
         summary: 'Delete a SeAT role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         parameters: [
-            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),
@@ -306,8 +306,8 @@ class RoleController extends ApiController
         summary: 'Grant a user a SeAT role',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
@@ -315,7 +315,7 @@ class RoleController extends ApiController
                     required: ['user_id', 'role_id'],
                     properties: [
                         new OA\Property(property: 'user_id', description: 'The user identifier', type: 'integer', minimum: 1),
-                        new OA\Property(property: 'role_id', description: 'The role identifier', type: 'integer', minimum: 1)
+                        new OA\Property(property: 'role_id', description: 'The role identifier', type: 'integer', minimum: 1),
                     ]
                 )
             )
@@ -345,12 +345,12 @@ class RoleController extends ApiController
         summary: 'Revoke a SeAT role from an user',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Roles'],
         parameters: [
-            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'role_id', description: 'Role ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),

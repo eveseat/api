@@ -57,13 +57,13 @@ class CorporationController extends ApiController
         summary: 'Get a paginated list of assets for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Assets'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -73,13 +73,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationAsset')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getAssets(int $corporation_id): AnonymousResourceCollection
@@ -103,13 +103,13 @@ class CorporationController extends ApiController
         summary: 'Get a list of contacts for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Contacts'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -119,13 +119,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationContact')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getContacts(int $corporation_id): AnonymousResourceCollection
@@ -149,13 +149,13 @@ class CorporationController extends ApiController
         summary: 'Get a list of contracts for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Contracts'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -165,13 +165,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/ContractDetail')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getContracts(int $corporation_id): AnonymousResourceCollection
@@ -195,13 +195,13 @@ class CorporationController extends ApiController
         summary: 'Get a paginated list of industry jobs for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Industry'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -211,13 +211,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationIndustryJob')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getIndustry(int $corporation_id): AnonymousResourceCollection
@@ -241,13 +241,13 @@ class CorporationController extends ApiController
         summary: 'Get a paginated list of market orders for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Market'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -257,13 +257,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationOrder')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getMarketOrders(int $corporation_id): AnonymousResourceCollection
@@ -287,13 +287,13 @@ class CorporationController extends ApiController
         summary: 'Get a list of members for a corporation with tracking',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Corporation'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -303,13 +303,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationMemberTracking')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getMemberTracking(int $corporation_id): AnonymousResourceCollection
@@ -333,12 +333,12 @@ class CorporationController extends ApiController
         summary: 'Get a corporation sheet',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Corporation'],
         parameters: [
-            new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -352,7 +352,7 @@ class CorporationController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getSheet(int $corporation_id): CorporationSheetResource
@@ -367,13 +367,13 @@ class CorporationController extends ApiController
         summary: 'Get a list corporation structures',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Corporation'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -383,13 +383,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationStructure')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getStructures(int $corporation_id): AnonymousResourceCollection
@@ -409,13 +409,13 @@ class CorporationController extends ApiController
         summary: 'Get a paginated wallet journal for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Wallet'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -425,13 +425,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationWalletJournal')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getWalletJournal(int $corporation_id): AnonymousResourceCollection
@@ -455,13 +455,13 @@ class CorporationController extends ApiController
         summary: 'Get paginated wallet transactions for a corporation',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Wallet'],
         parameters: [
             new OA\Parameter(name: 'corporation_id', description: 'Corporation ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string'))
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
         ],
         responses: [
             new OA\Response(
@@ -471,13 +471,13 @@ class CorporationController extends ApiController
                     properties: [
                         new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/CorporationWalletTransaction')),
                         new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
-                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata')
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getWalletTransactions(int $corporation_id): AnonymousResourceCollection

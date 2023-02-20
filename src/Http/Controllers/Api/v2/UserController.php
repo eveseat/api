@@ -37,8 +37,8 @@ class UserController extends ApiController
         summary: 'Get a list of users, associated character id\'s and group ids',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Users'],
         responses: [
@@ -55,7 +55,7 @@ class UserController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getUsers(): AnonymousResourceCollection
@@ -69,12 +69,12 @@ class UserController extends ApiController
         summary: 'Get group id\'s and associated character_id\'s for a user',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Users'],
         parameters: [
-            new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'user_id', description: 'User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(
@@ -88,7 +88,7 @@ class UserController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function show(int $user_id): UserResource
@@ -102,8 +102,8 @@ class UserController extends ApiController
         summary: 'Get a list of the scopes configured for this instance',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: ['Users'],
         responses: [
@@ -117,7 +117,7 @@ class UserController extends ApiController
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function getConfiguredScopes(): JsonResponse
@@ -133,8 +133,8 @@ class UserController extends ApiController
         summary: 'Creates a new SeAT User',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
@@ -145,13 +145,13 @@ class UserController extends ApiController
                         new OA\Property(property: 'name', description: 'Eve Online (main) Character Name', type: 'string'),
                         new OA\Property(property: 'active', description: 'Set the SeAT account state. Default is true.', type: 'boolean'),
                         new OA\Property(property: 'email', description: 'A contact e-mail address for the created user', type: 'string', format: 'email'),
-                        new OA\Property(property: 'main_character_id', description: 'Eve Online main Character ID', type: 'integer', format: 'int64', minimum: 90000000)
+                        new OA\Property(property: 'main_character_id', description: 'Eve Online main Character ID', type: 'integer', format: 'int64', minimum: 90000000),
                     ]
                 )
             )
         ),
         tags: [
-            'Users'
+            'Users',
         ],
         responses: [
             new OA\Response(
@@ -159,13 +159,13 @@ class UserController extends ApiController
                 description: 'Successful operation',
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: 'data', ref: '#/components/schemas/User', type: 'object')
+                        new OA\Property(property: 'data', ref: '#/components/schemas/User', type: 'object'),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function postNewUser(NewUser $request): JsonResponse|UserResource
@@ -198,19 +198,19 @@ class UserController extends ApiController
         summary: 'Deletes a SeAT user',
         security: [
             [
-                'ApiKeyAuth' => []
-            ]
+                'ApiKeyAuth' => [],
+            ],
         ],
         tags: [
-            'Squads'
+            'Squads',
         ],
         parameters: [
-            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Successful operation'),
             new OA\Response(response: 400, description: 'Bad request'),
-            new OA\Response(response: 401, description: 'Unauthorized')
+            new OA\Response(response: 401, description: 'Unauthorized'),
         ]
     )]
     public function deleteUser(int $user_id): JsonResponse
