@@ -30,7 +30,6 @@ use Seat\Api\Http\Resources\Json\JsonResource;
  *
  * @package Seat\Api\Http\Resources
  */
-
 #[OA\Schema(
     schema: 'SquadResource',
     title: 'SquadResource',
@@ -58,7 +57,7 @@ use Seat\Api\Http\Resources\Json\JsonResource;
                 new OA\Property(property: 'members', description: 'List of members attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
                 new OA\Property(property: 'applications', description: 'List of candidates attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
             ]
-        )
+        ),
     ]
 )]
 class SquadResource extends JsonResource

@@ -30,11 +30,10 @@ use Seat\Api\Http\Resources\Json\JsonResource;
  *
  * @package Seat\Api\Http\Resources
  */
-
 #[OA\Schema(
-    schema: "RoleResource",
-    title: "RoleResource",
-    description: "Role Resource",
+    schema: 'RoleResource',
+    title: 'RoleResource',
+    description: 'Role Resource',
     properties: [
         new OA\Property(property: 'title', description: 'Role name', type: 'string'),
         new OA\Property(property: 'description', description: 'Role description', type: 'string'),
@@ -51,7 +50,7 @@ use Seat\Api\Http\Resources\Json\JsonResource;
         new OA\Schema(properties: [
             new OA\Property(property: 'id', description: 'The created role ID', type: 'integer'),
         ]),
-        new OA\Schema(ref: '#/components/schemas/RoleResource')
+        new OA\Schema(ref: '#/components/schemas/RoleResource'),
     ]
 )]
 class RoleResource extends JsonResource
