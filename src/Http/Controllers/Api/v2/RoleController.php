@@ -151,7 +151,7 @@ class RoleController extends ApiController
             new OA\Response(
                 response: 422,
                 description: 'Unprocessable Entity',
-                content: new OA\Schema(
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'message', description: 'The readable error message', type: 'string'),
                         new OA\Property(
@@ -228,7 +228,7 @@ class RoleController extends ApiController
             new OA\Response(
                 response: 422,
                 description: 'Unprocessable Entity',
-                content: new OA\Schema(
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'message', description: 'The readable error message', type: 'string'),
                         new OA\Property(
@@ -311,6 +311,7 @@ class RoleController extends ApiController
         ],
         requestBody: new OA\RequestBody(
             content: new OA\MediaType(
+                mediaType: 'application/json',
                 schema: new OA\Schema(
                     required: ['user_id', 'role_id'],
                     properties: [

@@ -22,42 +22,45 @@
 
 namespace Seat\Api\Http\Resources;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class SquadResource.
  *
  * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     type="object",
- *     title="SquadResource",
- *     schema="SquadResource",
- *     description="Squad Resource",
- *     @OA\Property(property="id", type="integer", description="The unique identifier"),
- *     @OA\Property(property="type", type="string", enum={"manual", "auto", "hidden"}, description="The Squad management type"),
- *     @OA\Property(property="name", type="string", description="The Squad name"),
- *     @OA\Property(property="logo", type="string", format="byte", description="The Squad Logo"),
- *     @OA\Property(property="description", type="string", description="The squad description")
- * )
- *
- * @OA\Schema(
- *     type="object",
- *     title="Squad",
- *     schema="Squad",
- *     description="Detailed Squad",
- *     allOf={
- *       @OA\Schema(ref="#/components/schemas/SquadResource"),
- *       @OA\Schema(
- *          @OA\Property(property="roles", type="array", @OA\Items(type="integer"), description="List of roles attached to that Squad"),
- *          @OA\Property(property="moderators", type="array", @OA\Items(type="integer"), description="List of moderators attached to that Squad"),
- *          @OA\Property(property="members", type="array", @OA\Items(type="integer"), description="List of members attached to that Squad"),
- *          @OA\Property(property="applications", type="array", @OA\Items(type="integer"), description="List of candidates attached to that Squad")
- *       )
- *     }
- * )
  */
+
+#[OA\Schema(
+    schema: 'SquadResource',
+    title: 'SquadResource',
+    description: 'Squad Resource',
+    properties: [
+        new OA\Property(property: 'id', description: 'The unique identifier', type: 'integer'),
+        new OA\Property(property: 'type', description: 'The Squad management type', type: 'string', enum: ['manual', 'auto', 'hidden']),
+        new OA\Property(property: 'name', description: 'The Squad name', type: 'string'),
+        new OA\Property(property: 'logo', description: 'The Squad Logo', type: 'string'),
+        new OA\Property(property: 'description', description: 'The squad description', type: 'string'),
+    ],
+    type: 'object'
+)]
+#[OA\Schema(
+    schema: 'Squad',
+    title: 'Squad',
+    description: 'Detailed squad',
+    type: 'object',
+    allOf: [
+        new OA\Schema(ref: '#/components/schemas/SquadResource'),
+        new OA\Schema(
+            properties: [
+                new OA\Property(property: 'roles', description: 'List of roles attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
+                new OA\Property(property: 'moderators', description: 'List of moderators attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
+                new OA\Property(property: 'members', description: 'List of members attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
+                new OA\Property(property: 'applications', description: 'List of candidates attached to that Squad', type: 'array', items: new OA\Items(type: 'integer')),
+            ]
+        )
+    ]
+)]
 class SquadResource extends JsonResource
 {
     /**
