@@ -110,7 +110,7 @@ class SquadController extends ApiController
                 new OA\Property(property: 'name', description: 'Squad name', type: 'string'),
                 new OA\Property(property: 'type', description: 'Squad type', type: 'string', enum: ['hidden', 'manual', 'auto']),
                 new OA\Property(property: 'description', description: 'Squad description', type: 'string'),
-                new OA\Property(property: 'name', description: 'Squad logo', type: 'string', format: 'byte'),
+                new OA\Property(property: 'logo', description: 'Squad logo', type: 'string', format: 'byte'),
             ]))
         ),
         tags: [

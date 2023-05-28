@@ -22,37 +22,37 @@
 
 namespace Seat\Api\Http\Resources;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\Json\JsonResource;
 
 /**
  * Class RoleResource.
  *
  * @package Seat\Api\Http\Resources
- *
- * @OA\Schema(
- *     title="RoleResource",
- *     schema="RoleResource",
- *     description="Role Resource",
- *     @OA\Property(property="title", type="string", description="Role name"),
- *     @OA\Property(property="description", type="string", description="Role description"),
- *     @OA\Property(property="logo", type="string", format="byte", description="Role logo"),
- *     @OA\Property(property="permissions", type="array", description="Role permissions list", @OA\Items(ref="#/components/schemas/PermissionResource")),
- *     @OA\Property(property="members", type="array", description="Role members list", @OA\Items(type="integer")),
- *     @OA\Property(property="squads", type="array", description="Role squads list", @OA\Items(type="integer"))
- * )
- *
- * @OA\Schema(
- *     schema="CreateRole",
- *     type="object",
- *     allOf={
- *       @OA\Schema(
- *          @OA\Property(property="id", type="integer", description="The created role ID")
- *       ),
- *       @OA\Schema(ref="#/components/schemas/RoleResource")
- *     }
- * )
  */
+#[OA\Schema(
+    schema: 'RoleResource',
+    title: 'RoleResource',
+    description: 'Role Resource',
+    properties: [
+        new OA\Property(property: 'title', description: 'Role name', type: 'string'),
+        new OA\Property(property: 'description', description: 'Role description', type: 'string'),
+        new OA\Property(property: 'logo', description: 'Role logo', type: 'byte'),
+        new OA\Property(property: 'permissions', description: 'Role permissions list', type: 'array', items: new OA\Items(ref: '#/components/schemas/PermissionResource')),
+        new OA\Property(property: 'members', description: 'Role members list', type: 'array', items: new OA\Items(type: 'integer')),
+        new OA\Property(property: 'squads', description: 'Role squads List', type: 'array', items: new OA\Items(type: 'integer')),
+    ]
+)]
+#[OA\Schema(
+    schema: 'CreateRole',
+    type: 'object',
+    allOf: [
+        new OA\Schema(properties: [
+            new OA\Property(property: 'id', description: 'The created role ID', type: 'integer'),
+        ]),
+        new OA\Schema(ref: '#/components/schemas/RoleResource'),
+    ]
+)]
 class RoleResource extends JsonResource
 {
     /**
