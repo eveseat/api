@@ -22,6 +22,7 @@
 
 namespace Seat\Api\Http\DataTables;
 
+use Illuminate\Http\JsonResponse;
 use Seat\Api\Models\ApiTokenLog;
 use Yajra\DataTables\Services\DataTable;
 
@@ -37,7 +38,7 @@ class ApiTokenLogDataTable extends DataTable
      *
      * @throws \Exception
      */
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         return datatables()
             ->eloquent($this->applyScopes($this->query()))
@@ -50,7 +51,7 @@ class ApiTokenLogDataTable extends DataTable
             ->addRowAttr('class', function ($row) {
                 return $row->action == 'deny' ? 'text-danger' : '';
             })
-            ->make(true);
+            ->toJson();
     }
 
     /**

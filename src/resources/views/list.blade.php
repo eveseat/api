@@ -12,7 +12,7 @@
       </h3>
       <div class="card-tools">
         <span class="float-right">
-          <a href="{{ route('l5-swagger.api') }}" target="_blank" class="btn btn-success btn-xs">
+          <a href="{{ route('l5-swagger.default.api') }}" target="_blank" class="btn btn-success btn-xs">
             <i class="fas fa-book"></i>
             {{ trans('api::seat.api_docs') }}
           </a>
@@ -21,7 +21,7 @@
     </div>
     <div class="card-body">
 
-      <form role="form" action="{{ route('api-admin.token.create') }}" method="post" id="key-form">
+      <form role="form" action="{{ route('seatcore::api-admin.token.create') }}" method="post" id="key-form">
         {{ csrf_field() }}
 
         <div class="box-body">
@@ -93,12 +93,12 @@
               <td>{{ $token->allowed_src }}</td>
               <td>
                 <div class="btn-group">
-                  <a href="{{ route('api-admin.token.delete', [$token->id]) }}" type="button"
+                  <a href="{{ route('seatcore::api-admin.token.delete', [$token->id]) }}" type="button"
                      class="btn btn-danger btn-xs confirmlink col-xs-6">
                     <i class="fas fa-trash-alt"></i>
                     {{ trans('api::seat.delete') }}
                   </a>
-                  <a href="{{ route('api-admin.token.logs', [$token->id]) }}" type="button"
+                  <a href="{{ route('seatcore::api-admin.token.logs', [$token->id]) }}" type="button"
                      class="btn btn-primary btn-xs col-xs-6">
                     <i class="fas fa-clipboard-list"></i>
                     {{ trans('api::seat.logs') }}
@@ -116,7 +116,7 @@
     <div class="card-footer">
       {{ count($tokens) }} {{ trans_choice('api::seat.token', count($tokens)) }}
       <span class="float-right">
-        API Documentation can be found <a href="{{ route('l5-swagger.api') }}">here</a>.
+        API Documentation can be found <a href="{{ route('l5-swagger.default.api') }}">here</a>.
       </span>
     </div>
   </div>

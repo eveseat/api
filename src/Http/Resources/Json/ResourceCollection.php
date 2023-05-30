@@ -20,13 +20,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-return [
+namespace Seat\Api\Http\Resources\Json;
 
-    'seatapi' => [
-        'permission'    => 'global.superuser',
-        'name'          => 'SeAT API',
-        'icon'          => 'fas fa-exchange-alt',
-        'route_segment' => 'api-admin',
-        'route'         => 'seatcore::api-admin.list',
-    ],
-];
+class ResourceCollection extends \Illuminate\Http\Resources\Json\ResourceCollection
+{
+    /**
+     * Create a paginate-aware HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function preparePaginatedResponse($request)
+    {
+        if ($this->preserveAllQueryParameters) {
+            $this->resource->appends($request->query());
+        } elseif (! is_null($this->queryParameters)) {
+            $this->resource->appends($this->queryParameters);
+        }
+
+        return (new PaginatedResourceResponse($this))->toResponse($request);
+    }
+}

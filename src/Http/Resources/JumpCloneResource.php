@@ -20,13 +20,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-return [
+namespace Seat\Api\Http\Resources;
 
-    'seatapi' => [
-        'permission'    => 'global.superuser',
-        'name'          => 'SeAT API',
-        'icon'          => 'fas fa-exchange-alt',
-        'route_segment' => 'api-admin',
-        'route'         => 'seatcore::api-admin.list',
-    ],
-];
+use Illuminate\Support\Arr;
+use Seat\Api\Http\Resources\Json\JsonResource;
+
+class JumpCloneResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+
+        $definition = parent::toArray($request);
+
+        Arr::forget($definition, 'character_id');
+
+        return $definition;
+    }
+}
