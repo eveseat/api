@@ -26,6 +26,7 @@ use Illuminate\Http\Resources\Json\Resource;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Resources\ContractResource;
 use Seat\Api\Http\Resources\CorporationSheetResource;
+use Seat\Api\Http\Resources\CorporationStructure; // getStructures
 use Seat\Api\Http\Resources\IndustryResource;
 use Seat\Api\Http\Resources\MemberTrackingResource;
 use Seat\Api\Http\Traits\Filterable;
@@ -39,6 +40,7 @@ use Seat\Eveapi\Models\Industry\CorporationIndustryJob;
 use Seat\Eveapi\Models\Market\CorporationOrder;
 use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 use Seat\Eveapi\Models\Wallet\CorporationWalletTransaction;
+use Seat\Web\Models\UniverseMoonReport; // getMiningExtractions
 
 /**
  * Class CorporationController.
@@ -115,6 +117,73 @@ class CorporationController extends ApiController
         return Resource::collection($query->paginate()->appends(request()->except('page')));
     }
 
+    /**
+     * @OA\Get(
+     *      path="/v2/corporation/strctures/{corporation_id}",
+     *      tags={"Structures"},
+     *      summary="Get a paginated list of structures for a corporation",
+     *      description="Returns a list of structures",
+     *      security={
+     *          {"ApiKeyAuth": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="corporation_id",
+     *          description="Corporation id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *          in="path"
+     *      ),
+     *      @OA\Parameter(
+     *          in="query",
+     *          name="$filter",
+     *          description="Query filter following OData format",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  type="array",
+     *                  property="data",
+     *                  @OA\Items(ref="#/components/schemas/CorporationStructure")
+     *              ),
+     *              @OA\Property(
+     *                  property="links",
+     *                  ref="#/components/schemas/ResourcePaginatedLinks"
+     *              ),
+     *              @OA\Property(
+     *                  property="meta",
+     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *     )
+     *
+     * @param int $corporation_id
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getStructures(int $corporation_id)
+    {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
+
+        $query = CorporationStructure::with('type', 'info', 'solar_system')
+            ->where('corporation_id', $corporation_id)
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+
+        return Resource::collection($query->paginate());
+    }
+    
     /**
      * @OA\Get(
      *      path="/v2/corporation/contacts/{corporation_id}",
@@ -311,6 +380,30 @@ class CorporationController extends ApiController
             });
 
         return IndustryResource::collection($query->paginate()->appends(request()->except('page')));
+    }
+    
+    /**
+     *
+     */
+    public function getMiningExtractions(int $corporation_id)
+    {
+        request()->validate([
+            '$filter' => 'string',
+        ]);
+
+        $query = UniverseMoonReport::with('content', 'moon', 'moon.solar_system', 'moon.constellation',
+            'moon.region', 'moon.extraction', 'moon.extraction.structure', 'moon.extraction.structure.info')
+            ->whereHas('moon.extraction.structure', function ($query) use ($corporation_id) {
+                $query->where('corporation_id', $corporation_id);
+            })
+            ->whereHas('moon.extraction', function ($query) {
+                $query->where('natural_decay_time', '>', carbon()->subSeconds(CorporationIndustryMiningExtraction::THEORETICAL_DEPLETION_COUNTDOWN));
+            })
+            ->where(function ($sub_query) {
+                $this->applyFilters(request(), $sub_query);
+            });
+            
+        return CorporationMiningExtractionResource::collection($query->paginate());
     }
 
     /**

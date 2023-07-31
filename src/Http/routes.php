@@ -124,9 +124,11 @@ Route::group([
             Route::group(['prefix' => 'corporation'], function () {
 
                 Route::get('/assets/{corporation_id}')->uses('CorporationController@getAssets');
+                Route::get('/structures/{corporation_id}')->uses('CorporationController@getStructures');
                 Route::get('/contacts/{corporation_id}')->uses('CorporationController@getContacts');
                 Route::get('/contracts/{corporation_id}')->uses('CorporationController@getContracts');
                 Route::get('/industry/{corporation_id}')->uses('CorporationController@getIndustry');
+                Route::get('/extractions/{corporation_id}')->uses('CorporationController@getMiningExtractions');
                 Route::get('/killmails/{corporation_id}')->uses('KillmailsController@getCorporationKillmails');
                 Route::get('/market-orders/{corporation_id}')->uses('CorporationController@getMarketOrders');
                 Route::get('/member-tracking/{corporation_id}')->uses('CorporationController@getMemberTracking');
