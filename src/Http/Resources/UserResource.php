@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,14 +52,14 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                       => $this->id,
-            'name'                     => $this->name,
-            'email'                    => $this->email,
-            'active'                   => $this->active,
-            'last_login'               => $this->last_login,
-            'last_login_source'        => $this->last_login_source,
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'active' => $this->active,
+            'last_login' => $this->last_login,
+            'last_login_source' => $this->last_login_source,
             'associated_character_ids' => $this->associatedCharacterIds(),
-            'main_character_id'        => $this->main_character_id,
+            'main_character_id' => $this->main_character_id,
         ];
     }
 }

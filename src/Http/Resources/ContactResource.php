@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,12 +36,12 @@ class ContactResource extends JsonResource
     {
 
         return [
-            'contact_id'   => $this->contact_id,
-            'standing'     => $this->standing,
+            'contact_id' => $this->contact_id,
+            'standing' => $this->standing,
             'contact_type' => $this->contact_type,
-            'is_watched'   => $this->is_watched,
-            'is_blocked'   => $this->is_blocked,
-            'labels'       => $this->labels->pluck('name'),
+            'is_watched' => $this->is_watched,
+            'is_blocked' => $this->is_blocked,
+            'labels' => $this->labels->pluck('name'),
         ];
     }
 }

@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,10 +51,10 @@ class NewUser extends FormRequest
     {
 
         return [
-            'name'                 => 'required|unique:users,name',
-            'main_character_id'    => 'required|integer',
-            'active'               => 'boolean',
-            'email'                => 'email',
+            'name' => 'required|unique:users,name',
+            'main_character_id' => 'required|integer',
+            'active' => 'boolean',
+            'email' => 'email',
         ];
     }
 }

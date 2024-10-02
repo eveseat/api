@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,26 @@
 
 return [
 
-    'api_token_admin'    => 'APi 토큰 관리자',
-    'new_token'          => '새 토큰',
-    'key_comment'        => '키 설명',
+    'api_token_admin' => 'APi 토큰 관리자',
+    'new_token' => '새 토큰',
+    'key_comment' => '키 설명',
     'allowed_ip_address' => '허용된 IP 주소',
-    'ip_help'            => '생성된 토큰 사용이 허용되는 소스 IP 주소입니다.',
-    'ip_danger'          => '0.0.0.0을 사용하면 이 토큰을 가진 모든 사용자가 SeAT API를 사용할 수 있습니다. 이것은 위험합니다. 유의하십시오!',
-    'generate'           => '생성',
-    'token'              => '토큰',
-    'current_tokens'     => '현재 토큰',
-    'date'               => '날짜',
-    'comment'            => '코멘트',
-    'allowed_from'       => 'Allowed From',
-    'delete'             => '삭제',
-    'logs'               => '로그',
-    'api_token_logs'     => 'API 토큰 접근 기록',
-    'access_logs'        => '접속 내역',
-    'action'             => '작업',
-    'request_method'     => '요청 방법',
-    'request_path'       => '요청 경로',
-    'source_ip'          => '소스 IP',
-    'api_docs'           => 'API 문서',
+    'ip_help' => '생성된 토큰 사용이 허용되는 소스 IP 주소입니다.',
+    'ip_danger' => '0.0.0.0을 사용하면 이 토큰을 가진 모든 사용자가 SeAT API를 사용할 수 있습니다. 이것은 위험합니다. 유의하십시오!',
+    'generate' => '생성',
+    'token' => '토큰',
+    'current_tokens' => '현재 토큰',
+    'date' => '날짜',
+    'comment' => '코멘트',
+    'allowed_from' => 'Allowed From',
+    'delete' => '삭제',
+    'logs' => '로그',
+    'api_token_logs' => 'API 토큰 접근 기록',
+    'access_logs' => '접속 내역',
+    'action' => '작업',
+    'request_method' => '요청 방법',
+    'request_path' => '요청 경로',
+    'source_ip' => '소스 IP',
+    'api_docs' => 'API 문서',
 
 ];
