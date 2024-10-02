@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,10 +87,10 @@ class ApiToken
 
             ApiTokenLog::create([
                 'api_token_id' => $token_id,
-                'action'       => $action,
-                'method'       => $request->method(),
+                'action' => $action,
+                'method' => $request->method(),
                 'request_path' => $request->path(),
-                'src_ip'       => $request->getClientIp(),
+                'src_ip' => $request->getClientIp(),
             ]);
         }
     }

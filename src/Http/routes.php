@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@ Route::group([
 
         // Http Routes to the API Key Administration Section
         Route::group([
-            'namespace'  => 'Admin',
+            'namespace' => 'Admin',
             'middleware' => ['auth', 'can:global.superuser'],
-            'prefix'     => 'api-admin',
+            'prefix' => 'api-admin',
         ], function () {
             Route::get('/')
                 ->name('seatcore::api-admin.list')
@@ -52,9 +52,9 @@ Route::group([
 
     // Http Routes to the SeAT API itself
     Route::group([
-        'namespace'  => 'Api',
+        'namespace' => 'Api',
         'middleware' => ['api.request', 'api.auth'],
-        'prefix'     => 'api',
+        'prefix' => 'api',
     ], function () {
 
         // The version 2 API :D
