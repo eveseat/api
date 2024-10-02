@@ -35,17 +35,17 @@ Route::group([
             'prefix'     => 'api-admin',
         ], function () {
             Route::get('/')
-                ->name('api-admin.list')
+                ->name('seatcore::api-admin.list')
                 ->uses('ApiAdminController@listTokens');
 
             Route::post('/')
-                ->name('api-admin.token.create')
+                ->name('seatcore::api-admin.token.create')
                 ->uses('ApiAdminController@generateToken');
             Route::get('/logs/{token_id}')
-                ->name('api-admin.token.logs')
+                ->name('seatcore::api-admin.token.logs')
                 ->uses('ApiAdminController@show');
             Route::get('/delete/{token_id}')
-                ->name('api-admin.token.delete')
+                ->name('seatcore::api-admin.token.delete')
                 ->uses('ApiAdminController@deleteToken');
         });
     });

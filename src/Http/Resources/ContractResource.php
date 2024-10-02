@@ -22,14 +22,9 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class ContractResource.
- *
- * @package Seat\Api\Http\Resources
- */
-class ContractResource extends Resource
+class ContractResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

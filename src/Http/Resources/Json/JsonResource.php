@@ -20,13 +20,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-return [
+namespace Seat\Api\Http\Resources\Json;
 
-    'seatapi' => [
-        'permission'    => 'global.superuser',
-        'name'          => 'SeAT API',
-        'icon'          => 'fas fa-exchange-alt',
-        'route_segment' => 'api-admin',
-        'route'         => 'seatcore::api-admin.list',
-    ],
-];
+class JsonResource extends \Illuminate\Http\Resources\Json\JsonResource
+{
+    public static function collection($resource)
+    {
+        return tap(new AnonymousResourceCollection($resource, static::class), function ($collection) {
+            if (property_exists(static::class, 'preserveKeys')) {
+                $collection->preserveKeys = (new static([]))->preserveKeys === true;
+            }
+        });
+    }
+}

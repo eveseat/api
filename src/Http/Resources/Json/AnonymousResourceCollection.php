@@ -20,31 +20,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Http\Resources;
+namespace Seat\Api\Http\Resources\Json;
 
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Arr;
-
-/**
- * Class JumpcloneResource.
- *
- * @package Seat\Api\Http\Resources
- */
-class JumpcloneResource extends Resource
+class AnonymousResourceCollection extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * The name of the resource being collected.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @var string
      */
-    public function toArray($request)
+    public $collects;
+
+    /**
+     * Create a new anonymous resource collection.
+     *
+     * @param  mixed  $resource
+     * @param  string  $collects
+     * @return void
+     */
+    public function __construct($resource, $collects)
     {
+        $this->collects = $collects;
 
-        $definition = parent::toArray($request);
-
-        Arr::forget($definition, 'character_id');
-
-        return $definition;
+        parent::__construct($resource);
     }
 }

@@ -22,6 +22,7 @@
 
 namespace Seat\Api\Http\Controllers\Api\v2;
 
+use OpenApi\Attributes as OA;
 use Seat\Api\Http\Resources\ContactResource;
 use Seat\Api\Http\Traits\Filterable;
 use Seat\Eveapi\Models\Contacts\AllianceContact;
@@ -35,57 +36,37 @@ class AllianceController extends ApiController
 {
     use Filterable;
 
-    /**
-     * @OA\Get(
-     *      path="/v2/alliance/contacts/{alliance_id}",
-     *      tags={"Contacts"},
-     *      summary="Get a list of contacts for a alliance",
-     *      description="Returns a list of contacts",
-     *      security={
-     *          {"ApiKeyAuth": {}}
-     *      },
-     *      @OA\Parameter(
-     *          name="alliance_id",
-     *          description="Alliance id",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          ),
-     *          in="path"
-     *      ),
-     *      @OA\Parameter(
-     *          in="query",
-     *          name="$filter",
-     *          description="Query filter following OData format",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(response=200, description="Successful operation",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  type="array",
-     *                  property="data",
-     *                  @OA\Items(ref="#/components/schemas/AllianceContact")
-     *              ),
-     *              @OA\Property(
-     *                  property="links",
-     *                  ref="#/components/schemas/ResourcePaginatedLinks"
-     *              ),
-     *              @OA\Property(
-     *                  property="meta",
-     *                  ref="#/components/schemas/ResourcePaginatedMetadata"
-     *              )
-     *          )
-     *      ),
-     *      @OA\Response(response=400, description="Bad request"),
-     *      @OA\Response(response=401, description="Unauthorized"),
-     *     )
-     *
-     * @param  int  $alliance_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
+    #[OA\Get(
+        path: '/api/v2/alliance/contacts/{alliance_id}',
+        description: 'Returns a list of contacts',
+        summary: 'Get a list of contacts for an alliance',
+        security: [
+            [
+                'ApiKeyAuth' => [],
+            ],
+        ],
+        tags: ['Contacts'],
+        parameters: [
+            new OA\Parameter(name: 'alliance_id', description: 'Alliance ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: '$filter', description: 'Query filter following OData format', in: 'query', schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/AllianceContact')),
+                        new OA\Property(property: 'links', ref: '#/components/schemas/ResourcePaginatedLinks'),
+                        new OA\Property(property: 'meta', ref: '#/components/schemas/ResourcePaginatedMetadata'),
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
     public function getContacts(int $alliance_id)
     {
         request()->validate([

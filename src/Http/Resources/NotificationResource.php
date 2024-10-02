@@ -22,15 +22,10 @@
 
 namespace Seat\Api\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Arr;
+use Seat\Api\Http\Resources\Json\JsonResource;
 
-/**
- * Class NotificationResource.
- *
- * @package Seat\Api\Http\Resources
- */
-class NotificationResource extends Resource
+class NotificationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
