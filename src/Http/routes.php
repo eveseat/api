@@ -77,6 +77,8 @@ Route::group([
                 Route::post('/')->uses('SquadController@store');
                 Route::put('/{squad_id}')->uses('SquadController@update');
                 Route::delete('/{squad_id}')->uses('SquadController@destroy');
+                Route::post('/{squad_id}/add/{user_id}')->uses('SquadController@addUser');
+                Route::post('/{squad_id}/remove/{user_id}')->uses('SquadController@removeUser');
             });
 
             Route::group(['prefix' => 'roles'], function () {
