@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,26 @@
 
 return [
 
-    'api_token_admin'    => '管理者APIトークン',
-    'new_token'          => '新しいトークン',
-    'key_comment'        => 'キーについてのメモ',
+    'api_token_admin' => '管理者APIトークン',
+    'new_token' => '新しいトークン',
+    'key_comment' => 'キーについてのメモ',
     'allowed_ip_address' => '許可されているIPアドレス',
-    'ip_help'            => 'これは, 生成されたトークンの使用が許可されるソースIPアドレスです',
-    'ip_danger'          => '0.0.0.0を記述してしまうと, 悪意のある人を含むこのトークンを持っている全ての人がこのSeATのAPIを使用できるようになります. これは危険です. 使う際には細心の注意を払ってください.',
-    'generate'           => '生成',
-    'token'              => 'トークン | トークン一覧',
-    'current_tokens'     => '現在のトークン',
-    'date'               => '日時',
-    'comment'            => 'コメント',
-    'allowed_from'       => '許可された送信元',
-    'delete'             => '削除',
-    'logs'               => 'ログ',
-    'api_token_logs'     => 'APIトークンアクセスログ',
-    'access_logs'        => 'アクセスログ',
-    'action'             => 'アクション',
-    'request_method'     => 'リクエストメソッド',
-    'request_path'       => 'リクエストパス',
-    'source_ip'          => 'ソースIP',
-    'api_docs'           => 'APIドキュメント',
+    'ip_help' => 'これは, 生成されたトークンの使用が許可されるソースIPアドレスです',
+    'ip_danger' => '0.0.0.0を記述してしまうと, 悪意のある人を含むこのトークンを持っている全ての人がこのSeATのAPIを使用できるようになります. これは危険です. 使う際には細心の注意を払ってください.',
+    'generate' => '生成',
+    'token' => 'トークン | トークン一覧',
+    'current_tokens' => '現在のトークン',
+    'date' => '日時',
+    'comment' => 'コメント',
+    'allowed_from' => '許可された送信元',
+    'delete' => '削除',
+    'logs' => 'ログ',
+    'api_token_logs' => 'APIトークンアクセスログ',
+    'access_logs' => 'アクセスログ',
+    'action' => 'アクション',
+    'request_method' => 'リクエストメソッド',
+    'request_path' => 'リクエストパス',
+    'source_ip' => 'ソースIP',
+    'api_docs' => 'APIドキュメント',
 
 ];
