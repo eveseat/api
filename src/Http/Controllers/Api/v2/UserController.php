@@ -225,4 +225,72 @@ class UserController extends ApiController
 
         return response()->json();
     }
+
+    #[OA\Post(
+        path: '/api/v2/users/{user_id}/activate',
+        description: 'Activates a user',
+        summary: 'Activates a deactivated SeAT user. Returns successfully if already activated.',
+        security: [
+            [
+                'ApiKeyAuth' => [],
+            ],
+        ],
+        tags: [
+            'Users'
+        ],
+        parameters: [
+            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function postActivateUser(int $user_id): JsonResponse
+    {
+        $user = User::findOrFail($user_id);
+
+        if ($user->name == 'admin')
+            return response()->json('You cannot delete this user.', 403);
+
+        $user->active = true;
+        $user->save();
+
+        return response()->json();
+    }
+
+    #[OA\Post(
+        path: '/api/v2/users/{user_id}/deactivate',
+        description: 'Deactivates a user',
+        summary: 'Deactivates a SeAT user. Returns successfully if already deactivated.',
+        security: [
+            [
+                'ApiKeyAuth' => [],
+            ],
+        ],
+        tags: [
+            'Users'
+        ],
+        parameters: [
+            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function postDeactivateUser(int $user_id): JsonResponse
+    {
+        $user = User::findOrFail($user_id);
+
+        if ($user->name == 'admin')
+            return response()->json('You cannot delete this user.', 403);
+
+        $user->active = false;
+        $user->save();
+
+        return response()->json();
+    }
 }

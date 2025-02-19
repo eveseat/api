@@ -68,6 +68,9 @@ Route::group([
                 Route::get('/')->uses('UserController@getUsers');
                 Route::get('/{user_id}')->uses('UserController@show')->where(['user_id' => '[0-9]+']);
 
+                Route::post('/{user_id}/activate')->uses('UserController@postActivateUser');
+                Route::post('/{user_id}/deactivate')->uses('UserController@postDeactivateUser');
+
                 Route::get('/configured-scopes')->uses('UserController@getConfiguredScopes');
             });
 
