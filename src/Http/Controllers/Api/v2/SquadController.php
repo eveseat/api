@@ -202,7 +202,7 @@ class SquadController extends ApiController
         $squad = Squad::findOrFail($squad_id);
         $user = User::findOrFail($user_id);
 
-        if(!$squad->isUserEligible($user)){
+        if(! $squad->isUserEligible($user)){
             return response()->json('The squad filter doesn\'t allow this user in this squad.', 400);
         }
 
