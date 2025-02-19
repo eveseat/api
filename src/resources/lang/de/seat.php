@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,26 @@
 
 return [
 
-    'api_token_admin'    => 'API-Token Administrator',
-    'new_token'          => 'Neues Token',
-    'key_comment'        => 'Key-Kommentar',
+    'api_token_admin' => 'API-Token Administrator',
+    'new_token' => 'Neues Token',
+    'key_comment' => 'Key-Kommentar',
     'allowed_ip_address' => 'Zugelassene IP-Addressen',
-    'ip_help'            => 'Das ist die Quell-IP, die das Token verwenden darf.',
-    'ip_danger'          => '0.0.0.0 erlaubt JEDEM mit diesem Token die SeAT API zu verwenden. Das ist gefährlich. Seien Sie vorsichtig!',
-    'generate'           => 'Generieren',
-    'token'              => 'Token|Token',
-    'current_tokens'     => 'Aktuelle Token',
-    'date'               => 'Datum',
-    'comment'            => 'Kommentar',
-    'allowed_from'       => 'Erlaubt von',
-    'delete'             => 'Löschen',
-    'logs'               => 'Protokoll',
-    'api_token_logs'     => 'API Token Zugriffs-Protokoll',
-    'access_logs'        => 'Zugriffs-Protokoll',
-    'action'             => 'Aktion',
-    'request_method'     => 'Request-Methode',
-    'request_path'       => 'Request-Pfad',
-    'source_ip'          => 'Quell-IP',
-    'api_docs'           => 'API-Dokumentation',
+    'ip_help' => 'Das ist die Quell-IP, die das Token verwenden darf.',
+    'ip_danger' => '0.0.0.0 erlaubt JEDEM mit diesem Token die SeAT API zu verwenden. Das ist gefährlich. Seien Sie vorsichtig!',
+    'generate' => 'Generieren',
+    'token' => 'Token|Token',
+    'current_tokens' => 'Aktuelle Token',
+    'date' => 'Datum',
+    'comment' => 'Kommentar',
+    'allowed_from' => 'Erlaubt von',
+    'delete' => 'Löschen',
+    'logs' => 'Protokoll',
+    'api_token_logs' => 'API Token Zugriffs-Protokoll',
+    'access_logs' => 'Zugriffs-Protokoll',
+    'action' => 'Aktion',
+    'request_method' => 'Request-Methode',
+    'request_path' => 'Request-Pfad',
+    'source_ip' => 'Quell-IP',
+    'api_docs' => 'API-Dokumentation',
 
 ];

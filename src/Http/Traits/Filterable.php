@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ trait Filterable
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $field
      * @param  string  $operator
-     * @param $value
+     * @param  $value
      * @param  string|null  $join
      */
     protected function addFilter(Builder $query, string $field, string $operator, $value, ?string $join = 'and')

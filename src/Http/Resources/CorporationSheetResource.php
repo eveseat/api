@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,19 +36,19 @@ class CorporationSheetResource extends JsonResource
     {
 
         return [
-            'name'            => $this->name,
-            'ticker'          => $this->ticker,
-            'member_count'    => $this->member_count,
-            'ceo'             => $this->ceo,
-            'alliance'        => $this->alliance,
-            'description'     => $this->description,
-            'tax_rate'        => $this->tax_rate,
-            'date_founded'    => $this->date_founded,
-            'creator'         => $this->creator,
-            'url'             => $this->url,
-            'faction'         => $this->faction,
+            'name' => $this->name,
+            'ticker' => $this->ticker,
+            'member_count' => $this->member_count,
+            'ceo' => $this->ceo,
+            'alliance' => $this->alliance,
+            'description' => $this->description,
+            'tax_rate' => $this->tax_rate,
+            'date_founded' => $this->date_founded,
+            'creator' => $this->creator,
+            'url' => $this->url,
+            'faction' => $this->faction,
             'home_station_id' => $this->home_station_id,
-            'shares'          => $this->shares,
+            'shares' => $this->shares,
         ];
     }
 }

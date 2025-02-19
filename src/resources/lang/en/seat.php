@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@
 
 return [
 
-    'api_token_admin'    => 'API Token Admin',
-    'new_token'          => 'New Token',
-    'key_comment'        => 'Key Comment',
+    'api_token_admin' => 'API Token Admin',
+    'new_token' => 'New Token',
+    'key_comment' => 'Key Comment',
     'allowed_ip_address' => 'Allowed IP Address',
     'ip_help'            => 'This is the source IP address that will be allowed to use the generated token. Using 0.0.0.0 grants access to any IP.',
     'ip_danger'          => 'Using 0.0.0.0 will allow ANYONE who has this token to use the SeAT API. This is dangerous. Be careful!',
@@ -43,5 +43,4 @@ return [
     'request_path'       => 'Request Path',
     'source_ip'          => 'Source IP',
     'api_docs'           => 'API Documenation',
-
 ];

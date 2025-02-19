@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,29 +36,29 @@ class ContractResource extends JsonResource
     {
 
         return [
-            'contract_id'      => $this->contract_id,
-            'type'             => $this->detail->type,
-            'status'           => $this->detail->status,
-            'title'            => $this->detail->title,
-            'for_corporation'  => $this->detail->for_corporation,
-            'availability'     => $this->detail->availability,
-            'date_issued'      => $this->detail->date_issued,
-            'date_expired'     => $this->detail->date_expired,
-            'date_accepted'    => $this->detail->date_accepted,
+            'contract_id' => $this->contract_id,
+            'type' => $this->detail->type,
+            'status' => $this->detail->status,
+            'title' => $this->detail->title,
+            'for_corporation' => $this->detail->for_corporation,
+            'availability' => $this->detail->availability,
+            'date_issued' => $this->detail->date_issued,
+            'date_expired' => $this->detail->date_expired,
+            'date_accepted' => $this->detail->date_accepted,
             'days_to_complete' => $this->detail->days_to_complete,
-            'date_completed'   => $this->detail->date_completed,
-            'price'            => $this->detail->price,
-            'reward'           => $this->detail->reward,
-            'collateral'       => $this->detail->collateral,
-            'buyout'           => $this->detail->buyout,
-            'volume'           => $this->detail->volume,
-            'issuer'           => $this->detail->issuer,
-            'assignee'         => $this->detail->assignee,
-            'acceptor'         => $this->detail->acceptor,
-            'bids'             => $this->detail->bids,
-            'lines'            => $this->detail->lines,
-            'start_location'   => $this->detail->start_location,
-            'end_location'     => $this->detail->end_location,
+            'date_completed' => $this->detail->date_completed,
+            'price' => $this->detail->price,
+            'reward' => $this->detail->reward,
+            'collateral' => $this->detail->collateral,
+            'buyout' => $this->detail->buyout,
+            'volume' => $this->detail->volume,
+            'issuer' => $this->detail->issuer,
+            'assignee' => $this->detail->assignee,
+            'acceptor' => $this->detail->acceptor,
+            'bids' => $this->detail->bids,
+            'lines' => $this->detail->lines,
+            'start_location' => $this->detail->start_location,
+            'end_location' => $this->detail->end_location,
         ];
     }
 }
