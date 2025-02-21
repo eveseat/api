@@ -41,7 +41,7 @@ trait Filterable
      */
     protected function applyFilters(Request $request, Builder $query)
     {
-        $regex = "/((?'field'[a-z_]+)\s+(?'operator'eq|ne|gt|lt|ge|le)\s+(?'value'(?>'[a-z0-9_\s]+')|(?>[a-z0-9_]+))(\s+(?'join'and|or))?)+/";
+        $regex = "/((?'field'[a-z_]+)\s+(?'operator'eq|ne|gt|lt|ge|le)\s+(?'value'(?>'[\s\S]+?')|(?>[\w]+))(\s+(?'join'and|or))?)+/";
         if (preg_match_all($regex, $request->query('$filter', ''), $filters) === false)
             return $query;
 
