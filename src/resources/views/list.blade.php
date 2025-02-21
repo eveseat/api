@@ -6,18 +6,14 @@
 @section('left')
 
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex align-items-center">
       <h3 class="card-title">
         {{ trans('api::seat.new_token') }}
       </h3>
-      <div class="card-tools">
-        <span class="float-right">
-          <a href="{{ route('l5-swagger.default.api') }}" target="_blank" class="btn btn-success btn-xs">
-            <i class="fas fa-book"></i>
-            {{ trans('api::seat.api_docs') }}
-          </a>
-        </span>
-      </div>
+      <a href="{{ route('l5-swagger.default.api') }}" target="_blank" class="btn btn-success ml-auto">
+        <i class="fas fa-book"></i>
+        {{ trans('api::seat.api_docs') }}
+      </a>
     </div>
     <div class="card-body">
 
@@ -36,10 +32,13 @@
             <label for="text">{{ trans('api::seat.allowed_ip_address') }}</label>
             <input type="text" name="allowed_src" class="form-control" id="allowed_src" value="{{ old('allowed_src') }}"
                    placeholder="IP Address">
-            <span class="help-block">
+            <small class="form-text text-muted">
               {{ trans('api::seat.ip_help') }}
-            </span>
-            <div class="card bg-danger p-1">
+            </small>
+
+            <div class="alert alert-danger mt-2">
+              <h4 class="alert-heading"><i class="fas fa-exclamation"></i> Danger</h4>
+
               {{ trans('api::seat.ip_danger') }}
             </div>
           </div>
@@ -82,24 +81,24 @@
           @foreach($tokens as $token)
 
             <tr>
-              <td>
+              <td class="align-middle">
                 <span data-toggle="tooltip"
                       title="" data-original-title="{{ $token->created_at }}">
                   {{ human_diff($token->created_at) }}
                 </span>
               </td>
-              <td>{{ $token->comment }}</td>
-              <td>{{ $token->token }}</td>
-              <td>{{ $token->allowed_src }}</td>
-              <td>
+              <td class="align-middle">{{ $token->comment }}</td>
+              <td class="align-middle">{{ $token->token }}</td>
+              <td class="align-middle">{{ $token->allowed_src }}</td>
+              <td class="align-middle">
                 <div class="btn-group">
                   <a href="{{ route('seatcore::api-admin.token.delete', [$token->id]) }}" type="button"
-                     class="btn btn-danger btn-xs confirmlink col-xs-6">
+                     class="btn btn-danger confirmlink col-xs-6">
                     <i class="fas fa-trash-alt"></i>
                     {{ trans('api::seat.delete') }}
                   </a>
                   <a href="{{ route('seatcore::api-admin.token.logs', [$token->id]) }}" type="button"
-                     class="btn btn-primary btn-xs col-xs-6">
+                     class="btn btn-primary col-xs-6">
                     <i class="fas fa-clipboard-list"></i>
                     {{ trans('api::seat.logs') }}
                   </a>
