@@ -3,7 +3,7 @@
 /*
  * This file is part of SeAT
  *
- * Copyright (C) 2015 to 2022 Leon Jacobs
+ * Copyright (C) 2015 to present Leon Jacobs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +22,25 @@
 
 return [
 
-    'api_token_admin'    => 'API Token Admin',
-    'new_token'          => 'Token nou',
-    'key_comment'        => 'Comentariu cheie',
+    'api_token_admin' => 'API Token Admin',
+    'new_token' => 'Token nou',
+    'key_comment' => 'Comentariu cheie',
     'allowed_ip_address' => 'Adresă IP permisă',
-    'ip_help'            => 'Aceasta este adresa IP sursă care va avea permisiunea de a utiliza token-ul generat.',
-    'ip_danger'          => 'Folosind 0.0.0.0 va permite oricui are acest token să folosească API-ul SeAT. Acest lucru este periculos. Fii atent!',
-    'generate'           => 'Genereaza',
-    'token'              => 'Tokene',
-    'current_tokens'     => 'Token-uri curente',
-    'date'               => 'Dată',
-    'comment'            => 'Comentariu',
-    'allowed_from'       => 'Permis de la',
-    'delete'             => 'Șterge',
-    'logs'               => 'Jurnale',
-    'api_token_logs'     => 'Jurnale de acces token API',
-    'access_logs'        => 'Acces la jurnale',
-    'action'             => 'Acțiune',
-    'request_method'     => 'Metoda de solicitare',
-    'request_path'       => 'Cerere cale',
-    'source_ip'          => 'Sursa IP',
-    'api_docs'           => 'Documente API',
-
+    'ip_help' => 'This is the source IP address that will be allowed to use the generated token. Using 0.0.0.0 grants access to any IP.',
+    'ip_danger' => 'Folosind 0.0.0.0 va permite oricui are acest token să folosească API-ul SeAT. Acest lucru este periculos. Fii atent!',
+    'generate' => 'Genereaza',
+    'token' => 'Tokene',
+    'current_tokens' => 'Token-uri curente',
+    'date' => 'Dată',
+    'comment' => 'Comentariu',
+    'allowed_from' => 'Permis de la',
+    'delete' => 'Șterge',
+    'logs' => 'Jurnale',
+    'api_token_logs' => 'Jurnale de acces token API',
+    'access_logs' => 'Acces la jurnale',
+    'action' => 'Acțiune',
+    'request_method' => 'Metoda de solicitare',
+    'request_path' => 'Cerere cale',
+    'source_ip' => 'Sursa IP',
+    'api_docs' => 'Documente API',
 ];
