@@ -26,7 +26,7 @@ return [
     'new_token' => '新しいトークン',
     'key_comment' => 'キーについてのメモ',
     'allowed_ip_address' => '許可されているIPアドレス',
-    'ip_help' => 'これは, 生成されたトークンの使用が許可されるソースIPアドレスです',
+    'ip_help' => 'This is the source IP address that will be allowed to use the generated token. Using 0.0.0.0 grants access to any IP.',
     'ip_danger' => '0.0.0.0を記述してしまうと, 悪意のある人を含むこのトークンを持っている全ての人がこのSeATのAPIを使用できるようになります. これは危険です. 使う際には細心の注意を払ってください.',
     'generate' => '生成',
     'token' => 'トークン | トークン一覧',
@@ -43,5 +43,4 @@ return [
     'request_path' => 'リクエストパス',
     'source_ip' => 'ソースIP',
     'api_docs' => 'APIドキュメント',
-
 ];
