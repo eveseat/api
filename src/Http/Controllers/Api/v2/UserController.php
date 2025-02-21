@@ -202,7 +202,7 @@ class UserController extends ApiController
             ],
         ],
         tags: [
-            'Squads',
+            'Users',
         ],
         parameters: [
             new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
