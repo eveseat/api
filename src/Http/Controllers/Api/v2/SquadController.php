@@ -28,6 +28,7 @@ use Seat\Api\Http\Resources\Json\AnonymousResourceCollection;
 use Seat\Api\Http\Resources\SquadResource;
 use Seat\Api\Http\Validation\NewSquad;
 use Seat\Web\Models\Squads\Squad;
+use Seat\Web\Models\User;
 
 class SquadController extends ApiController
 {
@@ -170,6 +171,75 @@ class SquadController extends ApiController
     public function destroy(int $squad_id): JsonResponse
     {
         Squad::findOrFail($squad_id)->delete();
+
+        return response()->json();
+    }
+
+    #[OA\Post(
+        path: '/api/v2/squads/{squad_id}/add/{user_id}',
+        description: 'Adds a user to a squad',
+        summary: 'Adds a user to a squad. If the user is not eligible according to the squad\'s filters, the user cannot be added.',
+        security: [
+            [
+                'ApiKeyAuth' => [],
+            ],
+        ],
+        tags: [
+            'Squads',
+        ],
+        parameters: [
+            new OA\Parameter(name: 'squad_id', description: 'A SeAT Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+            new OA\Response(response: 409, description: 'Conflict'),
+        ]
+    )]
+    public function addUser($squad_id, $user_id)
+    {
+        $squad = Squad::findOrFail($squad_id);
+        $user = User::findOrFail($user_id);
+
+        if(! $squad->isUserEligible($user)){
+            return response()->json('The squad filter doesn\'t allow this user in this squad.', 409);
+        }
+
+        $squad->members()->attach($user->id);
+
+        return response()->json();
+    }
+
+    #[OA\Post(
+        path: '/api/v2/squads/{squad_id}/remove/{user_id}',
+        description: 'Removes a user from a squad',
+        summary: 'Removes a user from a squad.',
+        security: [
+            [
+                'ApiKeyAuth' => [],
+            ],
+        ],
+        tags: [
+            'Squads',
+        ],
+        parameters: [
+            new OA\Parameter(name: 'squad_id', description: 'A SeAT Squad ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'user_id', description: 'A SeAT User ID', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Successful operation'),
+            new OA\Response(response: 400, description: 'Bad request'),
+            new OA\Response(response: 401, description: 'Unauthorized'),
+        ]
+    )]
+    public function removeUser($squad_id, $user_id)
+    {
+        $squad = Squad::findOrFail($squad_id);
+        $user = User::findOrFail($user_id);
+
+        $squad->members()->detach($user->id);
 
         return response()->json();
     }
