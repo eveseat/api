@@ -195,6 +195,7 @@ class SquadController extends ApiController
             new OA\Response(response: 200, description: 'Successful operation'),
             new OA\Response(response: 400, description: 'Bad request'),
             new OA\Response(response: 401, description: 'Unauthorized'),
+            new OA\Response(response: 409, description: 'Conflict'),
         ]
     )]
     public function addUser($squad_id, $user_id)
@@ -203,7 +204,7 @@ class SquadController extends ApiController
         $user = User::findOrFail($user_id);
 
         if(! $squad->isUserEligible($user)){
-            return response()->json('The squad filter doesn\'t allow this user in this squad.', 400);
+            return response()->json('The squad filter doesn\'t allow this user in this squad.', 409);
         }
 
         $squad->members()->attach($user->id);
