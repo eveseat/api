@@ -26,7 +26,7 @@ return [
     'new_token' => 'Neues Token',
     'key_comment' => 'Key-Kommentar',
     'allowed_ip_address' => 'Zugelassene IP-Addressen',
-    'ip_help' => 'This is the source IP address that will be allowed to use the generated token. Using 0.0.0.0 grants access to any IP.',
+    'ip_help' => 'Das Token darf von dieser IP-Adresse verwendet werden. 0.0.0.0 erlaubt allen IP-Adressen den Zugriff.',
     'ip_danger' => '0.0.0.0 erlaubt JEDEM mit diesem Token die SeAT API zu verwenden. Das ist gefährlich. Seien Sie vorsichtig!',
     'generate' => 'Generieren',
     'token' => 'Token|Token',
