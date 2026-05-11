@@ -23,6 +23,7 @@
 namespace Seat\Api\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Seat\Web\Models\User;
 
 /**
  * Class ApiToken.
@@ -34,7 +35,7 @@ class ApiToken extends Model
     /**
      * @var array
      */
-    protected $fillable = ['token', 'allowed_src', 'comment'];
+    protected $fillable = ['token', 'allowed_src', 'comment', 'user_id'];
 
     /**
      * Make sure we cleanup logs on delete.
@@ -61,5 +62,19 @@ class ApiToken extends Model
     {
 
         return $this->hasMany(ApiTokenLog::class);
+    }
+
+    /**
+     * Return the user that owns this token, if any.
+     *
+     * Tokens with no associated user (user_id is null) are considered
+     * superuser-scoped tokens with unrestricted access.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+
+        return $this->belongsTo(User::class);
     }
 }

@@ -107,7 +107,7 @@ Route::group([
                 Route::get('/{killmail_id}')->uses('KillmailsController@getDetail');
             });
 
-            Route::group(['prefix' => 'character'], function () {
+            Route::group(['prefix' => 'character', 'middleware' => 'api.character.ownership'], function () {
 
                 Route::get('/assets/{character_id}')->uses('CharacterController@getAssets');
                 Route::get('/contacts/{character_id}')->uses('CharacterController@getContacts');
@@ -126,7 +126,7 @@ Route::group([
                 Route::get('/notifications/{character_id}')->uses('CharacterController@getNotifications');
             });
 
-            Route::group(['prefix' => 'corporation'], function () {
+            Route::group(['prefix' => 'corporation', 'middleware' => 'api.corporation.ownership'], function () {
 
                 Route::get('/assets/{corporation_id}')->uses('CorporationController@getAssets');
                 Route::get('/contacts/{corporation_id}')->uses('CorporationController@getContacts');

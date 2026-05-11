@@ -26,6 +26,8 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Validator;
 use Seat\Api\Http\Middleware\ApiRequest;
 use Seat\Api\Http\Middleware\ApiToken;
+use Seat\Api\Http\Middleware\CharacterOwnership;
+use Seat\Api\Http\Middleware\CorporationOwnership;
 use Seat\Services\AbstractSeatPlugin;
 
 /**
@@ -104,6 +106,12 @@ class ApiServiceProvider extends AbstractSeatPlugin
 
         // Ensure incoming request is formed using JSON
         $router->aliasMiddleware('api.request', ApiRequest::class);
+
+        // Verify that the token owner has access to the requested character
+        $router->aliasMiddleware('api.character.ownership', CharacterOwnership::class);
+
+        // Verify that the token owner has access to the requested corporation
+        $router->aliasMiddleware('api.corporation.ownership', CorporationOwnership::class);
 
     }
 

@@ -20,35 +20,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-namespace Seat\Api\Http\Validation;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class NewToken extends FormRequest
+class AddUserIdToApiTokensTable extends Migration
 {
     /**
-     * Authorize the request by default.
+     * Run the migrations.
      *
-     * @return bool
+     * @return void
      */
-    public function authorize()
+    public function up()
     {
-
-        return true;
+        Schema::table('api_tokens', function (Blueprint $table) {
+            // Nullable so that existing tokens (which have no associated user)
+            // are treated as superuser-scoped (unrestricted) tokens.
+            $table->unsignedBigInteger('user_id')->nullable()->after('comment');
+            $table->index('user_id');
+        });
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Reverse the migrations.
      *
-     * @return array
+     * @return void
      */
-    public function rules()
+    public function down()
     {
-
-        return [
-            'comment' => 'max:255',
-            'allowed_src' => 'required|ip',
-            'user_id' => 'nullable|integer|exists:users,id',
-        ];
+        Schema::table('api_tokens', function (Blueprint $table) {
+            $table->dropIndex(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 }
